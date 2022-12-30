@@ -21,6 +21,7 @@ class Wallet {
 
         //creating the publicKey //and turn it into hex
         this.publicKey = this.keyPair.getPublic().encode('hex');
+        // this.publicKey = this.keyPair.getPrivate().encode('hex');
     }
 
     //sign method to sign data from this wallet
@@ -36,7 +37,7 @@ class Wallet {
         if (chain) {
             this.balance = Wallet.calculateBalance({
                 chain,
-                address: this.publicKeym
+                address: this.publicKey
             });
         }
 
