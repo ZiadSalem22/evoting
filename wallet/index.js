@@ -1,6 +1,7 @@
 const Blockchain = require('../blockchain');
 const { STARTING_BALANCE } = require('../config');
 const { ec, cryptoHash } = require('../util');
+const Poll = require('../voting/poll');
 const Transaction = require('./transaction');
 
 class Wallet {
@@ -47,6 +48,11 @@ class Wallet {
         }
 
         return new Transaction({ senderWallet: this, recipient, amount });
+    }
+
+    createPoll({name}){
+
+      return new Poll({createrWallet: this, name})
     }
 
     static calculateBalance({ chain, address }) {
