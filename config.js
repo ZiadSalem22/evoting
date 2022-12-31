@@ -3,6 +3,8 @@ const INITIAL_DIFFICULTY = 3;
 const STARTING_BALANCE = 1000;
 const REWARD_INPUT = {address:'*authorized-reward*'};//miner reward
 const MINING_REWARD = 50;
+//voting
+const POLL_NAME_LENGTH = 300;
 const GENESIS_DATA = {
     timeStamp : 1,
     lastHash: '----',
@@ -21,5 +23,6 @@ module.exports ={
     MINE_RATE,
     STARTING_BALANCE,
     REWARD_INPUT,
-    MINING_REWARD
+    MINING_REWARD,
+    POLL_NAME_LENGTH
 };

@@ -1,28 +1,36 @@
-const uuid = require('uuid/v1'); // uuid v1 is time stamped based 
-
+const uuid = require('uuid/'); // uuid v1 is time stamped based 
 
 class Poll {
-    constructor({createrWallet,name}) {
+    constructor({createrWallet,name,options,voters}) {
         
         //poll Id
-        this.id = uuit();
+        this.id = uuid();
 
-        // this.voters = voters;
-        // this.createrWallet = createrWallet;
+        this.output =  this.createOutput({ name, options, voters });
+
         this.input = this.createInput({
             createrWallet,
-            name,
-            id: this.id
+            id: this.id,
+            output: this.output
         });
     }
 
-    createInput({ createrWallet,name, id }) {
+    createOutput({ name, options, voters }) {
+        const output= {
+            name ,
+            options,
+            voters 
+        };
+
+        return output;
+    };
+
+    createInput({ createrWallet, output }) {
 
         return {
             timeStamp: Date.now(),
-            name ,
             address: createrWallet.publicKey,
-            signature: createrWallet.sign(timeStamp,name,address,id)
+            signature: createrWallet.sign(output)
         }
     };
     

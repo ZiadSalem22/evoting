@@ -1,4 +1,4 @@
-const uuid = require('uuid/v1'); // uuid v1 is time stamped based 
+const uuid = require('uuid'); // uuid v1 is time stamped based 
 const { REWARD_INPUT, MINING_REWARD } = require('../config');
 const { verifySignature } = require('../util');
 
