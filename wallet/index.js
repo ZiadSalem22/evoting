@@ -50,10 +50,6 @@ class Wallet {
         return new Transaction({ senderWallet: this, recipient, amount });
     }
 
-    createPoll({name}){
-
-      return new Poll({createrWallet: this, name})
-    }
 
     static calculateBalance({ chain, address }) {
 

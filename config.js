@@ -4,7 +4,7 @@ const STARTING_BALANCE = 1000;
 const REWARD_INPUT = {address:'*authorized-reward*'};//miner reward
 const MINING_REWARD = 50;
 //voting
-const POLL_NAME_LENGTH = 300;
+const CHAR_MAX_LENGTH = 300;
 const GENESIS_DATA = {
     timeStamp : 1,
     lastHash: '----',
@@ -24,5 +24,5 @@ module.exports ={
     STARTING_BALANCE,
     REWARD_INPUT,
     MINING_REWARD,
-    POLL_NAME_LENGTH
+    CHAR_MAX_LENGTH
 };

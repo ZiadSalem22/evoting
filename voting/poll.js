@@ -1,12 +1,14 @@
 const uuid = require('uuid/'); // uuid v1 is time stamped based 
+const { CHAR_MAX_LENGTH } = require('../config');
+const { verifySignature } = require('../util');
 
 class Poll {
-    constructor({createrWallet,name,options,voters}) {
-        
+    constructor({ createrWallet, name, options, voters }) {
+
         //poll Id
         this.id = uuid();
 
-        this.output =  this.createOutput({ name, options, voters });
+        this.output = this.createOutput({ name, options, voters });
 
         this.input = this.createInput({
             createrWallet,
@@ -16,10 +18,15 @@ class Poll {
     }
 
     createOutput({ name, options, voters }) {
-        const output= {
-            name ,
+
+        //check if the name is more than max length 
+        if (name.length > CHAR_MAX_LENGTH) {
+            throw new Error('Poll name too long');
+        }
+        const output = {
+            name,
             options,
-            voters 
+            voters
         };
 
         return output;
@@ -33,7 +40,29 @@ class Poll {
             signature: createrWallet.sign(output)
         }
     };
-    
+
+    static validPoll(poll) {
+        const { input: { address, signature }, output } = poll;
+
+        if (output.name.length > CHAR_MAX_LENGTH) {
+             console.error('Poll name too long');
+             return false;
+        }
+
+        //if signature is invalid we will return false
+        if (!verifySignature({
+            publicKey: address,
+            data: output,
+            signature
+        })) 
+        {
+            console.error(`Invalid Signature from this address and data`);
+            return false;
+        }
+
+        return true;
+    }
+
 }
 
 module.exports = Poll;
