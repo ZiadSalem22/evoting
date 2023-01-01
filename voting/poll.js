@@ -63,7 +63,7 @@ class Poll {
 
     static validPoll(poll) {
 
-        if ( !(poll instanceof  Poll)){
+        if ( typeof poll.output === 'undefined'){
             return false;
         }
         const { input: { address, signature }, output } = poll;
