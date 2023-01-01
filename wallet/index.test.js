@@ -49,6 +49,77 @@ describe('Wallet', () => {
         });
     });
 
+    describe('createPoll()', () => {
+
+        let name, options, voters;
+        beforeEach(() => {
+            name = 'foo-poll';
+            options = ['option 1', 'option 2', 'option 3'];
+            voters = ['Ziad', 'Sara'];
+        });
+
+
+        describe('when one of the parmenters is null/empty', () => {
+
+            it('throws an error', () => {
+
+                expect(
+                    () => { wallet.createPoll({ name: '', options, voters }) }
+
+                ).toThrow('Invalid name');
+
+                expect(
+                    () => { wallet.createPoll({ options, voters }) }
+
+                ).toThrow('Invalid name');
+
+
+                expect(
+                    () => { wallet.createPoll({ name, voters }) }
+
+                ).toThrow('Invalid options');
+
+                expect(
+                    () => { wallet.createPoll({ name, options }) }
+
+                ).toThrow('Invalid voters');
+            });
+        });
+
+        describe('Valid data passed', () => {
+
+            beforeEach(() => {
+                let poll;
+                poll = Wallet.createPoll({ name, options, voters })
+            });
+
+            it('creates and instance of `Poll`', () => {
+                expect(poll instanceof Poll).toBe(true);
+            });
+
+            it('matchs poll `input` with the wallet info', () => {
+                expect(poll.input.address).toEqual(wallet.publicKey);
+            });
+
+            it('outputs the right `name`', () => {
+                expect(poll.output.name).toEqual(name);
+            });
+
+            it('outputs the right `options`', () => {
+                expect(poll.output.options).toEqual(options);
+            });
+
+            it('outputs the right `voters`', () => {
+                expect(poll.output.voters).toEqual(voters);
+            });
+            
+            it('is valid poll', () => {
+                expect(poll.ValidPoll()).toEqual(true);
+            });
+            
+        });
+
+    });
     describe('createTransaction()', () => {
 
         describe('the amount of the transaction exceeds the account balance', () => {
@@ -82,7 +153,7 @@ describe('Wallet', () => {
             });
 
             //the create tracnsaction sends the amount to the output recipient
-            it('outputs the amount the recipient', () => {
+            it('outputs the amount of the recipient', () => {
                 expect(tracnsaction.outputMap[recipient]).toEqual(amount);
             });
 
@@ -186,7 +257,7 @@ describe('Wallet', () => {
                 });
 
                 describe('and there are outputs next to and after the recent transaction ', () => {
-                    
+
                     let sameBlockTransaction, nextBlockTransaction;
 
                     beforeEach(() => {
@@ -196,20 +267,20 @@ describe('Wallet', () => {
                         });
 
                         //for the same block transactions the only case it would the same wallet have two transactions in the same block is when it has a normal transaction and a reward transaction
-                        sameBlockTransaction = Transaction.rewardTransaction({minerWallet : wallet});
-                        blockchain.addBlock({ data: [recentTranscation,sameBlockTransaction] });
+                        sameBlockTransaction = Transaction.rewardTransaction({ minerWallet: wallet });
+                        blockchain.addBlock({ data: [recentTranscation, sameBlockTransaction] });
 
 
                         //next block transaction 
                         nextBlockTransaction = new Wallet().createTransaction({
-                            recipient : wallet.publicKey,
+                            recipient: wallet.publicKey,
                             amount: 75
                         });
-                        blockchain.addBlock({data :[nextBlockTransaction]});
+                        blockchain.addBlock({ data: [nextBlockTransaction] });
                     });
 
                     it('includes the output amounts in the returnd balance', () => {
-                        
+
                         expect(
                             Wallet.calculateBalance({
                                 chain: blockchain.chain,

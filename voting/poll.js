@@ -23,6 +23,20 @@ class Poll {
         if (name.length > CHAR_MAX_LENGTH) {
             throw new Error('Poll name too long');
         }
+
+        if (name === null || name.trim() === '') {
+            throw new Error('invaild name');
+        }
+
+        if (options === null ) {
+            throw new Error('invaild optoins');
+        }
+
+        if (voters === null ) {
+            throw new Error('invaild voters');
+        }
+
+
         const output = {
             name,
             options,
