@@ -14,6 +14,12 @@ const GENESIS_DATA = {
     hash: 'hash-one',
 };
 
+const TRANSACTION_TYPE = {
+    CURRENCY: 'CURRENCY',
+    POLL: 'POLL',
+    BALLOT: 'BALLOT'
+}
+
 
 
 //polls and ballots branch 
@@ -24,5 +30,6 @@ module.exports ={
     STARTING_BALANCE,
     REWARD_INPUT,
     MINING_REWARD,
-    CHAR_MAX_LENGTH
+    CHAR_MAX_LENGTH,
+    TRANSACTION_TYPE
 };
