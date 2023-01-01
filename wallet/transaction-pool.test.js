@@ -4,7 +4,7 @@ const Wallet = require('./index');
 const Blockchain = require('../blockchain')
 
 describe('TransactionPool', () => {
-    let transactionPool, transaction, senderWallet;
+    let transactionPool, transaction, poll, senderWallet;
 
     beforeEach(() => {
         transactionPool = new TransactionPool();
@@ -14,6 +14,12 @@ describe('TransactionPool', () => {
             recipient: 'fake-recipient',
             amount: 50
         });
+        poll = senderWallet.createPoll({
+            name : 'foo-poll',
+            options : ['option 1', 'option 2', 'option 3'],
+            voters: ['Sara', 'Ziyad']
+        });
+        
     });
 
     describe('setTransaction()', () => {
@@ -23,10 +29,16 @@ describe('TransactionPool', () => {
         it('adds a transaction', () => {
             transactionPool.setTransaction(transaction);
 
-            //we are useing the toBe validation to make sure it is the exact same instances and not a copy of an object  even if the propties change  so it can be updated 
+            //we are using the toBe validation to make sure it is the exact same instances and not a copy of an object  even if the propties change  so it can be updated 
             expect(transactionPool.transactionMap[transaction.id]).toBe(transaction);
 
-        })
+        });
+
+        it('adds a poll', () => {
+            //we use to be to make sure it;s the same instance 
+            transactionPool.setTransaction(poll);
+            expect(transactionPool.transactionMap[poll.id]).toBe(poll)
+        });
     })
 
     describe('existingTransaction()', () => {
