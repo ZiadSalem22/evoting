@@ -75,7 +75,10 @@ class Blockchain {
                             return false;
                         }
 
-                        const trueBalance = Wallet.calculateBalance({ chain: this.chain, address: transaction.input.address });
+                        const trueBalance = Wallet.calculateBalance({
+                            chain: this.chain.slice(0,i),
+                            address: transaction.input.address
+                        });
 
                         if (transaction.input.amount !== trueBalance) {
                             console.error('Invalid input amount');

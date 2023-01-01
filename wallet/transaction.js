@@ -69,7 +69,7 @@ class Transaction {
 
     static validTransaction(transaction) {
 
-        if ( !(transaction instanceof  Transaction)){
+        if (  typeof transaction.outputMap === 'undefined' ){
             return false;
         }
 
