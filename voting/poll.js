@@ -21,11 +21,11 @@ class Poll {
 
 
 
-        if (name === undefined ) {
+        if (name === undefined) {
             throw new Error('Invalid name');
         } else {
             name.trim();
-            if ( name === '') {
+            if (name === '') {
                 throw new Error('Invalid name');
             }
         }
@@ -34,11 +34,11 @@ class Poll {
             throw new Error('Poll name too long');
         }
 
-        if (options === undefined ) {
+        if (options === undefined) {
             throw new Error('Invalid options');
         }
 
-        if (voters === undefined ) {
+        if (voters === undefined) {
             throw new Error('Invalid voters');
         }
 
@@ -62,20 +62,25 @@ class Poll {
     };
 
     static validPoll(poll) {
+
+        if ( !(poll instanceof  Poll)){
+            return false;
+        }
         const { input: { address, signature }, output } = poll;
 
-        if (output.name.length > CHAR_MAX_LENGTH) {
-             console.error('Poll name too long');
-             return false;
+
+        if (output?.name?.length > CHAR_MAX_LENGTH) {
+            console.error(`Invalid Poll name: ${output.name} from ${address}`);
+            return false;
         }
+
 
         //if signature is invalid we will return false
         if (!verifySignature({
             publicKey: address,
             data: output,
             signature
-        })) 
-        {
+        })) {
             console.error(`Invalid Signature from this address and data`);
             return false;
         }

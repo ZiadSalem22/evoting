@@ -1,6 +1,7 @@
 const uuid = require('uuid'); // uuid v1 is time stamped based 
 const { REWARD_INPUT, MINING_REWARD } = require('../config');
 const { verifySignature } = require('../util');
+const Poll = require('../voting/poll');
 
 class Transaction {
     constructor({ senderWallet, recipient, amount, outputMap, input }) {
@@ -68,8 +69,12 @@ class Transaction {
 
     static validTransaction(transaction) {
 
-        const { input: { address, amount, signature }, outputMap } = transaction;
+        if ( !(transaction instanceof  Transaction)){
+            return false;
+        }
 
+        const { input: { address, amount, signature }, outputMap } = transaction;
+        
         //check if the input amount eguals all the values contianed in outputMap // in short checks if the wallet input to the transactions equals the wallet output of the transactions 
         const outputTotal = Object.values(outputMap)
             .reduce((total, outputAmount) => total + outputAmount);

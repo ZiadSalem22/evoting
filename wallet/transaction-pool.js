@@ -1,3 +1,4 @@
+const Poll = require('../voting/poll');
 const Transaction  = require('./transaction')
 
 class TransactionPool{
@@ -29,7 +30,7 @@ class TransactionPool{
     validTransactions(){
 
        return Object.values(this.transactionMap).filter(
-             transaction => Transaction.validTransaction(transaction)
+             transaction => (Transaction.validTransaction(transaction) || Poll.validPoll(transaction))
              );
     }
 

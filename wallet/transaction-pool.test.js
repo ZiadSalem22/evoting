@@ -9,17 +9,18 @@ describe('TransactionPool', () => {
     beforeEach(() => {
         transactionPool = new TransactionPool();
         senderWallet = new Wallet();
+        poll = senderWallet.createPoll({
+            name: 'foo-poll',
+            options: ['option 1', 'option 2', 'option 3'],
+            voters: ['Sara', 'Ziyad']
+        });
+
         transaction = new Transaction({
             senderWallet,
             recipient: 'fake-recipient',
             amount: 50
         });
-        poll = senderWallet.createPoll({
-            name : 'foo-poll',
-            options : ['option 1', 'option 2', 'option 3'],
-            voters: ['Sara', 'Ziyad']
-        });
-        
+
     });
 
     describe('setTransaction()', () => {
@@ -52,6 +53,16 @@ describe('TransactionPool', () => {
             ).toBe(transaction);
         });
 
+
+        it('returns an existing poll given an input address', () => {
+
+            transactionPool.setTransaction(poll);
+            expect(
+                transactionPool.existingTransaction({ inputAddress: senderWallet.publicKey })
+            ).toBe(poll);
+        });
+
+
     });
 
 
@@ -63,9 +74,16 @@ describe('TransactionPool', () => {
             errorMock = jest.fn();
             global.console.error = errorMock;
 
-            // we make 10 tansactions some are invalid due to wrong input amount and some have invalid signature
+            // we make 20  tansactions  [10 polls 10 normal transactions] some are invalid due to wrong input amount and some have invalid signature
             // some are vaild we will save in our array then we will comapare the vaild ones with the output of this method to see if it works correctly 
             for (let i = 0; i < 10; i++) {
+
+                poll = senderWallet.createPoll({
+                    name: 'foo-poll',
+                    options: ['option 1', 'option 2', 'option 3'],
+                    voters: ['Sara', 'Ziyad']
+                });
+
                 transaction = new Transaction({
                     senderWallet,
                     recipient: 'any-recipient',
@@ -74,12 +92,19 @@ describe('TransactionPool', () => {
 
                 if (i % 3 === 0) {
                     transaction.input.amount = 9999999;
+                    poll.output.name = undefined;
                 } else if (i % 3 === 1) {
                     transaction.input.signature = new Wallet().sign('foo');
+                    poll.input.signature = new Wallet().sign('fake');
                 } else {
+                    //else  i = [2,5,8] we are saving the valid ones
+                    validTransactions.push(poll);
                     validTransactions.push(transaction);
                 }
+                //add polls and transactions to the pool
+                transactionPool.setTransaction(poll);
                 transactionPool.setTransaction(transaction);
+
             }
         });
 
@@ -112,30 +137,39 @@ describe('TransactionPool', () => {
 
             const blockchain = new Blockchain();
             const expectedTransactionMap = {};
-            
-            for (let i = 0; i < 6; i++) {
-                const transaction = new Wallet().createTransaction({
-                    recipient : "foo",
-                    amount : 20
-                }); 
 
-                //we fill the pool with all the transactions 
+            for (let i = 0; i < 6; i++) {
+                const poll = new Wallet().createPoll({
+                    name: 'foo-poll',
+                    options: ['option 1', 'option 2', 'option 3'],
+                    voters: ['Sara', 'Ziyad']
+                });
+
+                const transaction = new Wallet().createTransaction({
+                    recipient: "foo",
+                    amount: 20
+                });
+
+                //we fill the pool with all the  polls and transactions 
+                transactionPool.setTransaction(poll);
                 transactionPool.setTransaction(transaction);
 
-                if (i%2===0 ){
+                if (i % 2 === 0) {
 
-                    //some transactions will be added to the blockchain
-                    blockchain.addBlock({data:[transaction]})
+                    //some polls and transactions will be added to the blockchain
+                    blockchain.addBlock({ data: [poll] })
+                    blockchain.addBlock({ data: [transaction] })
 
-                }else{
+                } else {
 
                     //we will record the other transactons that haven't been added to the blockchain yet and expect them to stay in the pool
-                    expectedTransactionMap[transaction.id] = transaction; 
+                    expectedTransactionMap[poll.id] = poll;
+                    expectedTransactionMap[transaction.id] = transaction;
                 }
             }
 
             //we clear the pool of all the transactions that are already in the blockchain
-            transactionPool.clearBlockchainTransactions({chain:blockchain.chain});
+            transactionPool.clearBlockchainTransactions({ chain: blockchain.chain });
 
             expect(transactionPool.transactionMap).toEqual(expectedTransactionMap)
         });
