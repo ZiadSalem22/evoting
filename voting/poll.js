@@ -19,21 +19,27 @@ class Poll {
 
     createOutput({ name, options, voters }) {
 
+
+
+        if (name === undefined ) {
+            throw new Error('Invalid name');
+        } else {
+            name.trim();
+            if ( name === '') {
+                throw new Error('Invalid name');
+            }
+        }
         //check if the name is more than max length 
         if (name.length > CHAR_MAX_LENGTH) {
             throw new Error('Poll name too long');
         }
 
-        if (name === null || name.trim() === '') {
-            throw new Error('invaild name');
+        if (options === undefined ) {
+            throw new Error('Invalid options');
         }
 
-        if (options === null ) {
-            throw new Error('invaild optoins');
-        }
-
-        if (voters === null ) {
-            throw new Error('invaild voters');
+        if (voters === undefined ) {
+            throw new Error('Invalid voters');
         }
 
 

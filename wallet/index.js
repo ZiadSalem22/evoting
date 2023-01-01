@@ -33,6 +33,12 @@ class Wallet {
         return this.keyPair.sign(cryptoHash(data));
     };
 
+    createPoll({ name, options, voters}){
+      
+      return new Poll({ createrWallet: this, name, options, voters});
+
+    }
+
     createTransaction({ recipient, amount, chain }) {
 
         if (chain) {

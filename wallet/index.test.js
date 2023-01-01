@@ -3,6 +3,7 @@ const { verifySignature } = require('../util');
 const Transaction = require('./transaction');
 const Blockchain = require('../blockchain');
 const { STARTING_BALANCE } = require('../config');
+const Poll = require('../voting/poll');
 
 describe('Wallet', () => {
 
@@ -56,6 +57,7 @@ describe('Wallet', () => {
             name = 'foo-poll';
             options = ['option 1', 'option 2', 'option 3'];
             voters = ['Ziad', 'Sara'];
+            name.trim();
         });
 
 
@@ -88,9 +90,9 @@ describe('Wallet', () => {
 
         describe('Valid data passed', () => {
 
+            let poll;
             beforeEach(() => {
-                let poll;
-                poll = Wallet.createPoll({ name, options, voters })
+                 poll = wallet.createPoll({ name, options, voters })
             });
 
             it('creates and instance of `Poll`', () => {
@@ -114,7 +116,7 @@ describe('Wallet', () => {
             });
             
             it('is valid poll', () => {
-                expect(poll.ValidPoll()).toEqual(true);
+                expect(Poll.validPoll(poll)).toEqual(true);
             });
             
         });

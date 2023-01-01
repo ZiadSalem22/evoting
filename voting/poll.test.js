@@ -27,6 +27,7 @@ describe('Poll', () => {
             options,
             voters
         });
+        name = name.trim();
     });
 
     //poll must have ids
@@ -42,7 +43,7 @@ describe('Poll', () => {
 
         describe('Name', () => {
 
-            it('sets the `name`', () => {
+            it('sets the `name` and trims it', () => {
                 expect(poll.output.name).toEqual(name);
             });
 
