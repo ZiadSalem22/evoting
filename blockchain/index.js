@@ -147,7 +147,7 @@ class Blockchain {
             return;
         }
 
-        if (validateTransactions && !this.validTransactionData({ newChain })) {
+        if (validateTransactions && !this.validTransactionData({ chain: newChain })) {
             console.error('the incoming chain has some Invalid data');
             return;
         }
