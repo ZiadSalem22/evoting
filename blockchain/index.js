@@ -37,7 +37,7 @@ class Blockchain {
 
 
                 //check for  polls
-                if (transaction instanceof Poll) {
+                if ( typeof transaction.outputMap === 'undefined') {
 
                     //check if valid poll
                     if (!Poll.validPoll(transaction)) {

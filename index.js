@@ -9,6 +9,7 @@ const Wallet = require('./wallet/index');
 const { response } = require('express');
 const TrasactionMiner = require('./app/transaction-miner');
 const TransactionMiner = require('./app/transaction-miner');
+const Poll = require('./voting/poll');
 
 //we create our application  using the express function
 const app = express();
@@ -68,6 +69,45 @@ app.post('/api/mine', (req, res) => {
     //redirecting to the get method
     res.redirect('/api/blocks');
 });
+
+//api to  a post Poll into pool 
+//this will be a post request to allow the requester to offially conduct a poll  using their application wallet
+app.post('/api/poll', (req, res) => {
+
+    const { name, options, voters } = req.body;
+
+    //if the wallet has an existing identical poll in transaction pool we cancel request
+    let poll = transactionPool.existingTransaction({ inputAddress: wallet.publicKey });
+
+    //in case of an error we handle it using the try catch method
+    try {
+
+        //if poll already exists  we will return it 
+        if (!poll) {
+           //
+
+            poll = wallet.createPoll({
+                name,
+                options,
+                voters
+            });
+        }
+
+    } catch (error) {
+        //if error is to be found we send an error in a proper form 
+        return res.status(400).json({ type: 'error', message: error.message });
+    }
+
+    transactionPool.setTransaction(poll);
+
+    // console.log('transactionPool', transactionPool);
+
+    pubsub.broadcastTransaction(poll);
+
+    res.json({ type: 'success', poll });
+});
+
+
 
 
 //api to  post Transactions into pool 
