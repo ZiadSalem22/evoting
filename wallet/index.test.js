@@ -52,6 +52,7 @@ describe('Wallet', () => {
 
     describe('createPoll()', () => {
 
+        // created our poll data
         let name, options, voters;
         beforeEach(() => {
             name = 'foo-poll';
@@ -60,7 +61,7 @@ describe('Wallet', () => {
             name.trim();
         });
 
-
+        //makes sure it  checks for all the data to be valid
         describe('when one of the parmenters is null/empty', () => {
 
             it('throws an error', () => {
@@ -88,6 +89,7 @@ describe('Wallet', () => {
             });
         });
 
+        //tests for valid data 
         describe('Valid data passed', () => {
 
             let poll;
@@ -122,6 +124,7 @@ describe('Wallet', () => {
         });
 
     });
+    
     describe('createTransaction()', () => {
 
         describe('the amount of the transaction exceeds the account balance', () => {
