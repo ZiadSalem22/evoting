@@ -3,6 +3,7 @@ const { cryptoHash } = require("../util");
 const Transaction = require("../wallet/transaction");
 const { REWARD_INPUT, MINING_REWARD } = require("../config");
 const Wallet = require("../wallet");
+const Poll = require("../voting/poll");
 
 class Blockchain {
 
@@ -34,37 +35,59 @@ class Blockchain {
 
             for (let transaction of block.data) {
 
-                //in case of there is more than one miner reward per block we return false
-                if (transaction.input.address === REWARD_INPUT.address) {
-                    rewardTransactionCount += 1;
 
-                    if (rewardTransactionCount > 1) {
-                        console.error('Miner rewards exceeds limit');
+                //check for  polls
+                if (transaction instanceof Poll) {
+
+                    //check if valid poll
+                    if (!Poll.validPoll(transaction)) {
+                        console.error('Invalid Poll');
                         return false;
                     }
 
-                    if (Object.values(transaction.outputMap)[0] !== MINING_REWARD) {
-                        console.error('Miner reward amount is invalid');
-                        return false;
-                    }
-                } else {
-                    if (!Transaction.validTransaction(transaction)) {
-                        console.error('Invalid Transaction');
-                        return false;
-                    }
-
-                    const trueBalance = Wallet.calculateBalance({chain: this.chain, address: transaction.input.address});
-
-                    if (transaction.input.amount !== trueBalance){
-                        console.error('Invalid input amount');
-                        return false;
-                    }
-
+                    //check if poll is duplicated 
                     if (transacitonSet.has(transaction)) {
-                        console.error('duplicate transaction');
+                        console.error('duplicate Poll');
                         return false;
                     } else {
                         transacitonSet.add(transaction);
+                    }
+
+                    //in case of a normal transaction
+                } else {
+
+                    //in case of there is more than one miner reward per block we return false
+                    if (transaction.input.address === REWARD_INPUT.address) {
+                        rewardTransactionCount += 1;
+
+                        if (rewardTransactionCount > 1) {
+                            console.error('Miner rewards exceeds limit');
+                            return false;
+                        }
+
+                        if (Object.values(transaction.outputMap)[0] !== MINING_REWARD) {
+                            console.error('Miner reward amount is invalid');
+                            return false;
+                        }
+                    } else {
+                        if (!Transaction.validTransaction(transaction)) {
+                            console.error('Invalid Transaction');
+                            return false;
+                        }
+
+                        const trueBalance = Wallet.calculateBalance({ chain: this.chain, address: transaction.input.address });
+
+                        if (transaction.input.amount !== trueBalance) {
+                            console.error('Invalid input amount');
+                            return false;
+                        }
+
+                        if (transacitonSet.has(transaction)) {
+                            console.error('duplicate transaction');
+                            return false;
+                        } else {
+                            transacitonSet.add(transaction);
+                        }
                     }
                 }
             }
@@ -111,7 +134,7 @@ class Blockchain {
         return true;
     }
 
-    replaceChain(newChain,validateTransactions, onSuccess) {
+    replaceChain(newChain, validateTransactions, onSuccess) {
 
         //check newChain length if short or equal do nothing
         if (newChain.length <= this.chain.length) {
@@ -124,7 +147,7 @@ class Blockchain {
             return;
         }
 
-        if(validateTransactions && !this.validTransactionData({newChain})){
+        if (validateTransactions && !this.validTransactionData({ newChain })) {
             console.error('the incoming chain has some Invalid data');
             return;
         }

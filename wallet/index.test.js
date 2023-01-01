@@ -190,6 +190,60 @@ describe('Wallet', () => {
 
     });
 
+    describe('getPoll()', () => {
+
+        let blockchain;
+
+        beforeEach(() => {
+            blockchain = new Blockchain();
+        });
+
+
+        describe('poll does not exist in the chain', () => {
+
+            it('returns undefined', () => {
+                expect(
+                    Wallet.getPoll({
+                        chain: blockchain.chain,
+                        pollId: 'foo pool'
+                    })
+                ).toEqual(undefined);
+
+            });
+        });
+
+        describe('poll exists in chain', () => {
+            let pollOne, pollTwo;
+
+            beforeEach(() => {
+                pollOne = new Wallet().createPoll({
+                    name: 'foo-poll-one',
+                    options: ['option 1', 'option 2', 'option 3'],
+                    voters: ['Sara', 'Ziyad']
+                });
+
+                pollTwo = new Wallet().createPoll({
+                    name: 'foo-poll-two',
+                    options: ['option 1', 'option 2', 'option 3'],
+                    voters: ['Sara', 'Ziyad']
+                });
+
+                blockchain.addBlock({ data: [pollOne,pollTwo] });
+            });
+
+            it('returns the poll', () => {
+                expect(
+                    Wallet.getPoll({
+                        chain: blockchain.chain,
+                        pollId: pollOne.id
+                    })
+                ).toEqual( pollOne);
+
+            });
+
+        });
+    });
+
     describe('calculateBalance()', () => {
 
         let blockchain;
