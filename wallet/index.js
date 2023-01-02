@@ -1,5 +1,5 @@
 const Blockchain = require('../blockchain');
-const { STARTING_BALANCE } = require('../config');
+const { STARTING_BALANCE, TRANSACTION_TYPE } = require('../config');
 const { ec, cryptoHash } = require('../util');
 const Poll = require('../voting/poll');
 const Transaction = require('./transaction');
@@ -66,7 +66,7 @@ class Wallet {
       //loop for each transaction in blochain
       for (let poll of block.data) {
 
-        if (poll instanceof Poll) {
+        if (poll.transactionType === TRANSACTION_TYPE.POLL) {
           //we check transaction 
           if (poll.id === pollId) {
            return poll;
