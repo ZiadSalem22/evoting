@@ -14,7 +14,7 @@ describe('Poll', () => {
         global.console.error = errorMock;
     });
 
-    let poll, createrWallet, name;
+    let poll, createrWallet, name, options, voters;
 
     beforeEach(() => {
         createrWallet = new Wallet();
