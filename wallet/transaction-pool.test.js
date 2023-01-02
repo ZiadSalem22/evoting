@@ -1,7 +1,8 @@
 const TransactionPool = require('./transaction-pool');
 const Transaction = require('./transaction')
 const Wallet = require('./index');
-const Blockchain = require('../blockchain')
+const Blockchain = require('../blockchain');
+const { TRANSACTION_TYPE } = require('../config');
 
 describe('TransactionPool', () => {
     let transactionPool, transaction, poll, senderWallet;
@@ -49,7 +50,10 @@ describe('TransactionPool', () => {
 
             transactionPool.setTransaction(transaction);
             expect(
-                transactionPool.existingTransaction({ inputAddress: senderWallet.publicKey })
+                transactionPool.existingTransaction({
+                    inputAddress: senderWallet.publicKey,
+                    transactionType: transaction.transactionType
+                })
             ).toBe(transaction);
         });
 
@@ -58,7 +62,10 @@ describe('TransactionPool', () => {
 
             transactionPool.setTransaction(poll);
             expect(
-                transactionPool.existingTransaction({ inputAddress: senderWallet.publicKey })
+                transactionPool.existingTransaction({
+                    inputAddress: senderWallet.publicKey,
+                    transactionType: poll.transactionType
+                })
             ).toBe(poll);
         });
 

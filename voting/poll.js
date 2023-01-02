@@ -1,5 +1,5 @@
 const uuid = require('uuid/'); // uuid v1 is time stamped based 
-const { CHAR_MAX_LENGTH } = require('../config');
+const { CHAR_MAX_LENGTH, TRANSACTION_TYPE } = require('../config');
 const { verifySignature } = require('../util');
 
 class Poll {
@@ -7,6 +7,7 @@ class Poll {
 
         //poll Id
         this.id = uuid();
+        this.transactionType = TRANSACTION_TYPE.POLL;
 
         this.output = this.createOutput({ name, options, voters });
 
@@ -63,7 +64,7 @@ class Poll {
 
     static validPoll(poll) {
 
-        if ( typeof poll.output === 'undefined'){
+        if ( poll.transactionType !== TRANSACTION_TYPE.POLL) {
             return false;
         }
         const { input: { address, signature }, output } = poll;

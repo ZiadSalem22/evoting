@@ -10,6 +10,7 @@ const { response } = require('express');
 const TrasactionMiner = require('./app/transaction-miner');
 const TransactionMiner = require('./app/transaction-miner');
 const Poll = require('./voting/poll');
+const { TRANSACTION_TYPE } = require('./config');
 
 //we create our application  using the express function
 const app = express();
@@ -77,15 +78,15 @@ app.post('/api/poll', (req, res) => {
     const { name, options, voters } = req.body;
 
     //if the wallet has an existing identical poll in transaction pool we cancel request
-    let poll = transactionPool.existingTransaction({ inputAddress: wallet.publicKey });
+    let poll = transactionPool.existingTransaction({ inputAddress: wallet.publicKey , transactionType: TRANSACTION_TYPE.POLL});
 
     //in case of an error we handle it using the try catch method
     try {
 
         //if poll already exists  we will return it 
-        if (!poll) {
-           //
-
+        if (poll) {
+            return res.status(400).json({ type: 'error', message: 'Please mine a new new block before adding another Poll to the Pool from the same wallet' });
+        } else {
             poll = wallet.createPoll({
                 name,
                 options,
@@ -117,7 +118,7 @@ app.post('/api/transact', (req, res) => {
     const { amount, recipient } = req.body;
 
     //if the wallet has an existing tansaction in transaction pool we will update it , if not it will return undefined 
-    let transaction = transactionPool.existingTransaction({ inputAddress: wallet.publicKey });
+    let transaction = transactionPool.existingTransaction({ inputAddress: wallet.publicKey , transactionType: TRANSACTION_TYPE.CURRENCY});
 
     //in case of an error we handle it using the try catch method
     try {

@@ -1,3 +1,4 @@
+const { TRANSACTION_TYPE } = require('../config');
 const Poll = require('../voting/poll');
 const Transaction  = require('./transaction')
 
@@ -19,12 +20,12 @@ class TransactionPool{
 
     }
 
-    existingTransaction({inputAddress}){
+    existingTransaction({inputAddress , transactionType}){
 
         const transactions = Object.values(this.transactionMap);
 
         //it checks every transaction value to check if that transaction input address matchs our address
-        return transactions.find(transaction => transaction.input.address === inputAddress);
+        return transactions.find(transaction => (transaction.input.address === inputAddress && transaction.transactionType === transactionType ));
     }
 
     validTransactions(){

@@ -1,6 +1,6 @@
 const Blockchain = require('.');
 const Block = require('./block');
-const { GENESIS_DATA } = require('../config');
+const { GENESIS_DATA, TRANSACTION_TYPE } = require('../config');
 const { cryptoHash } = require('../util');
 const Wallet = require('../wallet');
 const Transaction = require('../wallet/transaction');
@@ -318,7 +318,8 @@ describe('Blockchain', () => {
                             address: wallet.publicKey,
                             signature : wallet.sign(evilOutputMap)
                         },
-                        outputMap: evilOutputMap
+                        outputMap: evilOutputMap,
+                        transactionType: TRANSACTION_TYPE.CURRENCY
                     };
     
                     newChain.addBlock({data: [evilTransaction,rewardTransaction]});

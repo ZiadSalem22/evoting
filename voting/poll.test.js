@@ -1,4 +1,4 @@
-const { CHAR_MAX_LENGTH } = require("../config");
+const { CHAR_MAX_LENGTH, TRANSACTION_TYPE } = require("../config");
 const { verifySignature } = require("../util");
 const Wallet = require("../wallet");
 const Poll = require("./poll");
@@ -33,6 +33,24 @@ describe('Poll', () => {
     //poll must have ids
     it('has an `id`', () => {
         expect(poll).toHaveProperty('id');
+    });
+
+    describe('`transactionType`', () => {
+
+        //Polls must have transactionType
+        it('has an `transactionType`', () => {
+            expect(poll).toHaveProperty('transactionType');
+        });
+
+
+
+        //transactions must have ids
+        it('to have valid value`', () => {
+            expect(
+                    (poll.transactionType === TRANSACTION_TYPE.POLL)
+                // (Object.values(TRANSACTION_TYPE).find(i => i === transaction.transactionType) !== typeof 'undefined')
+            ).toBe(true);
+        });
     });
 
     describe('output', () => {
@@ -111,6 +129,15 @@ describe('Poll', () => {
         });
 
         describe('when the Poll is InValid', () => {
+            
+            describe('when a transactionType  value is Invalid', () => {
+                it('returns false', () => {
+
+                    poll.transactionType = TRANSACTION_TYPE.CURRENCY;
+
+                    expect(Poll.validPoll(poll)).toBe(false);
+                })
+            });
 
             describe('when a Poll name in output  is too long', () => {
                 it('returns false and logs an error', () => {
