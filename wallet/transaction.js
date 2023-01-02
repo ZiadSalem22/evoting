@@ -70,10 +70,6 @@ class Transaction {
         }
 
 
-
-
-
-
         //maping the subtraction of the sender wallet balance
         this.outputMap[senderWallet.publicKey] =
             this.outputMap[senderWallet.publicKey] - amount;
@@ -84,7 +80,7 @@ class Transaction {
 
     static validTransaction(transaction) {
 
-        if (typeof transaction.outputMap === 'undefined') {
+        if ( transaction.transactionType !== TRANSACTION_TYPE.CURRENCY) {
             return false;
         }
 

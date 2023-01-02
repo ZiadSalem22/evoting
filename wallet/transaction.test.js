@@ -137,6 +137,15 @@ describe('Transaction', () => {
 
         describe('when the transaction is InValid', () => {
 
+            describe('when a transactionType  value is Invalid', () => {
+                it('returns false', () => {
+
+                    transaction.transactionType = TRANSACTION_TYPE.POLL;
+
+                    expect(Transaction.validTransaction(transaction)).toBe(false);
+                })
+            });
+
             describe('when a transaction outputMap value is Invalid', () => {
                 it('returns false and logs an error', () => {
 
