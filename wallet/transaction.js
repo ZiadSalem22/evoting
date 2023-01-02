@@ -1,12 +1,14 @@
 const uuid = require('uuid'); // uuid v1 is time stamped based 
-const { REWARD_INPUT, MINING_REWARD } = require('../config');
+const { REWARD_INPUT, MINING_REWARD, TRANSACTION_TYPE } = require('../config');
 const { verifySignature } = require('../util');
 const Poll = require('../voting/poll');
 
 class Transaction {
-    constructor({ senderWallet, recipient, amount, outputMap, input }) {
+    constructor({ senderWallet,  recipient, amount, outputMap, input }) {
 
         this.id = uuid();
+
+        this.transactionType = TRANSACTION_TYPE.CURRENCY;
 
         this.outputMap = outputMap || this.createOutputMap({ senderWallet, recipient, amount });
 
@@ -16,6 +18,19 @@ class Transaction {
         });
 
     }
+
+    // fillTransactionType({ transactionType }) {
+    //     if (transactionType === undefined) {
+    //         throw new Error('Invalid transactionType: not entered');
+
+    //     } else if ((Object.values(TRANSACTION_TYPE).find(i => i === transactionType) === undefined)) {
+
+    //         throw new Error('Invalid transactionType');
+    //     }
+
+    //     else return transactionType;
+    // }
+
 
     createOutputMap({ senderWallet, recipient, amount }) {
         const outputMap = {};
@@ -69,12 +84,12 @@ class Transaction {
 
     static validTransaction(transaction) {
 
-        if (  typeof transaction.outputMap === 'undefined' ){
+        if (typeof transaction.outputMap === 'undefined') {
             return false;
         }
 
         const { input: { address, amount, signature }, outputMap } = transaction;
-        
+
         //check if the input amount eguals all the values contianed in outputMap // in short checks if the wallet input to the transactions equals the wallet output of the transactions 
         const outputTotal = Object.values(outputMap)
             .reduce((total, outputAmount) => total + outputAmount);

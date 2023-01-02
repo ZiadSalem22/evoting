@@ -16,14 +16,13 @@ describe('Transaction', () => {
     //sender wallet the person who will send
     //recipient the public key
     //amount the amount in which they will send 
-    let transaction, transactionType, senderWallet, recipient, amount;
+    let transaction,  senderWallet, recipient, amount;
 
     beforeEach(() => {
         senderWallet = new Wallet();
-        transactionType = TRANSACTION_TYPE.CURRENCY;
         recipient = 'recipient-public-key';
         amount = 50;
-        transaction = new Transaction({ senderWallet, transactionType, recipient, amount });
+        transaction = new Transaction({ senderWallet, recipient, amount });
     });
 
     //transactions must have ids
@@ -38,28 +37,43 @@ describe('Transaction', () => {
             expect(transaction).toHaveProperty('transactionType');
         });
 
+
+
         //transactions must have ids
         it('to have valid value`', () => {
             expect(
-                () => {
-                    transaction.transactionType === TRANSACTION_TYPE.CURRENCY
-                ||  transaction.transactionType === TRANSACTION_TYPE.POLL
-                ||  transaction.transactionType === TRANSACTION_TYPE.BALLOT
-
-                }).toBe(true);
+                    (transaction.transactionType === TRANSACTION_TYPE.CURRENCY)
+                // (Object.values(TRANSACTION_TYPE).find(i => i === transaction.transactionType) !== typeof 'undefined')
+            ).toBe(true);
         });
 
+        // //transactions must have ids
+        // it('invalid data  entered and should return false  and logs error`', () => {
 
+        
+        //       transactionType2 = "foo";
+              
+        //       expect(
+        //           () =>{
+        //            new Transaction({ senderWallet, transactionType: transactionType2, recipient, amount });
 
-         //transactions must have ids
-         it('to have valid value`', () => {
-            expect(
-                () => {
-                    Object.values(transaction.transactionType).includes(TRANSACTION_TYPE)   
-                }
-                     ).toBe(true);
-        });
+        //       }
+        //     ).toThrow('Invalid transactionType');
+        // });
 
+        //    //transactions must have ids
+        //    it('transactionType other than CURRENCY and should return false  and logs error`', () => {
+
+        
+        //       transactionType2 = TRANSACTION_TYPE.POLL;
+        //     let transaction3 = new Transaction({ senderWallet, transactionType: transactionType2, recipient, amount });
+ 
+        //      expect(
+ 
+        //          (TRANSACTION_TYPE.CURRENCY !== transaction3.transactionType )
+        //      ).toBe(true);
+        //  });
+ 
     });
 
 
