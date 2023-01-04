@@ -44,7 +44,7 @@ describe('Poll', () => {
 
 
 
-        //transactions must have ids
+        //Polls must have ids
         it('to have valid value`', () => {
             expect(
                     (poll.transactionType === TRANSACTION_TYPE.POLL)

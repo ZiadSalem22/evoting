@@ -1,9 +1,10 @@
 const Wallet = require('./index');
 const { verifySignature } = require('../util');
 const Transaction = require('./transaction');
-const Blockchain = require('../blockchain');
+let Blockchain = require('../blockchain');
 const { STARTING_BALANCE } = require('../config');
 const Poll = require('../voting/poll');
+const Ballot = require('../voting/ballot');
 
 describe('Wallet', () => {
 
@@ -243,6 +244,80 @@ describe('Wallet', () => {
 
         });
     });
+
+
+    describe('getBallot()', () => {
+
+        let blockchain;
+
+        beforeEach(() => {
+            blockchain = new Blockchain();
+        });
+
+
+        describe('ballot does not exist in the chain', () => {
+
+            it('returns undefined', () => {
+                expect(
+                    Wallet.getBallot({
+                        chain: blockchain.chain,
+                        pollId: 'foo pool',
+                        createrWallet: 'foo wallet'
+                    })
+                ).toEqual(undefined);
+
+            });
+        });
+
+        describe('ballot exists in chain', () => {
+            let poll, ballotOne, ballotTwo,walletOne, walletTwo, options;
+
+            beforeEach(() => {
+
+                walletOne = new Wallet();
+                walletTwo = new Wallet();
+                options = ['option 1', 'option 2', 'option 3']
+                poll = new Wallet().createPoll({
+                    name: 'foo-poll-one',
+                    options ,
+                    voters: [walletOne.publicKey, walletTwo.publicKey]
+                });
+                blockchain.addBlock({ data: [poll] });
+
+                // console.log(blockchain.chain[1].data[0].output.voters);
+
+                ballotOne = new Ballot({
+                   createrWallet: walletOne,
+                   pollId: poll.id,
+                   voteOption: options[0],
+                   chain: blockchain.chain
+                });
+                console.log(ballotOne);
+
+                ballotTwo = new Ballot({
+                    createrWallet: walletTwo,
+                    pollId: poll.id,
+                    voteOption: options[2],
+                    chain : blockchain.chain
+                });
+
+                blockchain.addBlock({ data: [ballotOne,ballotTwo] });
+            });
+
+            it('returns the Ballot', () => {
+                expect(
+                    Wallet.getBallot({
+                        chain: blockchain.chain,
+                        pollId: poll.id,
+                        voter: walletOne.publicKey
+                    })
+                ).toEqual( ballotOne);
+
+            });
+
+        });
+    });
+
 
     describe('calculateBalance()', () => {
 

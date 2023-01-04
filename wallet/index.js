@@ -10,10 +10,11 @@ class Wallet {
     this.balance = STARTING_BALANCE;
 
     //voting ability
+
     ////////////////////
     ////////////////////
-    ///////////////////
-    ///////////////////
+    ////////////////////
+    ////////////////////
 
     //create key pair
     //key pair uses a module called brorand to create random values based on the running environment 
@@ -38,6 +39,8 @@ class Wallet {
     return new Poll({ createrWallet: this, name, options, voters });
 
   }
+
+
 
   createTransaction({ recipient, amount, chain }) {
 
@@ -76,8 +79,29 @@ class Wallet {
     }
 
     return undefined;
-
   }
+
+  static getBallot({ chain, pollId, voter }) {
+
+    //loop for each block in blockchain
+    for (let i = chain.length - 1; i > 0; i--) {
+      const block = chain[i];
+
+      //loop for each transaction in blochain
+      for (let ballot of block.data) {
+
+        if (ballot.transactionType === TRANSACTION_TYPE.BALLOT) {
+          //we check transaction 
+          if (ballot.output.pollId === pollId && ballot.input.address === voter) {
+           return ballot;
+          }
+        }
+      }
+    }
+
+    return undefined;
+  }
+  
   static calculateBalance({ chain, address }) {
 
     let hasConductedTransaction = false;//to check if the address has made a transasction 
