@@ -292,7 +292,6 @@ describe('Wallet', () => {
                    voteOption: options[0],
                    chain: blockchain.chain
                 });
-                console.log(ballotOne);
 
                 ballotTwo = new Ballot({
                     createrWallet: walletTwo,
