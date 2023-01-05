@@ -116,7 +116,7 @@ describe('Ballot', () => {
                                 pollId: poll.id,
                                 voteOption,
                                 chain: blockchain.chain
-                            })
+                            });
                         }
                         ).toThrow('Invalid wallet: wallet already voted for this poll');
                     });
@@ -237,7 +237,7 @@ describe('Ballot', () => {
         describe('when the Ballot is Valid', () => {
 
             it('return true', () => {
-                expect(Ballot.validBallot(ballot)).toBe(true);
+                expect(Ballot.validBallot({ballot, chain: blockchain.chain})).toBe(true);
             })
         });
 
@@ -248,7 +248,7 @@ describe('Ballot', () => {
 
                     ballot.transactionType = TRANSACTION_TYPE.CURRENCY;
 
-                    expect(Ballot.validBallot(ballot)).toBe(false);
+                    expect(Ballot.validBallot({ballot, chain: blockchain.chain})).toBe(false);
                 });
             });
 
@@ -257,7 +257,7 @@ describe('Ballot', () => {
 
                     ballot.output.pollId = 'evil-poll';
 
-                    expect(Ballot.validBallot(ballot)).toBe(false);
+                    expect(Ballot.validBallot({ballot, chain: blockchain.chain})).toBe(false);
                     expect(errorMock).toHaveBeenCalled();
                 });
             });
@@ -267,7 +267,7 @@ describe('Ballot', () => {
 
                     ballot.input.signature = new Wallet().sign('fake data');
 
-                    expect(Ballot.validBallot(ballot)).toBe(false);
+                    expect(Ballot.validBallot({ballot, chain: blockchain.chain})).toBe(false);
                     expect(errorMock).toHaveBeenCalled();
                 });
             });
@@ -278,7 +278,7 @@ describe('Ballot', () => {
 
                     ballot.input.address = new Wallet().publicKey;
 
-                    expect(Ballot.validBallot(ballot)).toBe(false);
+                    expect(Ballot.validBallot({ballot, chain: blockchain.chain})).toBe(false);
                     expect(errorMock).toHaveBeenCalled();
                 });
             });
@@ -289,10 +289,30 @@ describe('Ballot', () => {
 
                     ballot.output.voteOption = 'evil option';
 
-                    expect(Ballot.validBallot(ballot)).toBe(false);
+                    expect(Ballot.validBallot({ballot, chain: blockchain.chain})).toBe(false);
                     expect(errorMock).toHaveBeenCalled();
                 });
             });
+
+            // describe('when voter already voted', () => {
+                
+            //     it('it returns false and logs an error', () => {
+
+            //         blockchain.addBlock({ data: [ballot] });
+
+            //         new Ballot({
+            //             createrWallet,
+            //             pollId: poll.id,
+            //             voteOption,
+            //             chain: blockchain.chain
+            //         });
+                    
+            //         expect(Ballot.validBallot({ballot, chain: blockchain.chain})).toBe(false);
+            //         expect(errorMock).toHaveBeenCalled();
+            //     });
+            // });
+
+
         });
 
        

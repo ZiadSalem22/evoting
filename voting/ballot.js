@@ -88,6 +88,80 @@ class Ballot {
             signature: createrWallet.sign(output)
         }
     };
+
+    static validBallot({ballot,chain}) {
+
+        if ( ballot.transactionType !== TRANSACTION_TYPE.BALLOT) {
+            return false;
+        }
+        const { input: { address, signature }, output } = ballot;
+
+        let poll;
+
+         //check if chain is passed to create ballot for spesific chain that contains the valid poll else
+         if (chain === undefined) {
+            console.error(`Invalid Ballot [${ballot.id}]: chain not defined`);
+            return false;
+
+        }       //check if valid chain
+        else if (!Blockchain.isValidChain(chain)) {
+            console.error(`Invalid Ballot [${ballot.id}]: chain not found`);
+            return false;
+        }
+        else {
+            //check if poll id is entered
+            if (output.pollId === undefined) {
+                console.error(`Invalid Ballot [${ballot.id}]: poll not defined`);
+                return false;
+            }
+
+            // we make sure the pallot is right
+            poll = Wallet.getPoll({ chain,pollId: output.pollId })
+
+            if (poll === undefined) {
+                console.error(`Invalid Ballot [${ballot.id}]: poll not found`);
+                return false;
+            }
+
+            if (output.voteOption === undefined) {
+                console.error(`Invalid Ballot [${ballot.id}]: voteOption not defined`);
+                return false;
+            } 
+            
+            // we check if the option is valid with in the poll
+            if ((Object.values(poll.output.options).find(i => i === output.voteOption) === undefined)) {
+                console.error(`Invalid Ballot [${ballot.id}]: voteOption [${output.voteOption}] : is not found within poll :[${poll.output.name}]`);
+                return false;
+            }
+
+            // we check if the voter is valid with in the poll
+            if ((Object.values(poll.output.voters).find(i => i === ballot.input.address) === undefined)) {
+                console.error(`Invalid Ballot [${ballot.id}]: voter [${address}] : is not found within poll:[${poll.output.name}] voters`);
+                return false;
+            }
+
+            //
+            if (Wallet.getBallot({ chain, pollId: output.pollId, voter: ballot.input.address}) !== undefined) {
+                console.error(`Invalid Ballot [${ballot.id}]: voter [${address}] : has already voted for poll: [${poll.output.name}] `);
+                return false;
+            }
+        }
+
+
+
+        //if signature is invalid we will return false
+        if (!verifySignature({
+            publicKey: address,
+            data: output,
+            signature
+        })) {
+            console.error(`Invalid Ballot [${ballot.id}]: invalid signature`);
+            return false;
+        }
+
+        return true;
+    }
+
 }
 
 module.exports = Ballot;
