@@ -231,4 +231,72 @@ describe('Ballot', () => {
 
     });
 
+     //validates Ballot 
+     describe('validBallot()', () => {
+
+        describe('when the Ballot is Valid', () => {
+
+            it('return true', () => {
+                expect(Ballot.validBallot(ballot)).toBe(true);
+            })
+        });
+
+        describe('when the Ballot is InValid', () => {
+            
+            describe('when a transactionType  value is Invalid', () => {
+                it('returns false', () => {
+
+                    ballot.transactionType = TRANSACTION_TYPE.CURRENCY;
+
+                    expect(Ballot.validBallot(ballot)).toBe(false);
+                });
+            });
+
+            describe('when Pollid in output  is invalid', () => {
+                it('returns false and logs an error', () => {
+
+                    ballot.output.pollId = 'evil-poll';
+
+                    expect(Ballot.validBallot(ballot)).toBe(false);
+                    expect(errorMock).toHaveBeenCalled();
+                });
+            });
+
+            describe('when a Ballot  inputSignature is Invalid', () => {
+                it('it returns false and logs an error', () => {
+
+                    ballot.input.signature = new Wallet().sign('fake data');
+
+                    expect(Ballot.validBallot(ballot)).toBe(false);
+                    expect(errorMock).toHaveBeenCalled();
+                });
+            });
+
+            describe('when ballot is not from a voter wallet', () => {
+
+                it('it returns false and logs an error', () => {
+
+                    ballot.input.address = new Wallet().publicKey;
+
+                    expect(Ballot.validBallot(ballot)).toBe(false);
+                    expect(errorMock).toHaveBeenCalled();
+                });
+            });
+
+            describe('when option of the ballot is not in the poll', () => {
+                
+                it('it returns false and logs an error', () => {
+
+                    ballot.output.voteOption = 'evil option';
+
+                    expect(Ballot.validBallot(ballot)).toBe(false);
+                    expect(errorMock).toHaveBeenCalled();
+                });
+            });
+        });
+
+       
+    });
+
+
 });
