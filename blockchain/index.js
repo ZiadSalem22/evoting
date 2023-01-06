@@ -26,6 +26,47 @@ class Blockchain {
 
     }
 
+    static getVotingData({ chain }) {
+
+        let votingdata = {
+            polls: [],
+            ballots: []
+        }
+
+        if (chain === undefined) {
+            console.error(`chain not defined`);
+            return undefined;
+        }
+        if (!Blockchain.isValidChain(chain)) {
+            console.error(` chain not defined`);
+            return undefined;
+        }
+
+        //loop for each block in blockchain
+        for (let i = 0; i < chain.length; i++) {
+            const block = chain[i];
+
+            //loop for each transaction in blochain
+            for (let transaciton of block.data) {
+
+                if (transaciton.transactionType === TRANSACTION_TYPE.BALLOT) {
+                    //we check transaction 
+                    votingdata.ballots.push(transaciton)
+                }
+                if (transaciton.transactionType === TRANSACTION_TYPE.POLL) {
+                    //we check transaction 
+                    votingdata.polls.push(transaciton)
+                }
+            }
+        }
+
+        if (votingdata.polls.length === 0 && votingdata.ballots.length === 0){
+            return undefined
+        }
+
+         return votingdata;
+    }
+
     validTransactionData({ chain }) {
 
         for (let i = 1; i < chain.length; i++) {
@@ -52,7 +93,7 @@ class Blockchain {
                             transacitonSet.add(transaction);
                         }
                         break;
-                        
+
                     case TRANSACTION_TYPE.CURRENCY:
 
                         //in case of there is more than one miner reward per block we return false
