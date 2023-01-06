@@ -53,8 +53,8 @@ class Ballot {
             if (voteOption === undefined) {
                 throw new Error('Invalid voteOption');
 
-            } 
-            
+            }
+
             // we check if the option is valid with in the poll
             if ((Object.values(poll.output.options).find(i => i === voteOption) === undefined)) {
                 throw new Error('Invalid vote option: vote option not found in pull');
@@ -66,7 +66,7 @@ class Ballot {
             }
 
             //
-            if (Wallet.getBallot({ chain, pollId, voter: createrWallet.publicKey}) !== undefined) {
+            if (Wallet.getBallot({ chain, pollId, voter: createrWallet.publicKey }) !== undefined) {
                 throw new Error('Invalid wallet: wallet already voted for this poll');
             }
         }
@@ -89,34 +89,50 @@ class Ballot {
         }
     };
 
-    static validBallot({ballot,chain}) {
+    static validBallot({ ballot, chain, votingData }) {
 
-        if ( ballot.transactionType !== TRANSACTION_TYPE.BALLOT) {
+        if (ballot.transactionType !== TRANSACTION_TYPE.BALLOT) {
             return false;
         }
         const { input: { address, signature }, output } = ballot;
 
-        let poll;
+        let poll,previousBallot;
 
-         //check if chain is passed to create ballot for spesific chain that contains the valid poll else
-         if (chain === undefined) {
-            console.error(`Invalid Ballot [${ballot.id}]: chain not defined`);
-            return false;
+        if (votingData === undefined) {
 
-        }       //check if valid chain
-        else if (!Blockchain.isValidChain(chain)) {
-            console.error(`Invalid Ballot [${ballot.id}]: chain not found`);
-            return false;
-        }
-        else {
-            //check if poll id is entered
-            if (output.pollId === undefined) {
+            //check if chain is passed to create ballot for spesific chain that contains the valid poll else
+            if (chain === undefined) {
+                console.error(`Invalid Ballot [${ballot.id}]: chain not defined`);
+                return false;
+
+            }       //check if valid chain
+             if (!Blockchain.isValidChain(chain)) {
+                console.error(`Invalid Ballot [${ballot.id}]: chain not found`);
+                return false;
+            }
+              //check if poll id is entered
+              if (output.pollId === undefined) {
                 console.error(`Invalid Ballot [${ballot.id}]: poll not defined`);
                 return false;
             }
 
             // we make sure the pallot is right
-            poll = Wallet.getPoll({ chain,pollId: output.pollId })
+            poll = Wallet.getPoll({ chain, pollId: output.pollId });
+
+            //we check if voter already voted
+            previousBallot = Wallet.getBallot({ chain, pollId: output.pollId, voter: ballot.input.address })
+
+        }
+
+        else {
+                poll = votingData.polls.find( x => x.id === output.pollId);
+                previousBallot = votingData.ballots.find( x => (() => {
+                    if (x.output.pollId === output.pollId && x.input.address === address){
+                        return true;
+                    }
+                }));
+        }
+          
 
             if (poll === undefined) {
                 console.error(`Invalid Ballot [${ballot.id}]: poll not found`);
@@ -126,8 +142,8 @@ class Ballot {
             if (output.voteOption === undefined) {
                 console.error(`Invalid Ballot [${ballot.id}]: voteOption not defined`);
                 return false;
-            } 
-            
+            }
+
             // we check if the option is valid with in the poll
             if ((Object.values(poll.output.options).find(i => i === output.voteOption) === undefined)) {
                 console.error(`Invalid Ballot [${ballot.id}]: voteOption [${output.voteOption}] : is not found within poll :[${poll.output.name}]`);
@@ -141,11 +157,11 @@ class Ballot {
             }
 
             //
-            if (Wallet.getBallot({ chain, pollId: output.pollId, voter: ballot.input.address}) !== undefined) {
+            if (previousBallot !== undefined) {
                 console.error(`Invalid Ballot [${ballot.id}]: voter [${address}] : has already voted for poll: [${poll.output.name}] `);
                 return false;
             }
-        }
+        
 
 
 

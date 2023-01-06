@@ -18,7 +18,7 @@ describe('Ballot', () => {
 
     let ballot, createrWallet, voteOption, evildVoteOption;
     let poll, evilPoll, name, options, voters;
-    let blockchain;
+    let blockchain, votingData;
 
     beforeEach(() => {
         createrWallet = new Wallet();
@@ -52,7 +52,7 @@ describe('Ballot', () => {
             chain: blockchain.chain
         });
 
-        
+        votingData = Blockchain.getVotingData({ chain: blockchain.chain });
 
     });
 
@@ -231,92 +231,158 @@ describe('Ballot', () => {
 
     });
 
-     //validates Ballot 
-     describe('validBallot()', () => {
+    //validates Ballot 
+    describe('validBallot()', () => {
 
-        describe('when the Ballot is Valid', () => {
+        describe('give chain and the Ballot is Valid', () => {
 
             it('return true', () => {
-                expect(Ballot.validBallot({ballot, chain: blockchain.chain})).toBe(true);
+                expect(Ballot.validBallot({ ballot, chain: blockchain.chain })).toBe(true);
+            })
+        });
+
+        describe('give votingData and the Ballot is Valid', () => {
+
+            it('return true', () => {
+                expect(Ballot.validBallot({ ballot, votingData })).toBe(true);
             })
         });
 
         describe('when the Ballot is InValid', () => {
-            
-            describe('when a transactionType  value is Invalid', () => {
-                it('returns false', () => {
 
-                    ballot.transactionType = TRANSACTION_TYPE.CURRENCY;
+            describe('giving it voting data to validate from', () => {
 
-                    expect(Ballot.validBallot({ballot, chain: blockchain.chain})).toBe(false);
+                describe('when a transactionType  value is Invalid', () => {
+                    it('returns false', () => {
+
+                        ballot.transactionType = TRANSACTION_TYPE.CURRENCY;
+
+                        expect(Ballot.validBallot({ ballot, votingData})).toBe(false);
+                    });
                 });
+
+                describe('when Pollid in output  is invalid', () => {
+                    it('returns false and logs an error', () => {
+
+                        ballot.output.pollId = 'evil-poll';
+
+                        expect(Ballot.validBallot({ ballot, votingData })).toBe(false);
+                        expect(errorMock).toHaveBeenCalled();
+                    });
+                });
+
+                describe('when a Ballot  inputSignature is Invalid', () => {
+                    it('it returns false and logs an error', () => {
+
+                        ballot.input.signature = new Wallet().sign('fake data');
+
+                        expect(Ballot.validBallot({ ballot, votingData })).toBe(false);
+                        expect(errorMock).toHaveBeenCalled();
+                    });
+                });
+
+                describe('when ballot is not from a voter wallet', () => {
+
+                    it('it returns false and logs an error', () => {
+
+                        ballot.input.address = new Wallet().publicKey;
+
+                        expect(Ballot.validBallot({ ballot, votingData })).toBe(false);
+                        expect(errorMock).toHaveBeenCalled();
+                    });
+                });
+
+                describe('when option of the ballot is not in the poll', () => {
+
+                    it('it returns false and logs an error', () => {
+
+                        ballot.output.voteOption = 'evil option';
+
+                        expect(Ballot.validBallot({ ballot, votingData })).toBe(false);
+                        expect(errorMock).toHaveBeenCalled();
+                    });
+                });
+
             });
 
-            describe('when Pollid in output  is invalid', () => {
-                it('returns false and logs an error', () => {
 
-                    ballot.output.pollId = 'evil-poll';
+            describe('giving it chain to validate from', () => {
 
-                    expect(Ballot.validBallot({ballot, chain: blockchain.chain})).toBe(false);
-                    expect(errorMock).toHaveBeenCalled();
+                describe('when a transactionType  value is Invalid', () => {
+                    it('returns false', () => {
+
+                        ballot.transactionType = TRANSACTION_TYPE.CURRENCY;
+
+                        expect(Ballot.validBallot({ ballot, chain: blockchain.chain })).toBe(false);
+                    });
                 });
-            });
 
-            describe('when a Ballot  inputSignature is Invalid', () => {
-                it('it returns false and logs an error', () => {
+                describe('when Pollid in output  is invalid', () => {
+                    it('returns false and logs an error', () => {
 
-                    ballot.input.signature = new Wallet().sign('fake data');
+                        ballot.output.pollId = 'evil-poll';
 
-                    expect(Ballot.validBallot({ballot, chain: blockchain.chain})).toBe(false);
-                    expect(errorMock).toHaveBeenCalled();
+                        expect(Ballot.validBallot({ ballot, chain: blockchain.chain })).toBe(false);
+                        expect(errorMock).toHaveBeenCalled();
+                    });
                 });
-            });
 
-            describe('when ballot is not from a voter wallet', () => {
+                describe('when a Ballot  inputSignature is Invalid', () => {
+                    it('it returns false and logs an error', () => {
 
-                it('it returns false and logs an error', () => {
+                        ballot.input.signature = new Wallet().sign('fake data');
 
-                    ballot.input.address = new Wallet().publicKey;
-
-                    expect(Ballot.validBallot({ballot, chain: blockchain.chain})).toBe(false);
-                    expect(errorMock).toHaveBeenCalled();
+                        expect(Ballot.validBallot({ ballot, chain: blockchain.chain })).toBe(false);
+                        expect(errorMock).toHaveBeenCalled();
+                    });
                 });
-            });
 
-            describe('when option of the ballot is not in the poll', () => {
-                
-                it('it returns false and logs an error', () => {
+                describe('when ballot is not from a voter wallet', () => {
 
-                    ballot.output.voteOption = 'evil option';
+                    it('it returns false and logs an error', () => {
 
-                    expect(Ballot.validBallot({ballot, chain: blockchain.chain})).toBe(false);
-                    expect(errorMock).toHaveBeenCalled();
+                        ballot.input.address = new Wallet().publicKey;
+
+                        expect(Ballot.validBallot({ ballot, chain: blockchain.chain })).toBe(false);
+                        expect(errorMock).toHaveBeenCalled();
+                    });
                 });
+
+                describe('when option of the ballot is not in the poll', () => {
+
+                    it('it returns false and logs an error', () => {
+
+                        ballot.output.voteOption = 'evil option';
+
+                        expect(Ballot.validBallot({ ballot, chain: blockchain.chain })).toBe(false);
+                        expect(errorMock).toHaveBeenCalled();
+                    });
+                });
+
+                // describe('when voter already voted', () => {
+
+                //     it('it returns false and logs an error', () => {
+
+                //         blockchain.addBlock({ data: [ballot] });
+
+                //         new Ballot({
+                //             createrWallet,
+                //             pollId: poll.id,
+                //             voteOption,
+                //             chain: blockchain.chain
+                //         });
+
+                //         expect(Ballot.validBallot({ballot, chain: blockchain.chain})).toBe(false);
+                //         expect(errorMock).toHaveBeenCalled();
+                //     });
+                // });
+
+
             });
-
-            // describe('when voter already voted', () => {
-                
-            //     it('it returns false and logs an error', () => {
-
-            //         blockchain.addBlock({ data: [ballot] });
-
-            //         new Ballot({
-            //             createrWallet,
-            //             pollId: poll.id,
-            //             voteOption,
-            //             chain: blockchain.chain
-            //         });
-                    
-            //         expect(Ballot.validBallot({ballot, chain: blockchain.chain})).toBe(false);
-            //         expect(errorMock).toHaveBeenCalled();
-            //     });
-            // });
-
-
         });
 
-       
-    });
 
+
+    });
 
 });
