@@ -1,4 +1,5 @@
 const Wallet = require('.');
+const Blockchain = require('../blockchain');
 const { TRANSACTION_TYPE } = require('../config');
 const Ballot = require('../voting/ballot');
 const Poll = require('../voting/poll');
@@ -59,8 +60,10 @@ class TransactionPool {
 
     validTransactions({chain}) {
 
+        let votingData = Blockchain.getVotingData({chain});
+
         let transactions = Object.values(this.transactionMap).filter(
-            transaction => (Transaction.validTransaction(transaction) || Poll.validPoll(transaction) || Ballot.validBallot({ballot:transaction,  chain}) )
+            transaction => (Transaction.validTransaction(transaction) || Poll.validPoll(transaction) || Ballot.validBallot({ballot:transaction,  votingData}) )
         );
 
 

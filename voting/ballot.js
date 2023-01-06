@@ -126,11 +126,8 @@ class Ballot {
 
         else {
                 poll = votingData.polls.find( x => x.id === output.pollId);
-                previousBallot = votingData.ballots.find( x => (() => {
-                    if (x.output.pollId === output.pollId && x.input.address === address){
-                        return true;
-                    }
-                }));
+
+                previousBallot = votingData.ballots.find( x => x.input.address === address && x.output.pollId === output.pollId);
         }
           
 
