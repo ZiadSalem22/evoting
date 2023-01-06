@@ -83,6 +83,7 @@ class Wallet {
 
   static getBallot({ chain, pollId, voter }) {
 
+
     //loop for each block in blockchain
     for (let i = chain.length - 1; i > 0; i--) {
       const block = chain[i];
