@@ -9,6 +9,9 @@ const Wallet = require('./wallet/index');
 const { response } = require('express');
 const TrasactionMiner = require('./app/transaction-miner');
 const TransactionMiner = require('./app/transaction-miner');
+const Poll = require('./voting/poll');
+const { TRANSACTION_TYPE } = require('./config');
+const Ballot = require('./voting/ballot');
 
 //we create our application  using the express function
 const app = express();
@@ -52,6 +55,12 @@ app.get('/api/blocks', (req, res) => {
     res.json(blockchain.chain);
 });
 
+//get voting Data Get Polls and ballots;
+app.get('/api/voting-data', (req, res) => {
+    res.json(BlockChain.getVotingData({ chain: blockchain.chain }));
+});
+
+
 //create post request to add new block to the chain 
 
 app.post('/api/mine', (req, res) => {
@@ -69,30 +78,121 @@ app.post('/api/mine', (req, res) => {
     res.redirect('/api/blocks');
 });
 
+//api to  a post Poll into pool 
+//this will be a post request to allow the requester to offially conduct a poll  using their application wallet
+app.post('/api/poll', (req, res) => {
+
+
+    const { data: { name, options, voters }, privateKey } = req.body;
+    let clientWallet = new Wallet(privateKey);
+
+
+    //if the wallet has an existing identical poll in transaction pool we cancel request
+    let poll = transactionPool.existingTransaction({ inputAddress: clientWallet.publicKey, transactionType: TRANSACTION_TYPE.POLL });
+
+    //in case of an error we handle it using the try catch method
+    try {
+
+        //if poll already exists  we will return it 
+        if (poll !== undefined) {
+            return res.status(400).json({ type: 'error', message: 'Please mine a new new block before adding another Poll to the Pool from the same wallet' });
+        } else {
+            poll = clientWallet.createPoll({
+                name,
+                options,
+                voters
+            });
+        }
+
+    } catch (error) {
+        //if error is to be found we send an error in a proper form 
+        return res.status(400).json({ type: 'error', message: error.message });
+    }
+
+    transactionPool.setTransaction(poll);
+
+    // console.log('transactionPool', transactionPool);
+
+    pubsub.broadcastTransaction(poll);
+
+    res.json({ type: 'success', poll });
+});
+
+//api to  a post Ballot into pool 
+//this will be a post request to allow the requester to offially conduct a Ballot to an existing Poll using their application wallet
+app.post('/api/ballot', (req, res) => {
+
+
+    const { data: { pollId, voteOption }, privateKey } = req.body;
+
+    let clientWallet = new Wallet(privateKey);
+
+    //if the wallet has an existing identical poll in transaction pool we cancel request
+    let ballot = transactionPool.existingTransaction({
+        inputAddress: clientWallet.publicKey,
+        transactionType: TRANSACTION_TYPE.BALLOT,
+        pollId: pollId,
+        chain: blockchain.chain
+    });
+
+    //in case of an error we handle it using the try catch method
+    try {
+
+        //if poll already exists  we will return it 
+        if (ballot !== undefined) {
+            return res.status(400).json({ type: 'error', message: 'Ballot already used' });
+        } else {
+            ballot = new Ballot({
+                createrWallet: clientWallet,
+                pollId,
+                voteOption,
+                chain: blockchain.chain
+            });
+        }
+
+    } catch (error) {
+        //if error is to be found we send an error in a proper form 
+        return res.status(400).json({ type: 'error', message: error.message });
+    }
+
+    transactionPool.setTransaction(ballot);
+
+    // console.log('transactionPool', transactionPool);
+
+    pubsub.broadcastTransaction(ballot);
+
+    res.json({ type: 'success', ballot });
+});
+
+
+
 
 //api to  post Transactions into pool 
 //this will be a post request to allow the requester to offially conduct a transaction  using their application wallet
 app.post('/api/transact', (req, res) => {
 
-    const { amount, recipient } = req.body;
+    const { data: { recipient, amount }, privateKey } = req.body;
+
+    let clientWallet = new Wallet(privateKey);
 
     //if the wallet has an existing tansaction in transaction pool we will update it , if not it will return undefined 
-    let transaction = transactionPool.existingTransaction({ inputAddress: wallet.publicKey });
+    let transaction = transactionPool.existingTransaction({ inputAddress: clientWallet.publicKey, transactionType: TRANSACTION_TYPE.CURRENCY });
 
     //in case of an error we handle it using the try catch method
     try {
 
         //if it has an already transaction we will update 
-        if (transaction) {
+        if (transaction !== undefined) {
             transaction.update({
-                senderWallet: wallet,
+                senderWallet: clientWallet,
                 recipient,
                 amount
             });
+
             //else create new transaction
         } else {
 
-            transaction = wallet.createTransaction({
+            transaction = clientWallet.createTransaction({
                 recipient,
                 amount,
                 chain: blockchain.chain
@@ -128,17 +228,85 @@ app.get('/api/mine-transactions', (req, res) => {
     res.redirect('/api/blocks');
 });
 
-//get wallet info
-app.get('/api/wallet-info',(req,res)=>{
+
+
+//get miner wallet info
+app.get('/api/miner-wallet-info', (req, res) => {
 
     const address = wallet.publicKey;
+    const privateKey = wallet.privateKey;
 
-    res.json({ 
+    //comment
+    res.json({
         address,
+        privateKey,
         balance: Wallet.calculateBalance({
             chain: blockchain.chain,
             address
         })
+    });
+})
+
+
+//get miner wallet info
+app.get('/api/wallet-info', (req, res) => {
+
+    const { privateKey } = req.body;
+
+    if (privateKey === undefined) {
+        return res.status(400).json({ type: 'error', message: 'please enter private key' });
+
+    }
+
+    let clientWallet = new Wallet(privateKey);
+
+    //comment
+    res.json({
+        address: clientWallet.publicKey,
+        privateKey: clientWallet.privateKey,
+
+        balance: Wallet.calculateBalance({
+            chain: blockchain.chain,
+            address: clientWallet.publicKey
+        })
+    });
+});
+
+
+//get miner wallet info
+app.get('/api/create-wallets', (req, res) => {
+
+    //number of wallets
+    const { data: { count } } = req.body;
+
+    if (count === undefined) {
+        count = 1;
+    }
+
+    if ((count > 2000000) || (count <= 0)){
+        return res.status(400).json({ type: 'error', message: 'please enter a valid count from 1 to 2000000 ' });
+    }
+
+    let wallets = [];
+
+    for (let i = 0; i < count; i++) {
+
+        let clientWallet = new Wallet();
+        wallets[i] = {
+            address: clientWallet.publicKey,
+            privateKey: clientWallet.privateKey,
+
+            balance: Wallet.calculateBalance({
+                chain: blockchain.chain,
+                address: clientWallet.publicKey
+            }),
+            count: i+1
+        };
+    }
+
+    //comment
+    res.json({
+        wallets
     });
 })
 

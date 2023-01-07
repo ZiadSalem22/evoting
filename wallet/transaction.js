@@ -1,11 +1,14 @@
-const uuid = require('uuid/v1'); // uuid v1 is time stamped based 
-const { REWARD_INPUT, MINING_REWARD } = require('../config');
+const uuid = require('uuid'); // uuid v1 is time stamped based 
+const { REWARD_INPUT, MINING_REWARD, TRANSACTION_TYPE } = require('../config');
 const { verifySignature } = require('../util');
+const Poll = require('../voting/poll');
 
 class Transaction {
-    constructor({ senderWallet, recipient, amount, outputMap, input }) {
+    constructor({ senderWallet,  recipient, amount, outputMap, input }) {
 
         this.id = uuid();
+
+        this.transactionType = TRANSACTION_TYPE.CURRENCY;
 
         this.outputMap = outputMap || this.createOutputMap({ senderWallet, recipient, amount });
 
@@ -15,6 +18,19 @@ class Transaction {
         });
 
     }
+
+    // fillTransactionType({ transactionType }) {
+    //     if (transactionType === undefined) {
+    //         throw new Error('Invalid transactionType: not entered');
+
+    //     } else if ((Object.values(TRANSACTION_TYPE).find(i => i === transactionType) === undefined)) {
+
+    //         throw new Error('Invalid transactionType');
+    //     }
+
+    //     else return transactionType;
+    // }
+
 
     createOutputMap({ senderWallet, recipient, amount }) {
         const outputMap = {};
@@ -54,10 +70,6 @@ class Transaction {
         }
 
 
-
-
-
-
         //maping the subtraction of the sender wallet balance
         this.outputMap[senderWallet.publicKey] =
             this.outputMap[senderWallet.publicKey] - amount;
@@ -67,6 +79,10 @@ class Transaction {
     }
 
     static validTransaction(transaction) {
+
+        if ( transaction.transactionType !== TRANSACTION_TYPE.CURRENCY) {
+            return false;
+        }
 
         const { input: { address, amount, signature }, outputMap } = transaction;
 
@@ -98,7 +114,8 @@ class Transaction {
 
         return new this({
             input: REWARD_INPUT,
-            outputMap: { [minerWallet.publicKey]: MINING_REWARD }
+            outputMap: { [minerWallet.publicKey]: MINING_REWARD },
+            transactionType: TRANSACTION_TYPE.CURRENCY
         });
     }
 }

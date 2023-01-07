@@ -1,8 +1,10 @@
 const Wallet = require('./index');
 const { verifySignature } = require('../util');
 const Transaction = require('./transaction');
-const Blockchain = require('../blockchain');
+let Blockchain = require('../blockchain');
 const { STARTING_BALANCE } = require('../config');
+const Poll = require('../voting/poll');
+const Ballot = require('../voting/ballot');
 
 describe('Wallet', () => {
 
@@ -22,6 +24,39 @@ describe('Wallet', () => {
         expect(wallet).toHaveProperty('publicKey');
     });
 
+    it('has a `privateKey`', () => {
+
+        expect(wallet).toHaveProperty('privateKey');
+    });
+
+
+    describe('gets wallet from privateKey', () => {
+        
+        describe('passes a known public key', () => {
+            
+            it('returns  a known wallet', () => {
+                let privateKey = "8b998c06158d7fc8e7a91c3b3f76ca2e04b9319186b0252dde5f0486513e67f3";
+                let address ="041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512";
+               
+                let newWalet = new Wallet(privateKey);
+    
+                expect(newWalet.publicKey).toEqual(address);
+            });
+        });
+
+        describe('passes a undefined privateKey', () => {
+            
+            it('returns  a known wallet', () => {
+                let privateKey = "8b998c06158d7fc8e7a91c3b3f76ca2e04b9319186b0252dde5f0486513e67f3";
+                let address ="041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512";
+               
+                let newWalet = new Wallet();
+    
+                expect(newWalet.publicKey).not.toEqual(address);
+            });
+        });
+
+    });
     //tests for sigining data 
     describe('signing data', () => {
         const data = 'foobar';
@@ -49,6 +84,81 @@ describe('Wallet', () => {
         });
     });
 
+    describe('createPoll()', () => {
+
+        // created our poll data
+        let name, options, voters;
+        beforeEach(() => {
+            name = 'foo-poll';
+            options = ['option 1', 'option 2', 'option 3'];
+            voters = ['Ziad', 'Sara'];
+            name.trim();
+        });
+
+        //makes sure it  checks for all the data to be valid
+        describe('when one of the parmenters is null/empty', () => {
+
+            it('throws an error', () => {
+
+                expect(
+                    () => { wallet.createPoll({ name: '', options, voters }) }
+
+                ).toThrow('Invalid name');
+
+                expect(
+                    () => { wallet.createPoll({ options, voters }) }
+
+                ).toThrow('Invalid name');
+
+
+                expect(
+                    () => { wallet.createPoll({ name, voters }) }
+
+                ).toThrow('Invalid options');
+
+                expect(
+                    () => { wallet.createPoll({ name, options }) }
+
+                ).toThrow('Invalid voters');
+            });
+        });
+
+        //tests for valid data 
+        describe('Valid data passed', () => {
+
+            let poll;
+            beforeEach(() => {
+                 poll = wallet.createPoll({ name, options, voters })
+            });
+
+            it('creates and instance of `Poll`', () => {
+                expect(poll instanceof Poll).toBe(true);
+            });
+
+            it('matchs poll `input` with the wallet info', () => {
+                expect(poll.input.address).toEqual(wallet.publicKey);
+            });
+
+            it('outputs the right `name`', () => {
+                expect(poll.output.name).toEqual(name);
+            });
+
+            it('outputs the right `options`', () => {
+                expect(poll.output.options).toEqual(options);
+            });
+
+            it('outputs the right `voters`', () => {
+                expect(poll.output.voters).toEqual(voters);
+            });
+            
+            it('is valid poll', () => {
+                expect(Poll.validPoll(poll)).toEqual(true);
+            });
+            
+        });
+
+    });
+    
     describe('createTransaction()', () => {
 
         describe('the amount of the transaction exceeds the account balance', () => {
@@ -82,7 +192,7 @@ describe('Wallet', () => {
             });
 
             //the create tracnsaction sends the amount to the output recipient
-            it('outputs the amount the recipient', () => {
+            it('outputs the amount of the recipient', () => {
                 expect(tracnsaction.outputMap[recipient]).toEqual(amount);
             });
 
@@ -113,6 +223,148 @@ describe('Wallet', () => {
 
 
     });
+
+    describe('getPoll()', () => {
+
+        let blockchain;
+
+        beforeEach(() => {
+            blockchain = new Blockchain();
+        });
+
+
+        describe('poll does not exist in the chain', () => {
+
+            it('returns undefined', () => {
+                expect(
+                    Wallet.getPoll({
+                        chain: blockchain.chain,
+                        pollId: 'foo pool'
+                    })
+                ).toEqual(undefined);
+
+            });
+        });
+
+        describe('poll exists in chain', () => {
+            let pollOne, pollTwo;
+
+            beforeEach(() => {
+                pollOne = new Wallet().createPoll({
+                    name: 'foo-poll-one',
+                    options: ['option 1', 'option 2', 'option 3'],
+                    voters: ['Sara', 'Ziyad']
+                });
+
+                pollTwo = new Wallet().createPoll({
+                    name: 'foo-poll-two',
+                    options: ['option 1', 'option 2', 'option 3'],
+                    voters: ['Sara', 'Ziyad']
+                });
+
+                blockchain.addBlock({ data: [pollOne,pollTwo] });
+            });
+
+            it('returns the poll', () => {
+                expect(
+                    Wallet.getPoll({
+                        chain: blockchain.chain,
+                        pollId: pollOne.id
+                    })
+                ).toEqual( pollOne);
+
+            });
+
+        });
+    });
+
+    describe('getWallet()', () => {
+
+        describe('gives valid data', () => {
+
+            it('returns wallet', () => {
+                let privateKey = "8b998c06158d7fc8e7a91c3b3f76ca2e04b9319186b0252dde5f0486513e67f3";
+                let address ="041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512";
+               
+                let oldWallet = Wallet.getWallet({ privateKey});
+
+                expect(oldWallet.publicKey).toEqual(address);
+            });
+        });
+        
+    });
+
+    describe('getBallot()', () => {
+
+        let blockchain;
+
+        beforeEach(() => {
+            blockchain = new Blockchain();
+        });
+
+
+        describe('ballot does not exist in the chain', () => {
+
+            it('returns undefined', () => {
+                expect(
+                    Wallet.getBallot({
+                        chain: blockchain.chain,
+                        pollId: 'foo pool',
+                        createrWallet: 'foo wallet'
+                    })
+                ).toEqual(undefined);
+
+            });
+        });
+
+        describe('ballot exists in chain', () => {
+            let poll, ballotOne, ballotTwo,walletOne, walletTwo, options;
+
+            beforeEach(() => {
+
+                walletOne = new Wallet();
+                walletTwo = new Wallet();
+                options = ['option 1', 'option 2', 'option 3']
+                poll = new Wallet().createPoll({
+                    name: 'foo-poll-one',
+                    options ,
+                    voters: [walletOne.publicKey, walletTwo.publicKey]
+                });
+                blockchain.addBlock({ data: [poll] });
+
+                // console.log(blockchain.chain[1].data[0].output.voters);
+
+                ballotOne = new Ballot({
+                   createrWallet: walletOne,
+                   pollId: poll.id,
+                   voteOption: options[0],
+                   chain: blockchain.chain
+                });
+
+                ballotTwo = new Ballot({
+                    createrWallet: walletTwo,
+                    pollId: poll.id,
+                    voteOption: options[2],
+                    chain : blockchain.chain
+                });
+
+                blockchain.addBlock({ data: [ballotOne,ballotTwo] });
+            });
+
+            it('returns the Ballot', () => {
+                expect(
+                    Wallet.getBallot({
+                        chain: blockchain.chain,
+                        pollId: poll.id,
+                        voter: walletOne.publicKey
+                    })
+                ).toEqual( ballotOne);
+
+            });
+
+        });
+    });
+
 
     describe('calculateBalance()', () => {
 
@@ -186,7 +438,7 @@ describe('Wallet', () => {
                 });
 
                 describe('and there are outputs next to and after the recent transaction ', () => {
-                    
+
                     let sameBlockTransaction, nextBlockTransaction;
 
                     beforeEach(() => {
@@ -196,20 +448,20 @@ describe('Wallet', () => {
                         });
 
                         //for the same block transactions the only case it would the same wallet have two transactions in the same block is when it has a normal transaction and a reward transaction
-                        sameBlockTransaction = Transaction.rewardTransaction({minerWallet : wallet});
-                        blockchain.addBlock({ data: [recentTranscation,sameBlockTransaction] });
+                        sameBlockTransaction = Transaction.rewardTransaction({ minerWallet: wallet });
+                        blockchain.addBlock({ data: [recentTranscation, sameBlockTransaction] });
 
 
                         //next block transaction 
                         nextBlockTransaction = new Wallet().createTransaction({
-                            recipient : wallet.publicKey,
+                            recipient: wallet.publicKey,
                             amount: 75
                         });
-                        blockchain.addBlock({data :[nextBlockTransaction]});
+                        blockchain.addBlock({ data: [nextBlockTransaction] });
                     });
 
                     it('includes the output amounts in the returnd balance', () => {
-                        
+
                         expect(
                             Wallet.calculateBalance({
                                 chain: blockchain.chain,
