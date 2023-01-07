@@ -290,7 +290,7 @@ describe('Blockchain', () => {
 
     //tests for valid Transaction data
     describe('validTransactionData()', () => {
-        let poll, transaction, rewardTransaction, wallet;
+        let poll, ballot, transaction, rewardTransaction, wallet;
 
         beforeEach(() => {
             wallet = new Wallet();
@@ -298,7 +298,7 @@ describe('Blockchain', () => {
             poll = wallet.createPoll({
                 name: 'foo-poll',
                 options: ['option 1', 'option 2', 'option 3'],
-                voters: ['Sara', 'Ziyad']
+                voters: [wallet.publicKey, 'Ziyad']
             });
 
             transaction = wallet.createTransaction({
@@ -306,13 +306,24 @@ describe('Blockchain', () => {
                 amount: 20
             });
 
+            
+            
             rewardTransaction = Transaction.rewardTransaction({ minerWallet: wallet });
+            newChain.addBlock({ data: [ poll, rewardTransaction] });
+
+            ballot = new Ballot({
+                createrWallet : wallet,
+                pollId: poll.id,
+                voteOption: 'option 1',
+                chain: newChain.chain
+            })
+
         });
 
         describe('and the transaction data is valid', () => {
 
             it('returns true', () => {
-                newChain.addBlock({ data: [transaction, poll, rewardTransaction] })
+                newChain.addBlock({ data: [transaction, ballot,rewardTransaction] })
                 expect(blockchain.validTransactionData({ chain: newChain.chain })).toBe(true);
                 expect(errorMock).not.toHaveBeenCalled();
 
@@ -330,6 +341,13 @@ describe('Blockchain', () => {
         });
 
         describe('and the transaction data for polls', () => {
+            beforeEach(() => {
+               poll = wallet.createPoll({
+                    name: 'foo-poll #2',
+                    options: ['option 1', 'option 2', 'option 3'],
+                    voters: ['Sara', 'Ziyad']
+                });
+            });
             describe('has at least one malformed output', () => {
                 it('returns false and logs an error', () => {
 
