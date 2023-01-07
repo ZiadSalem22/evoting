@@ -127,7 +127,7 @@ app.post('/api/ballot', (req, res) => {
 
         //if poll already exists  we will return it 
         if (ballot !== undefined) {
-            return res.status(400).json({ type: 'error', message: 'Ballot already in Pool waiting to be mined' });
+            return res.status(400).json({ type: 'error', message: 'Ballot already used' });
         } else {
             ballot = new Ballot({
                 createrWallet: wallet,
