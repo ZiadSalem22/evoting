@@ -55,6 +55,12 @@ app.get('/api/blocks', (req, res) => {
     res.json(blockchain.chain);
 });
 
+//get voting Data Get Polls and ballots;
+app.get('/api/voting-data', (req, res) => {
+    res.json(BlockChain.getVotingData({ chain: blockchain.chain}));
+});
+
+
 //create post request to add new block to the chain 
 
 app.post('/api/mine', (req, res) => {
