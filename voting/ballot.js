@@ -40,18 +40,18 @@ class Ballot {
         else {
             //check if poll id is entered
             if (pollId === undefined) {
-                throw new Error(' Invalid poll Id');
+                throw new Error(' Invalid poll Id: poll Id not entered');
             }
 
             // we make sure the pallot is right
             poll = Wallet.getPoll({ chain, pollId })
 
             if (poll === undefined) {
-                throw new Error('Invalid poll id: poll not found');
+                throw new Error(`Invalid poll id: poll [${pollId}] not found in the blockchain`);
             }
 
             if (voteOption === undefined) {
-                throw new Error('Invalid voteOption');
+                throw new Error(`Invalid voteOption: voteOption not entered`);
 
             }
 

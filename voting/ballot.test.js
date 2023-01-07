@@ -173,7 +173,7 @@ describe('Ballot', () => {
                     expect(() => {
                         new Ballot({ createrWallet, pollId: evilPoll.id, voteOption, chain: blockchain.chain })
                     }
-                    ).toThrow('Invalid poll id: poll not found');
+                    ).toThrow(`Invalid poll id: poll [${evilPoll.id}] not found in the blockchain`);
                 });
             });
 
