@@ -57,17 +57,17 @@ class Ballot {
 
             // we check if the option is valid with in the poll
             if ((Object.values(poll.output.options).find(i => i === voteOption) === undefined)) {
-                throw new Error('Invalid vote option: vote option not found in pull');
+                throw new Error(`Invalid vote option: vote option [${voteOption}] not found in poll[${pollId}]`);
             }
 
             // we check if the voter is valid with in the poll
             if ((Object.values(poll.output.voters).find(i => i === createrWallet.publicKey) === undefined)) {
-                throw new Error('Invalid wallet: wallet not eligible for poll');
+                throw new Error(`Invalid wallet: wallet [${createrWallet.publicKey}] not eligible for poll[${pollId}]`);
             }
 
             //
             if (Wallet.getBallot({ chain, pollId, voter: createrWallet.publicKey }) !== undefined) {
-                throw new Error('Invalid wallet: wallet already voted for this poll');
+                throw new Error(`Invalid wallet: wallet[${createrWallet.publicKey}] already voted for this poll[${pollId}] `);
             }
         }
 
