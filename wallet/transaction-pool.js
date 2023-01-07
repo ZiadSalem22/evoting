@@ -35,16 +35,12 @@ class TransactionPool {
         switch (transactionType) {
             case TRANSACTION_TYPE.BALLOT:
 
-                transaction = transactions.find(transaction => (() => {
+                transaction = transactions.find(transaction => (
 
-                    if (transaction.input.address === inputAddress
+                    transaction.input.address === inputAddress
                         && transaction.transactionType === transactionType
                         && transaction.output.pollId === pollId
-                        && pollId !== undefined) {
-
-                        return true;
-                    }
-                }));
+                        && pollId !== undefined ));
 
                 if (transaction === undefined) {
                         return Wallet.getBallot({ chain, pollId, voter: inputAddress });                    

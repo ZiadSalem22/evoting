@@ -6,16 +6,17 @@ const Ballot = require('../voting/ballot');
 const { TRANSACTION_TYPE } = require('../config');
 
 describe('TransactionPool', () => {
-    let transactionPool, transaction, poll, ballot, senderWallet, blockchain;
+    let transactionPool, transaction, poll, ballot, ballotTwo, senderWallet,senderWalletTwo, blockchain;
 
     beforeEach(() => {
         blockchain = new Blockchain();
         transactionPool = new TransactionPool();
         senderWallet = new Wallet();
+        senderWalletTwo = new Wallet();
         poll = senderWallet.createPoll({
             name: 'foo-poll',
             options: ['option 1', 'option 2', 'option 3'],
-            voters: [senderWallet.publicKey, 'Ziyad']
+            voters: [senderWallet.publicKey, senderWalletTwo.publicKey, 'Ziyad']
         });
 
         transaction = new Transaction({
@@ -27,6 +28,13 @@ describe('TransactionPool', () => {
 
         ballot = new Ballot({
             createrWallet: senderWallet,
+            pollId: poll.id,
+            voteOption: 'option 1',
+            chain: blockchain.chain
+        })
+
+        ballotTwo= new Ballot({
+            createrWallet: senderWalletTwo,
             pollId: poll.id,
             voteOption: 'option 1',
             chain: blockchain.chain
@@ -140,7 +148,8 @@ describe('TransactionPool', () => {
                 expect(
                     transactionPool.existingTransaction({
                         inputAddress: senderWallet.publicKey,
-                        transactionType: ballot.transactionType
+                        transactionType: ballot.transactionType,
+                        pollId: poll.id
                     })
                 ).toBe(ballot);
             });
@@ -180,6 +189,22 @@ describe('TransactionPool', () => {
         describe('give it new ballot', () => {
 
             it('returns undefined', () => {
+                expect(
+                    transactionPool.existingTransaction({
+                        inputAddress: senderWallet.publicKey,
+                        transactionType: ballot.transactionType,
+                        pollId: poll.id,
+                        chain: blockchain.chain
+                    })
+                ).toEqual(undefined);
+            });
+        });
+
+        describe('give it new ballot while there is anoter ballot in pool', () => {
+
+            
+            it('returns undefined', () => {
+                transactionPool.setTransaction(ballotTwo);
                 expect(
                     transactionPool.existingTransaction({
                         inputAddress: senderWallet.publicKey,

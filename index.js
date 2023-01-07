@@ -11,6 +11,7 @@ const TrasactionMiner = require('./app/transaction-miner');
 const TransactionMiner = require('./app/transaction-miner');
 const Poll = require('./voting/poll');
 const { TRANSACTION_TYPE } = require('./config');
+const Ballot = require('./voting/ballot');
 
 //we create our application  using the express function
 const app = express();
@@ -106,6 +107,48 @@ app.post('/api/poll', (req, res) => {
     pubsub.broadcastTransaction(poll);
 
     res.json({ type: 'success', poll });
+});
+
+//api to  a post Ballot into pool 
+//this will be a post request to allow the requester to offially conduct a Ballot to an existing Poll using their application wallet
+app.post('/api/ballot', (req, res) => {
+
+    const { pollId, voteOption } = req.body;
+
+    //if the wallet has an existing identical poll in transaction pool we cancel request
+    let ballot = transactionPool.existingTransaction({
+        inputAddress: wallet.publicKey, 
+        transactionType: TRANSACTION_TYPE.BALLOT,
+        pollId: pollId,
+        chain: blockchain.chain});
+
+    //in case of an error we handle it using the try catch method
+    try {
+
+        //if poll already exists  we will return it 
+        if (ballot !== undefined) {
+            return res.status(400).json({ type: 'error', message: 'Ballot already in Pool waiting to be mined' });
+        } else {
+            ballot = new Ballot({
+                createrWallet: wallet,
+                pollId,
+                voteOption,
+                chain: blockchain.chain
+            });
+        }
+
+    } catch (error) {
+        //if error is to be found we send an error in a proper form 
+        return res.status(400).json({ type: 'error', message: error.message });
+    }
+
+    transactionPool.setTransaction(ballot);
+
+    // console.log('transactionPool', transactionPool);
+
+    pubsub.broadcastTransaction(ballot);
+
+    res.json({ type: 'success', ballot });
 });
 
 
