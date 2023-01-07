@@ -24,6 +24,39 @@ describe('Wallet', () => {
         expect(wallet).toHaveProperty('publicKey');
     });
 
+    it('has a `privateKey`', () => {
+
+        expect(wallet).toHaveProperty('privateKey');
+    });
+
+
+    describe('gets wallet from privateKey', () => {
+        
+        describe('passes a known public key', () => {
+            
+            it('returns  a known wallet', () => {
+                let privateKey = "8b998c06158d7fc8e7a91c3b3f76ca2e04b9319186b0252dde5f0486513e67f3";
+                let address ="041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512";
+               
+                let newWalet = new Wallet(privateKey);
+    
+                expect(newWalet.publicKey).toEqual(address);
+            });
+        });
+
+        describe('passes a undefined privateKey', () => {
+            
+            it('returns  a known wallet', () => {
+                let privateKey = "8b998c06158d7fc8e7a91c3b3f76ca2e04b9319186b0252dde5f0486513e67f3";
+                let address ="041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512";
+               
+                let newWalet = new Wallet();
+    
+                expect(newWalet.publicKey).not.toEqual(address);
+            });
+        });
+
+    });
     //tests for sigining data 
     describe('signing data', () => {
         const data = 'foobar';
@@ -260,6 +293,7 @@ describe('Wallet', () => {
         });
         
     });
+
     describe('getBallot()', () => {
 
         let blockchain;

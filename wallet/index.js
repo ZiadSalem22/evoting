@@ -5,18 +5,25 @@ const Poll = require('../voting/poll');
 const Transaction = require('./transaction');
 
 class Wallet {
-  constructor() {
+  constructor(secert) {
     //giving started balance 
     this.balance = STARTING_BALANCE;
 
     //create key pair
     //key pair uses a module called brorand to create random values based on the running environment 
-    this.keyPair = ec.genKeyPair();
+    this.keyPair = this.createKeyPair({privateKey: secert});
 
 
     //creating the publicKey //and turn it into hex
     this.publicKey = this.keyPair.getPublic('hex');
     this.privateKey = this.keyPair.getPrivate('hex');
+  }
+
+  createKeyPair({privateKey}){
+    if (privateKey === undefined){
+      return ec.genKeyPair();
+    }
+    return ec.keyFromPrivate(privateKey);
   }
 
   //sign method to sign data from this wallet
