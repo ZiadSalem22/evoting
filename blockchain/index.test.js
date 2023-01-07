@@ -340,6 +340,110 @@ describe('Blockchain', () => {
             });
         });
 
+        describe('and the  transaction data for Ballots ', () => {
+
+            describe(' has at least one malformed outputMap', () => {
+
+                describe(' invail pollId', () => {
+                    it('returns false and logs an error', () => {
+
+                        ballot.output.pollId = 'fake poll id ';
+                        newChain.addBlock({ data: [ballot, rewardTransaction] });
+
+                        expect(blockchain.validTransactionData({ chain: newChain.chain })).toBe(false);
+                        expect(errorMock).toHaveBeenCalled();
+                    });
+                });
+
+                describe(' invail voteOption', () => {
+                    it('returns false and logs an error', () => {
+
+                        ballot.output.voteOption = 'foo';
+                        newChain.addBlock({ data: [ballot, rewardTransaction] });
+
+                        expect(blockchain.validTransactionData({ chain: newChain.chain })).toBe(false);
+                        expect(errorMock).toHaveBeenCalled();
+                    });
+                });
+
+            });
+
+            describe('and the ballot data has at least one malformed input', () => {
+                it('returns false and logs an error', () => {
+                    ballot.input.signature = wallet.sign('foo');
+
+                    newChain.addBlock({ data: [ballot, rewardTransaction] });
+
+                    expect(blockchain.validTransactionData({ chain: newChain.chain })).toBe(false);
+                    expect(errorMock).toHaveBeenCalled();
+
+                });
+            });
+
+            describe('and a block has a ballot for invaild voter ', () => {
+                it('returns false and logs an error', () => {
+
+                    let evilVoter = new Wallet();
+
+                    const evilOutput = {
+                        pollId: poll.id,
+                        voteOption: 'option 1'
+                    };
+
+                    const evilBallot = {
+                        input: {
+                            timeStamp: Date.now(),
+                            address: evilVoter.publicKey,
+                            signature: evilVoter.sign(evilOutput)
+                        },
+                        output: evilOutput,
+                        transactionType: TRANSACTION_TYPE.BALLOT,
+                        id: 'evild Ballot id'
+                    };
+
+                    newChain.addBlock({ data: [ evilBallot, rewardTransaction] })
+
+                    expect(blockchain.validTransactionData({ chain: newChain.chain })).toBe(false);
+                    expect(errorMock).toHaveBeenCalled();
+                });
+            });
+
+            describe('and a block contains multiple identical ballots', () => {
+                it('returns false and logs an error', () => {
+                    newChain.addBlock({ data: [ballot, ballot, rewardTransaction] })
+
+                    expect(blockchain.validTransactionData({ chain: newChain.chain })).toBe(false);
+                    expect(errorMock).toHaveBeenCalled();
+                });
+            });
+
+            describe('and a block contaions multiple ballots that have same voters and same polls ', () => {
+                it('returns false and logs an error', () => {
+
+                    const evilOutput = {
+                        pollId: poll.id,
+                        voteOption: 'option 1'
+                    };
+
+                    const evilBallot = {
+                        input: {
+                            timeStamp: Date.now(),
+                            address: wallet.publicKey,
+                            signature: wallet.sign(evilOutput)
+                        },
+                        output: evilOutput,
+                        transactionType: TRANSACTION_TYPE.BALLOT,
+                        id: 'evild Ballot id'
+                    };
+
+                    newChain.addBlock({ data: [ballot, evilBallot, rewardTransaction] })
+
+                    expect(blockchain.validTransactionData({ chain: newChain.chain })).toBe(false);
+                    expect(errorMock).toHaveBeenCalled();
+                });
+            });
+        });
+
         describe('and the transaction data for polls', () => {
             beforeEach(() => {
                poll = wallet.createPoll({

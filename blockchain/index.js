@@ -1,5 +1,5 @@
 const Block = require("./block");
-const { cryptoHash } = require("../util");
+const { cryptoHash, verifySignature } = require("../util");
 const Transaction = require("../wallet/transaction");
 const { REWARD_INPUT, MINING_REWARD, TRANSACTION_TYPE } = require("../config");
 const Wallet = require("../wallet");
@@ -60,18 +60,21 @@ class Blockchain {
             }
         }
 
-        if (votingdata.polls.length === 0 && votingdata.ballots.length === 0){
+        if (votingdata.polls.length === 0 && votingdata.ballots.length === 0) {
             return undefined
         }
 
-         return votingdata;
+        return votingdata;
     }
 
     validTransactionData({ chain }) {
 
+        let votingData = Blockchain.getVotingData({ chain });
+
+        const BallotSet = new Set();
         for (let i = 1; i < chain.length; i++) {
-            const block = chain[i];
             const transacitonSet = new Set();
+            const block = chain[i];
             let rewardTransactionCount = 0;
 
             for (let transaction of block.data) {
@@ -91,6 +94,65 @@ class Blockchain {
                             return false;
                         } else {
                             transacitonSet.add(transaction);
+                        }
+                        break;
+
+                    case TRANSACTION_TYPE.BALLOT:
+                        //check if valid ballot
+
+                        let poll, previousBallot;
+
+                        poll = votingData.polls.find(x => x.id === transaction.output.pollId);
+
+                        previousBallot = Array.from(BallotSet).find(x => (x.output.pollId === transaction.output.pollId && x.input.address === transaction.input.address));
+
+                        if (poll === undefined) {
+                            console.error(`Invalid Ballot [${transaction.id}]: poll not found`);
+                            return false;
+                        }
+
+                        if (transaction.output.voteOption === undefined) {
+                            console.error(`Invalid Ballot [${transaction.id}]: voteOption not defined`);
+                            return false;
+                        }
+
+                        // we check if the option is valid with in the poll
+                        if ((Object.values(poll.output.options).find(i => i === transaction.output.voteOption) === undefined)) {
+                            console.error(`Invalid Ballot [${transaction.id}]: voteOption [${transaction.output.voteOption}] : is not found within poll :[${poll.output.name}]`);
+                            return false;
+                        }
+
+                        // we check if the voter is valid with in the poll
+                        if ((Object.values(poll.output.voters).find(i => i === transaction.input.address) === undefined)) {
+                            console.error(`Invalid Ballot [${transaction.id}]: voter [${transaction.input.address}] : is not found within poll:[${poll.output.name}] voters`);
+                            return false;
+                        }
+
+                        //
+                        if (previousBallot !== undefined) {
+                            console.error(`Invalid Ballot [${transaction.id}]: voter [${transaction.input.address}] : has already voted for poll: [${poll.output.name}] `);
+                            return false;
+                        }
+
+
+                        //if signature is invalid we will return false
+                        if (!verifySignature({
+                            publicKey: transaction.input.address,
+                            data: transaction.output,
+                            signature: transaction.input.signature
+                        })) {
+                            console.error(`Invalid Ballot [${transaction.id}]: invalid signature`);
+                            return false;
+                        }
+
+
+                        //check if ballot is duplicated 
+                        if (transacitonSet.has(transaction)) {
+                            console.error('duplicate Ballot');
+                            return false;
+                        } else {
+                            transacitonSet.add(transaction);
+                            BallotSet.add(transaction);
                         }
                         break;
 
@@ -135,64 +197,6 @@ class Blockchain {
                         break;
                     default: continue;
                 }
-
-                // //check for  polls
-                // if ( transaction.transactionType === TRANSACTION_TYPE.POLL) {
-
-                //     //check if valid poll
-                //     if (!Poll.validPoll(transaction)) {
-                //         console.error('Invalid Poll');
-                //         return false;
-                //     }
-
-                //     //check if poll is duplicated 
-                //     if (transacitonSet.has(transaction)) {
-                //         console.error('duplicate Poll');
-                //         return false;
-                //     } else {
-                //         transacitonSet.add(transaction);
-                //     }
-
-                //     //in case of a normal transaction
-                // } else {
-
-                //     //in case of there is more than one miner reward per block we return false
-                //     if (transaction.input.address === REWARD_INPUT.address) {
-                //         rewardTransactionCount += 1;
-
-                //         if (rewardTransactionCount > 1) {
-                //             console.error('Miner rewards exceeds limit');
-                //             return false;
-                //         }
-
-                //         if (Object.values(transaction.outputMap)[0] !== MINING_REWARD) {
-                //             console.error('Miner reward amount is invalid');
-                //             return false;
-                //         }
-                //     } else {
-                //         if (!Transaction.validTransaction(transaction)) {
-                //             console.error('Invalid Transaction');
-                //             return false;
-                //         }
-
-                //         const trueBalance = Wallet.calculateBalance({
-                //             chain: this.chain.slice(0,i),
-                //             address: transaction.input.address
-                //         });
-
-                //         if (transaction.input.amount !== trueBalance) {
-                //             console.error('Invalid input amount');
-                //             return false;
-                //         }
-
-                //         if (transacitonSet.has(transaction)) {
-                //             console.error('duplicate transaction');
-                //             return false;
-                //         } else {
-                //             transacitonSet.add(transaction);
-                //         }
-                //     }
-                // }
             }
         }
 
