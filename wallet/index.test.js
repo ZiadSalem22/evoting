@@ -245,7 +245,21 @@ describe('Wallet', () => {
         });
     });
 
+    describe('getWallet()', () => {
 
+        describe('gives valid data', () => {
+
+            it('returns wallet', () => {
+                let privateKey = "8b998c06158d7fc8e7a91c3b3f76ca2e04b9319186b0252dde5f0486513e67f3";
+                let address ="041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512";
+               
+                let oldWallet = Wallet.getWallet({ privateKey});
+
+                expect(oldWallet.publicKey).toEqual(address);
+            });
+        });
+        
+    });
     describe('getBallot()', () => {
 
         let blockchain;

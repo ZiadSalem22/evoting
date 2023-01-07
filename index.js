@@ -219,16 +219,46 @@ app.get('/api/mine-transactions', (req, res) => {
     res.redirect('/api/blocks');
 });
 
-//get wallet info
-app.get('/api/wallet-info', (req, res) => {
+
+
+//get miner wallet info
+app.get('/api/miner-wallet-info', (req, res) => {
 
     const address = wallet.publicKey;
+    const privateKey = wallet.privateKey;
+
     //comment
     res.json({
         address,
+        privateKey,
         balance: Wallet.calculateBalance({
             chain: blockchain.chain,
             address
+        })
+    });
+})
+
+
+//get miner wallet info
+app.get('/api/wallet-info', (req, res) => {
+
+    const { privateKey } = req.body;
+
+    if (privateKey === undefined){
+        return res.status(400).json({ type: 'error', message: 'please enter private key' });
+
+    }
+
+    let oldWallet = Wallet.getWallet({privateKey});
+
+    //comment
+    res.json({
+        address : oldWallet.publicKey,
+        privateKey : oldWallet.privateKey,
+
+        balance: Wallet.calculateBalance({
+            chain: blockchain.chain,
+            address: oldWallet.publicKey
         })
     });
 })

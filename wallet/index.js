@@ -9,21 +9,14 @@ class Wallet {
     //giving started balance 
     this.balance = STARTING_BALANCE;
 
-    //voting ability
-
-    ////////////////////
-    ////////////////////
-    ////////////////////
-    ////////////////////
-
     //create key pair
     //key pair uses a module called brorand to create random values based on the running environment 
     this.keyPair = ec.genKeyPair();
 
 
     //creating the publicKey //and turn it into hex
-    this.publicKey = this.keyPair.getPublic().encode('hex');
-    // this.publicKey = this.keyPair.getPrivate().encode('hex');
+    this.publicKey = this.keyPair.getPublic('hex');
+    this.privateKey = this.keyPair.getPrivate('hex');
   }
 
   //sign method to sign data from this wallet
@@ -59,7 +52,29 @@ class Wallet {
     return new Transaction({ senderWallet: this, recipient, amount });
   }
 
+  static getWallet({privateKey}){
+ 
+    let oldkeyPair =ec.keyFromPrivate(privateKey);
+    
+    const oldWallet ={
+            //giving started balance 
+            balance :STARTING_BALANCE,
 
+            //create key pair
+            //key pair uses a module called brorand to create random values based on the running environment 
+            keyPair :oldkeyPair,
+
+
+            //creating the publicKey //and turn it into hex
+            publicKey : oldkeyPair.getPublic('hex'),
+            privateKey : oldkeyPair.getPrivate('hex')
+    }
+  
+    return oldWallet;
+
+  }
+
+  
   static getPoll({ chain, pollId }) {
 
     //loop for each block in blockchain
