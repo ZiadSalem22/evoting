@@ -11,7 +11,7 @@ class TransactionMiner {
 
     mineTransactions(){
 
-        const validTransactions = this.transactionPool.validTransactions();
+        const validTransactions = this.transactionPool.validTransactions({chain: this.blockchain.chain});
 
         validTransactions.push(
             Transaction.rewardTransaction({minerWallet: this.wallet})

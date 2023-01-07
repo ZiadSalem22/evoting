@@ -78,13 +78,13 @@ app.post('/api/poll', (req, res) => {
     const { name, options, voters } = req.body;
 
     //if the wallet has an existing identical poll in transaction pool we cancel request
-    let poll = transactionPool.existingTransaction({ inputAddress: wallet.publicKey , transactionType: TRANSACTION_TYPE.POLL});
+    let poll = transactionPool.existingTransaction({inputAddress: wallet.publicKey, transactionType: TRANSACTION_TYPE.POLL    });
 
     //in case of an error we handle it using the try catch method
     try {
 
         //if poll already exists  we will return it 
-        if (poll) {
+        if (poll !== undefined) {
             return res.status(400).json({ type: 'error', message: 'Please mine a new new block before adding another Poll to the Pool from the same wallet' });
         } else {
             poll = wallet.createPoll({
@@ -118,18 +118,19 @@ app.post('/api/transact', (req, res) => {
     const { amount, recipient } = req.body;
 
     //if the wallet has an existing tansaction in transaction pool we will update it , if not it will return undefined 
-    let transaction = transactionPool.existingTransaction({ inputAddress: wallet.publicKey , transactionType: TRANSACTION_TYPE.CURRENCY});
+    let transaction = transactionPool.existingTransaction({  inputAddress: wallet.publicKey,  transactionType: TRANSACTION_TYPE.CURRENCY   });
 
     //in case of an error we handle it using the try catch method
     try {
 
         //if it has an already transaction we will update 
-        if (transaction) {
+        if (transaction !== undefined) {
             transaction.update({
                 senderWallet: wallet,
                 recipient,
                 amount
             });
+        
             //else create new transaction
         } else {
 
@@ -170,11 +171,11 @@ app.get('/api/mine-transactions', (req, res) => {
 });
 
 //get wallet info
-app.get('/api/wallet-info',(req,res)=>{
+app.get('/api/wallet-info', (req, res) => {
 
     const address = wallet.publicKey;
-//comment
-    res.json({ 
+    //comment
+    res.json({
         address,
         balance: Wallet.calculateBalance({
             chain: blockchain.chain,

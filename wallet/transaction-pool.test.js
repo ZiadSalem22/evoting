@@ -75,6 +75,49 @@ describe('TransactionPool', () => {
             });
         });
 
+        describe('Pool already dose not have this transaction', () => {
+
+            it('returns undefined', () => {
+
+                expect(
+                    transactionPool.existingTransaction({
+                        inputAddress: senderWallet.publicKey,
+                        transactionType: transaction.transactionType
+                    })
+                ).toBe(undefined);
+            });
+
+            describe('there is a poll before it ', () => {
+
+                it('returns undefiend', () => {
+                    
+                    transactionPool.setTransaction(poll);
+    
+                    expect(
+                        transactionPool.existingTransaction({
+                            inputAddress: senderWallet.publicKey,
+                            transactionType: transaction.transactionType
+                        })
+                    ).toBe(undefined);
+                });
+            });
+
+            describe('there was a transaction then poll then we emptied it ', () => {
+
+                it('returns undefiend', () => {
+                    
+                    transactionPool.setTransaction(poll);
+    
+                    expect(
+                        transactionPool.existingTransaction({
+                            inputAddress: senderWallet.publicKey,
+                            transactionType: transaction.transactionType
+                        })
+                    ).toBe(undefined);
+                });
+            });
+        });
+
         describe('Pool already has Poll', () => {
 
             it('returns an existing poll given an input address', () => {
@@ -117,6 +160,20 @@ describe('TransactionPool', () => {
                         chain: blockchain.chain
                     })
                 ).toBe(ballot);
+            });
+        });
+
+
+        describe('give it new poll', () => {
+
+            it('returns undefined', () => {
+                expect(
+                    transactionPool.existingTransaction({
+                        inputAddress: 'never used to make a poll',
+                        transactionType: TRANSACTION_TYPE.POLL,
+                        chain: blockchain.chain
+                    })
+                ).toEqual(undefined);
             });
         });
 

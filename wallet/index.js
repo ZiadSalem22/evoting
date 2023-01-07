@@ -72,7 +72,7 @@ class Wallet {
         if (poll.transactionType === TRANSACTION_TYPE.POLL) {
           //we check transaction 
           if (poll.id === pollId) {
-           return poll;
+            return poll;
           }
         }
       }
@@ -94,7 +94,7 @@ class Wallet {
         if (ballot.transactionType === TRANSACTION_TYPE.BALLOT) {
           //we check transaction 
           if (ballot.output.pollId === pollId && ballot.input.address === voter) {
-           return ballot;
+            return ballot;
           }
         }
       }
@@ -102,7 +102,7 @@ class Wallet {
 
     return undefined;
   }
-  
+
   static calculateBalance({ chain, address }) {
 
     let hasConductedTransaction = false;//to check if the address has made a transasction 
@@ -114,15 +114,18 @@ class Wallet {
 
       for (let transaction of block.data) {
 
-        //in case this last block has a transacton on this address we save it so we can exit the loop 
-        if (transaction.input.address === address) {
-          hasConductedTransaction = true;
-        }
+        if (transaction.transactionType === TRANSACTION_TYPE.CURRENCY) {
 
-        const addressOutput = transaction.outputMap[address];
+          //in case this last block has a transacton on this address we save it so we can exit the loop 
+          if (transaction.input.address === address) {
+            hasConductedTransaction = true;
+          }
 
-        if (addressOutput) {
-          outputsTotal = outputsTotal + addressOutput;
+          const addressOutput = transaction.outputMap[address];
+
+          if (addressOutput) {
+            outputsTotal = outputsTotal + addressOutput;
+          }
         }
       }
 

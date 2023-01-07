@@ -23,63 +23,67 @@ class TransactionPool {
 
     }
 
-    existingTransaction({ inputAddress, transactionType, pollId,chain }) {
+    existingTransaction({ inputAddress, transactionType, pollId, chain }) {
 
         const transactions = Object.values(this.transactionMap);
 
         //it checks every transaction value to check if that transaction input address matchs our address
         // let transaction = transactions.find(transaction => (transaction.input.address === inputAddress && transaction.transactionType === transactionType ));
-        let transaction = transactions.find(transaction => (() => {
 
-            if (transaction.transactionType !== TRANSACTION_TYPE.BALLOT) {
+        let transaction;
 
-                if (transaction.input.address === inputAddress
-                    && transaction.transactionType === transactionType)
-                    return true;
-            }
-            // if it is a ballot we check if the ballot is already in the transaction pool or chain
-            else if (transaction.input.address === inputAddress
-                      && transaction.transactionType === transactionType
-                      && transaction.output.pollId === pollId
-                      && pollId !== undefined)
-                    return true;
-    
+        switch (transactionType) {
+            case TRANSACTION_TYPE.BALLOT:
 
-            return false;
+                transaction = transactions.find(transaction => (() => {
 
-        }));
+                    if (transaction.input.address === inputAddress
+                        && transaction.transactionType === transactionType
+                        && transaction.output.pollId === pollId
+                        && pollId !== undefined) {
 
-        if (transaction === undefined){
-            if (transactionType === TRANSACTION_TYPE.BALLOT){
-                return  Wallet.getBallot({ chain, pollId, voter : inputAddress}) ;
-            }
+                        return true;
+                    }
+                }));
+
+                if (transaction === undefined) {
+                        return Wallet.getBallot({ chain, pollId, voter: inputAddress });                    
+                }
+        
+                break;
+            //for all other types of transactions
+            default:
+                transaction = transactions.find(
+                    transaction => (transaction.input.address === inputAddress
+                                     && transaction.transactionType === transactionType));
         }
 
+        
         return transaction;
     }
 
-    validTransactions({chain}) {
+    validTransactions({ chain }) {
 
-        let votingData = Blockchain.getVotingData({chain});
+        let votingData = Blockchain.getVotingData({ chain });
 
         let transactions = Object.values(this.transactionMap).filter(
-            transaction => (Transaction.validTransaction(transaction) || Poll.validPoll(transaction) || Ballot.validBallot({ballot:transaction,  votingData}) )
+            transaction => (Transaction.validTransaction(transaction) || Poll.validPoll(transaction) || Ballot.validBallot({ ballot: transaction, votingData }))
         );
 
 
-        for (let ballot of transactions){
-            let count = 0 ;
-            if (ballot.transactionType === TRANSACTION_TYPE.BALLOT){
+        for (let ballot of transactions) {
+            let count = 0;
+            if (ballot.transactionType === TRANSACTION_TYPE.BALLOT) {
 
-                for (let i = 0; i < transactions.length ; i++){
-                    if ((transactions[i].transactionType === TRANSACTION_TYPE.BALLOT ) && transactions[i].output.pollId === ballot.output.pollId && transactions[i].input.address === ballot.input.address) {
+                for (let i = 0; i < transactions.length; i++) {
+                    if ((transactions[i].transactionType === TRANSACTION_TYPE.BALLOT) && transactions[i].output.pollId === ballot.output.pollId && transactions[i].input.address === ballot.input.address) {
 
-                            count++;
-                            if (count >1){
-                                    transactions.splice(i,1)
-                            }
+                        count++;
+                        if (count > 1) {
+                            transactions.splice(i, 1)
                         }
-                        
+                    }
+
                 }
 
             }
