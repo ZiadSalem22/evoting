@@ -53,6 +53,91 @@ describe('Poll', () => {
         });
     });
 
+    // we expect valid vote options to bea static function to check voters to be : 
+    // an array of  strings that are trimed  and as is shorter than max limit of char and options are  not duplicated;
+    describe('vaildOptions', () => {
+
+        let testOptions, vaildOptions;
+
+        beforeEach(() => {
+            testOptions = [];
+            vaildOptions = [];
+        });
+
+        describe('validate  its an array of strings ', () => {
+
+            it('should  throw error', () => {
+                testOptions = 3;
+                expect(
+                    () => {
+                        Poll.vaildOptions(testOptions);
+                    })
+                    .toThrow('Invalid Options: please enter an array of vaild strings');
+            });
+        });
+
+        describe('validate  its each element is a string ', () => {
+
+            it('should  throw error', () => {
+                testOptions = ['option 1', 3];
+                expect(
+                    () => {
+                        Poll.vaildOptions(testOptions);
+                    })
+                    .toThrow('Invalid Options: please enter an array of vaild strings');
+            });
+        });
+
+        describe('validate a  options is not too long ', () => {
+
+            it('should  throw error', () => {
+                let longOption = toString().padStart(CHAR_MAX_LENGTH + 1, 1);
+                testOptions = ['option 1', longOption];
+                expect(
+                    () => {
+                        Poll.vaildOptions(testOptions);
+                    })
+                    .toThrow(`Invalid Options: option index of (${testOptions.indexOf(longOption)}) has value of [${testOptions[1]}] that exeeds Max limit`);
+            });
+        });
+
+        describe('validate a option not a empty string ', () => {
+
+            it('should  throw error', () => {
+                let emptyString = '';
+                testOptions = ['option 1', emptyString];
+                expect(
+                    () => {
+                        Poll.vaildOptions(testOptions);
+                    })
+                    .toThrow(`Invalid Options: option index of (${testOptions.indexOf(emptyString)}) has value of empty string`);
+            });
+        });
+
+
+        describe('trims elements', () => {
+
+            it('shoud return valid options', () => {
+                testOptions = [" option 1 "];
+                vaildOptions = ["option 1"];
+                expect(Poll.vaildOptions(testOptions))
+                    .toEqual(vaildOptions);
+            });
+
+        });
+
+
+        describe('removes duplicates', () => {
+
+            it('should retun vaild options', () => {
+                testOptions = ["option 1", "option 2", "option 1"];
+                vaildOptions = ["option 1", "option 2"];
+                expect(Poll.vaildOptions(testOptions))
+                    .toEqual(vaildOptions);
+            });
+        });
+    });
+
     // we expect valid voters static function to check voters to be : 
     // an array of trimed public keys that are duplicated 
     describe('vaildVoters', () => {
