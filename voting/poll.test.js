@@ -20,7 +20,7 @@ describe('Poll', () => {
         createrWallet = new Wallet();
         name = 'foo-poll';
         options = ['option 1', 'option 2', 'option 3'];
-        voters = ['Ziad', 'Sara'];
+        voters = ["041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512", "041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7513"];
         poll = new Poll({
             createrWallet,
             name,
@@ -47,9 +47,64 @@ describe('Poll', () => {
         //Polls must have ids
         it('to have valid value`', () => {
             expect(
-                    (poll.transactionType === TRANSACTION_TYPE.POLL)
+                (poll.transactionType === TRANSACTION_TYPE.POLL)
                 // (Object.values(TRANSACTION_TYPE).find(i => i === transaction.transactionType) !== typeof 'undefined')
             ).toBe(true);
+        });
+    });
+
+    // we expect valid voters static function to check voters to be : 
+    // an array of trimed public keys that are duplicated 
+    describe('vaildVoters', () => {
+
+        let testVoters, vaildVoters;
+
+        beforeEach(() => {
+            testVoters = [];
+            vaildVoters = [];
+        });
+
+        describe('validate  its a string of public keys', () => {
+            it('should  throw error', () => {
+                testVoters = 3;
+                expect(
+                    () => {
+                        Poll.vaildVoters(testVoters);
+                    })
+                    .toThrow('Invalid Voters: please enter an array of public keys');
+            });
+        });
+
+        describe('trims elements', () => {
+
+            it('shoud return valid voters', () => {
+                testVoters = [" 041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512 "];
+                vaildVoters = ["041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512"];
+                expect(Poll.vaildVoters(testVoters))
+                    .toEqual(vaildVoters);
+            });
+
+        });
+
+        describe('public key lengths', () => {
+            it('shoud return valid voters', () => {
+                testVoters = ["not a public key", "041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512", "041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7333"];
+                expect(
+                    () => {
+                        Poll.vaildVoters(testVoters);
+                    })
+                    .toThrow(`Invalid Voters: voter index of (${testVoters.indexOf("not a public key")}) has value of [${testVoters[0]}] which is not a public key`);
+            });
+        });
+
+        describe('removes duplicates', () => {
+
+            it('should retun vaild voters', () => {
+                testVoters = ["041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512", "041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512", "041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7333"]
+                vaildVoters = ["041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512", "041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7333"]
+                expect(Poll.vaildVoters(testVoters))
+                    .toEqual(vaildVoters);
+            });
         });
     });
 
@@ -66,11 +121,11 @@ describe('Poll', () => {
             });
 
             it('has a valid name under max char limit', () => {
-                name = toString().padStart(CHAR_MAX_LENGTH + 1 ,1);
+                name = toString().padStart(CHAR_MAX_LENGTH + 1, 1);
                 expect(() => {
                     new Poll({ createrWallet, name, options, voters })
                 }
-                ).toThrow('Poll name too long');
+                ).toThrow('Invalid name: name too long');
             });
 
         });
@@ -118,8 +173,8 @@ describe('Poll', () => {
     });
 
 
-     //validates Poll 
-     describe('ValidPoll()', () => {
+    //validates Poll 
+    describe('ValidPoll()', () => {
 
         describe('when the poll is Valid', () => {
 
@@ -129,7 +184,7 @@ describe('Poll', () => {
         });
 
         describe('when the Poll is InValid', () => {
-            
+
             describe('when a transactionType  value is Invalid', () => {
                 it('returns false', () => {
 
@@ -141,7 +196,7 @@ describe('Poll', () => {
 
             describe('when a Poll name in output  is too long', () => {
                 it('returns false and logs an error', () => {
-                    name = toString().padStart(CHAR_MAX_LENGTH + 1 ,1);
+                    name = toString().padStart(CHAR_MAX_LENGTH + 1, 1);
                     poll.output.name = name;
 
                     expect(Poll.validPoll(poll)).toBe(false);
@@ -160,12 +215,6 @@ describe('Poll', () => {
             });
         });
 
-       
     });
-
-
-
-
-
 
 });

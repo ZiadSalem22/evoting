@@ -25,7 +25,7 @@ describe('Ballot', () => {
         blockchain = new Blockchain();
         name = 'foo-poll';
         options = ['option 1', 'option 2', 'option 3'];
-        voters = [createrWallet.publicKey, 'Sara'];
+        voters = [createrWallet.publicKey, "041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512"];
         poll = new Poll({
             createrWallet,
             name,
@@ -44,7 +44,7 @@ describe('Ballot', () => {
         blockchain.addBlock({ data: [poll] });
 
         voteOption = options[0];
-        evildVoteOption = 'fake option';
+        evildVoteOption = new Wallet().publicKey;
         ballot = new Ballot({
             createrWallet,
             pollId: poll.id,
