@@ -18,6 +18,40 @@ class Poll {
         });
     }
 
+    //method to validate the entered options 
+    static vaildOptions(options) {
+
+        let vaildOptions = new Set();
+
+        if (Array.isArray(options) === false) {
+            throw new Error('Invalid Options: please enter an array of vaild strings');
+        }
+
+        for (let option of options) {
+
+            //check if element is string 
+            if (typeof option !== 'string') {
+                throw new Error('Invalid Options: please enter an array of vaild strings');
+            }
+
+            //check if element does not exceed the limit number of char 
+            if (option.trim().length > CHAR_MAX_LENGTH) {
+                throw new Error(`Invalid Options: option index of (${options.indexOf(option)}) has value of [${option}] that exeeds Max limit`);
+            }
+
+            //check if element does not an empty string
+            if (option.trim().length === ''.length) {
+                throw new Error(`Invalid Options: option index of (${options.indexOf(option)}) has value of empty string`);
+            }
+
+            //add it to a set to prevent duplicates 
+            vaildOptions.add(option.trim());
+        }
+
+        return [...vaildOptions];
+    }
+
+    //method to validate the entered voters 
     static vaildVoters(voters) {
 
         let vaildVoters = new Set();
@@ -34,7 +68,7 @@ class Poll {
             }
 
             //check if element is string 
-            if (voter.replace(/ /g, "").length !== "041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512".length ) {
+            if (voter.replace(/ /g, "").length !== "041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512".length) {
                 throw new Error(`Invalid Voters: voter index of (${voters.indexOf(voter)}) has value of [${voter}] which is not a public key`);
             }
 
@@ -44,6 +78,8 @@ class Poll {
 
         return [...vaildVoters];
     }
+
+
     createOutput({ name, options, voters }) {
 
 
@@ -72,8 +108,8 @@ class Poll {
 
         const output = {
             name,
-            options,
-            voters : Poll.vaildVoters(voters)
+            options: Poll.vaildOptions(options),
+            voters: Poll.vaildVoters(voters)
         };
 
         return output;
