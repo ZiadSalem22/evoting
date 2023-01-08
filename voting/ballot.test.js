@@ -25,7 +25,7 @@ describe('Ballot', () => {
         blockchain = new Blockchain();
         name = 'foo-poll';
         options = ['option 1', 'option 2', 'option 3'];
-        voters = [createrWallet.publicKey, 'Sara'];
+        voters = [createrWallet.publicKey, "041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512"];
         poll = new Poll({
             createrWallet,
             name,
@@ -44,7 +44,7 @@ describe('Ballot', () => {
         blockchain.addBlock({ data: [poll] });
 
         voteOption = options[0];
-        evildVoteOption = 'fake option';
+        evildVoteOption = new Wallet().publicKey;
         ballot = new Ballot({
             createrWallet,
             pollId: poll.id,
@@ -91,16 +91,17 @@ describe('Ballot', () => {
 
                 it('throws an error', () => {
 
+                   let  evilWallet = new Wallet();
                     expect(() => {
 
                         new Ballot({
-                            createrWallet: new Wallet(),
+                            createrWallet: evilWallet,
                             pollId: poll.id,
                             voteOption,
                             chain: blockchain.chain
                         })
                     }
-                    ).toThrow('Invalid wallet: wallet not eligible for poll');
+                    ).toThrow(`Invalid wallet: wallet [${evilWallet.publicKey}] not eligible for poll[${poll.id}]`);
                 });
 
                 describe('wallet already used its vote', () => {
@@ -118,7 +119,7 @@ describe('Ballot', () => {
                                 chain: blockchain.chain
                             });
                         }
-                        ).toThrow('Invalid wallet: wallet already voted for this poll');
+                        ).toThrow(`Invalid wallet: wallet[${createrWallet.publicKey}] already voted for this poll[${[poll.id]}] `);
                     });
                 });
 
@@ -172,7 +173,7 @@ describe('Ballot', () => {
                     expect(() => {
                         new Ballot({ createrWallet, pollId: evilPoll.id, voteOption, chain: blockchain.chain })
                     }
-                    ).toThrow('Invalid poll id: poll not found');
+                    ).toThrow(`Invalid poll id: poll [${evilPoll.id}] not found in the blockchain`);
                 });
             });
 
@@ -193,7 +194,7 @@ describe('Ballot', () => {
                     expect(() => {
                         new Ballot({ createrWallet, pollId: poll.id, voteOption: evildVoteOption, chain: blockchain.chain })
                     }
-                    ).toThrow('Invalid vote option: vote option not found in pull');
+                    ).toThrow(`Invalid vote option: vote option [${evildVoteOption}] not found in poll[${poll.id}]`);
                 });
             });
         });

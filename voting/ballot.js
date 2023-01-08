@@ -40,34 +40,34 @@ class Ballot {
         else {
             //check if poll id is entered
             if (pollId === undefined) {
-                throw new Error(' Invalid poll Id');
+                throw new Error(' Invalid poll Id: poll Id not entered');
             }
 
             // we make sure the pallot is right
             poll = Wallet.getPoll({ chain, pollId })
 
             if (poll === undefined) {
-                throw new Error('Invalid poll id: poll not found');
+                throw new Error(`Invalid poll id: poll [${pollId}] not found in the blockchain`);
             }
 
             if (voteOption === undefined) {
-                throw new Error('Invalid voteOption');
+                throw new Error(`Invalid voteOption: voteOption not entered`);
 
             }
 
             // we check if the option is valid with in the poll
             if ((Object.values(poll.output.options).find(i => i === voteOption) === undefined)) {
-                throw new Error('Invalid vote option: vote option not found in pull');
+                throw new Error(`Invalid vote option: vote option [${voteOption}] not found in poll[${pollId}]`);
             }
 
             // we check if the voter is valid with in the poll
             if ((Object.values(poll.output.voters).find(i => i === createrWallet.publicKey) === undefined)) {
-                throw new Error('Invalid wallet: wallet not eligible for poll');
+                throw new Error(`Invalid wallet: wallet [${createrWallet.publicKey}] not eligible for poll[${pollId}]`);
             }
 
             //
             if (Wallet.getBallot({ chain, pollId, voter: createrWallet.publicKey }) !== undefined) {
-                throw new Error('Invalid wallet: wallet already voted for this poll');
+                throw new Error(`Invalid wallet: wallet[${createrWallet.publicKey}] already voted for this poll[${pollId}] `);
             }
         }
 

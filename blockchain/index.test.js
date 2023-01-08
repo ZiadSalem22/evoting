@@ -298,7 +298,7 @@ describe('Blockchain', () => {
             poll = wallet.createPoll({
                 name: 'foo-poll',
                 options: ['option 1', 'option 2', 'option 3'],
-                voters: [wallet.publicKey, 'Ziyad']
+                voters: [wallet.publicKey, "041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512"]
             });
 
             transaction = wallet.createTransaction({
@@ -449,7 +449,7 @@ describe('Blockchain', () => {
                poll = wallet.createPoll({
                     name: 'foo-poll #2',
                     options: ['option 1', 'option 2', 'option 3'],
-                    voters: ['Sara', 'Ziyad']
+                    voters :["041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512", "041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7513"]
                 });
             });
             describe('has at least one malformed output', () => {

@@ -91,7 +91,7 @@ describe('Wallet', () => {
         beforeEach(() => {
             name = 'foo-poll';
             options = ['option 1', 'option 2', 'option 3'];
-            voters = ['Ziad', 'Sara'];
+            voters = ["041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512", "041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7513"];
             name.trim();
         });
 
@@ -253,13 +253,13 @@ describe('Wallet', () => {
                 pollOne = new Wallet().createPoll({
                     name: 'foo-poll-one',
                     options: ['option 1', 'option 2', 'option 3'],
-                    voters: ['Sara', 'Ziyad']
+                    voters : ["041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512", "041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7513"]
                 });
 
                 pollTwo = new Wallet().createPoll({
                     name: 'foo-poll-two',
                     options: ['option 1', 'option 2', 'option 3'],
-                    voters: ['Sara', 'Ziyad']
+                    voters : ["041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512", "041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7513"]
                 });
 
                 blockchain.addBlock({ data: [pollOne,pollTwo] });

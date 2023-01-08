@@ -16,7 +16,7 @@ describe('TransactionPool', () => {
         poll = senderWallet.createPoll({
             name: 'foo-poll',
             options: ['option 1', 'option 2', 'option 3'],
-            voters: [senderWallet.publicKey, senderWalletTwo.publicKey, 'Ziyad']
+            voters: [senderWallet.publicKey, senderWalletTwo.publicKey, "041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512"]
         });
 
         transaction = new Transaction({
@@ -256,7 +256,7 @@ describe('TransactionPool', () => {
                 poll = senderWallet.createPoll({
                     name: `foo-poll #${i + 1}`,
                     options: ['option 1', 'option 2', 'option 3'],
-                    voters: [senderWallet.publicKey, 'Ziyad']
+                    voters: [senderWallet.publicKey, "041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512"]
                 });
 
                 //valid Poll
@@ -367,7 +367,7 @@ describe('TransactionPool', () => {
                 const poll = new Wallet().createPoll({
                     name: 'foo-poll',
                     options: ['option 1', 'option 2', 'option 3'],
-                    voters: ['Sara', 'Ziyad']
+                    voters : ["041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512", "041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7513"]
                 });
 
                 const tempWallet = new Wallet();
@@ -375,7 +375,7 @@ describe('TransactionPool', () => {
                 const tempPoll = new Wallet().createPoll({
                     name: 'temp-poll',
                     options: ['option 1', 'option 2', 'option 3'],
-                    voters: [tempWallet.publicKey, 'Ziyad']
+                    voters: [tempWallet.publicKey, '041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512']
                 });
 
                 blockchain.addBlock({ data: [tempPoll] });
