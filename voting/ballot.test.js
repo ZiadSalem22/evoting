@@ -91,7 +91,7 @@ describe('Ballot', () => {
 
                 it('throws an error', () => {
 
-                   let  evilWallet = new Wallet();
+                    let evilWallet = new Wallet();
                     expect(() => {
 
                         new Ballot({
@@ -108,10 +108,34 @@ describe('Ballot', () => {
 
                     it('throws an error', () => {
 
+                        blockchain.addBlock({ data: [ballot] });
+                        expect(
+                            () => {
+                                new Ballot({
+                                    createrWallet,
+                                    pollId: poll.id,
+                                    voteOption,
+                                    chain: blockchain.chain
+                                });
+                            }
+                        ).toThrow(`Invalid wallet: wallet[${createrWallet.publicKey}] already voted for this poll[${[poll.id]}] `);
+                    });
+                });
+
+                describe('Poll has not started', () => {
+                    it('throws an error', () => {
+
+                        poll = new Poll({
+                            createrWallet,
+                            name,
+                            options,
+                            voters,
+                            startDate: "2025-12-06T00:00:00"
+                        });
+
+                        blockchain.addBlock({ data: [poll] });
+
                         expect(() => {
-
-                            blockchain.addBlock({ data: [ballot] });
-
                             new Ballot({
                                 createrWallet,
                                 pollId: poll.id,
@@ -119,7 +143,42 @@ describe('Ballot', () => {
                                 chain: blockchain.chain
                             });
                         }
-                        ).toThrow(`Invalid wallet: wallet[${createrWallet.publicKey}] already voted for this poll[${[poll.id]}] `);
+                        ).toThrow(`Invalid Ballot: poll [${poll.id}] has not started yet`);
+                    });
+                });
+
+                describe('Poll has ended', () => {
+                    it('throws an error', () => {
+                        const oldOutput = {
+                            name: 'old poll',
+                            options: options,
+                            voters: [createrWallet.publicKey],
+                            startDate: new Date('2000-02-22T00:00:00'),
+                            endDate: new Date('2000-02-25T00:00:00')
+                        };
+
+                        const oldPoll = {
+                            id: '22',
+                            input: {
+                                timeStamp: new Date('1999-02-22T00:00:00'),
+                                address: createrWallet.publicKey,
+                                signature: createrWallet.sign(oldOutput)
+                            },
+                            output: oldOutput,
+                            transactionType: TRANSACTION_TYPE.POLL
+                        };
+
+                        blockchain.addBlock({ data: [oldPoll] });
+
+                        expect(() => {
+                            new Ballot({
+                                createrWallet,
+                                pollId: oldPoll.id,
+                                voteOption,
+                                chain: blockchain.chain
+                            });
+                        }
+                        ).toThrow(`Invalid Ballot: poll [${oldPoll.id}] has already ended`);
                     });
                 });
 
@@ -258,7 +317,7 @@ describe('Ballot', () => {
 
                         ballot.transactionType = TRANSACTION_TYPE.CURRENCY;
 
-                        expect(Ballot.validBallot({ ballot, votingData})).toBe(false);
+                        expect(Ballot.validBallot({ ballot, votingData })).toBe(false);
                     });
                 });
 
@@ -266,6 +325,7 @@ describe('Ballot', () => {
                     it('returns false and logs an error', () => {
 
                         ballot.output.pollId = 'evil-poll';
+                        ballot.input.signature = createrWallet.sign(ballot.output);
 
                         expect(Ballot.validBallot({ ballot, votingData })).toBe(false);
                         expect(errorMock).toHaveBeenCalled();
@@ -298,6 +358,7 @@ describe('Ballot', () => {
                     it('it returns false and logs an error', () => {
 
                         ballot.output.voteOption = 'evil option';
+                        ballot.input.signature = createrWallet.sign(ballot.output);
 
                         expect(Ballot.validBallot({ ballot, votingData })).toBe(false);
                         expect(errorMock).toHaveBeenCalled();
@@ -322,6 +383,7 @@ describe('Ballot', () => {
                     it('returns false and logs an error', () => {
 
                         ballot.output.pollId = 'evil-poll';
+                        ballot.input.signature = createrWallet.sign(ballot.output);
 
                         expect(Ballot.validBallot({ ballot, chain: blockchain.chain })).toBe(false);
                         expect(errorMock).toHaveBeenCalled();
@@ -343,6 +405,7 @@ describe('Ballot', () => {
                     it('it returns false and logs an error', () => {
 
                         ballot.input.address = new Wallet().publicKey;
+                        ballot.input.signature = createrWallet.sign(ballot.output);
 
                         expect(Ballot.validBallot({ ballot, chain: blockchain.chain })).toBe(false);
                         expect(errorMock).toHaveBeenCalled();
@@ -354,6 +417,74 @@ describe('Ballot', () => {
                     it('it returns false and logs an error', () => {
 
                         ballot.output.voteOption = 'evil option';
+                        ballot.input.signature = createrWallet.sign(ballot.output);
+
+                        expect(Ballot.validBallot({ ballot, chain: blockchain.chain })).toBe(false);
+                        expect(errorMock).toHaveBeenCalled();
+                    });
+                });
+
+
+                describe('when ballot creation date is before poll started', () => {
+
+                    it('it returns false and logs an error', () => {
+
+                        const soonOutput = {
+                            name: 'soon poll',
+                            options: options,
+                            voters: [createrWallet.publicKey],
+                            startDate: new Date('2023-02-22T00:00:00'),
+                            endDate: new Date('2023-02-25T00:00:00')
+                        };
+
+                        const oldPoll = {
+                            id: '22',
+                            input: {
+                                timeStamp: new Date('1999-02-22T00:00:00'),
+                                address: createrWallet.publicKey,
+                                signature: createrWallet.sign(soonOutput)
+                            },
+                            output: soonOutput,
+                            transactionType: TRANSACTION_TYPE.POLL
+                        };
+
+                        blockchain.addBlock({ data: [oldPoll] });
+
+                        ballot.output.pollId = '22';
+                        ballot.input.signature = createrWallet.sign(ballot.output);
+
+                        expect(Ballot.validBallot({ ballot, chain: blockchain.chain })).toBe(false);
+                        expect(errorMock).toHaveBeenCalled();
+                    });
+                });
+
+                describe('when ballot creation date is after poll ended', () => {
+
+                    it('it returns false and logs an error', () => {
+
+                        const oldOutput = {
+                            name: 'old poll',
+                            options: options,
+                            voters: [createrWallet.publicKey],
+                            startDate: new Date('2000-02-22T00:00:00'),
+                            endDate: new Date('2000-02-25T00:00:00')
+                        };
+
+                        const oldPoll = {
+                            id: '22',
+                            input: {
+                                timeStamp: new Date('1999-02-22T00:00:00'),
+                                address: createrWallet.publicKey,
+                                signature: createrWallet.sign(oldOutput)
+                            },
+                            output: oldOutput,
+                            transactionType: TRANSACTION_TYPE.POLL
+                        };
+
+                        blockchain.addBlock({ data: [oldPoll] });
+
+                        ballot.output.pollId = '22';
+                        ballot.input.signature = createrWallet.sign(ballot.output);
 
                         expect(Ballot.validBallot({ ballot, chain: blockchain.chain })).toBe(false);
                         expect(errorMock).toHaveBeenCalled();
@@ -381,8 +512,6 @@ describe('Ballot', () => {
 
             });
         });
-
-
 
     });
 
