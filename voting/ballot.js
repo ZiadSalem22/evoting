@@ -52,7 +52,6 @@ class Ballot {
 
             if (voteOption === undefined) {
                 throw new Error(`Invalid voteOption: voteOption not entered`);
-
             }
 
             // we check if the option is valid with in the poll
@@ -65,7 +64,19 @@ class Ballot {
                 throw new Error(`Invalid wallet: wallet [${createrWallet.publicKey}] not eligible for poll[${pollId}]`);
             }
 
-            //
+            // we check if the poll has not started yet
+            if (new Date(poll.output.startDate) >= new Date(Date.now())) {
+                throw new Error(`Invalid Ballot: poll [${pollId}] has not started yet`);
+            }
+
+
+            // we check if the poll end date has passed 
+            if (poll.output.endDate !== undefined) {
+                if (new Date(poll.output.endDate) <= new Date(Date.now()))
+                    throw new Error(`Invalid Ballot: poll [${pollId}] has already ended`);
+            }
+
+            //we check if the ballot was already created
             if (Wallet.getBallot({ chain, pollId, voter: createrWallet.publicKey }) !== undefined) {
                 throw new Error(`Invalid wallet: wallet[${createrWallet.publicKey}] already voted for this poll[${pollId}] `);
             }
@@ -96,7 +107,7 @@ class Ballot {
         }
         const { input: { address, signature }, output } = ballot;
 
-        let poll,previousBallot;
+        let poll, previousBallot;
 
         if (votingData === undefined) {
 
@@ -106,12 +117,12 @@ class Ballot {
                 return false;
 
             }       //check if valid chain
-             if (!Blockchain.isValidChain(chain)) {
+            if (!Blockchain.isValidChain(chain)) {
                 console.error(`Invalid Ballot [${ballot.id}]: chain not found`);
                 return false;
             }
-              //check if poll id is entered
-              if (output.pollId === undefined) {
+            //check if poll id is entered
+            if (output.pollId === undefined) {
                 console.error(`Invalid Ballot [${ballot.id}]: poll not defined`);
                 return false;
             }
@@ -125,40 +136,55 @@ class Ballot {
         }
 
         else {
-                poll = votingData.polls.find( x => x.id === output.pollId);
+            poll = votingData.polls.find(x => x.id === output.pollId);
 
-                previousBallot = votingData.ballots.find( x => x.input.address === address && x.output.pollId === output.pollId);
+            previousBallot = votingData.ballots.find(x => x.input.address === address && x.output.pollId === output.pollId);
         }
-          
 
-            if (poll === undefined) {
-                console.error(`Invalid Ballot [${ballot.id}]: poll not found`);
+
+        if (poll === undefined) {
+            console.error(`Invalid Ballot [${ballot.id}]: poll not found`);
+            return false;
+        }
+
+        if (output.voteOption === undefined) {
+            console.error(`Invalid Ballot [${ballot.id}]: voteOption not defined`);
+            return false;
+        }
+
+        // we check if the option is valid with in the poll
+        if ((Object.values(poll.output.options).find(i => i === output.voteOption) === undefined)) {
+            console.error(`Invalid Ballot [${ballot.id}]: voteOption [${output.voteOption}] : is not found within poll :[${poll.output.name}]`);
+            return false;
+        }
+
+        // we check if the voter is valid with in the poll
+        if ((Object.values(poll.output.voters).find(i => i === ballot.input.address) === undefined)) {
+            console.error(`Invalid Ballot [${ballot.id}]: voter [${address}] : is not found within poll:[${poll.id}] voters`);
+            return false;
+        }
+
+        // we check if ballot was created before poll opened date has passed 
+        if (new Date(poll.output.startDate) >= new Date(ballot.input.timeStamp)) {
+            console.error(`Invalid Ballot [${ballot.id}]: poll [${poll.id}] has not started yet`);
+            return false;
+        }
+
+
+        // we check if the poll end date has passed 
+        if (poll.output.endDate !== undefined) {
+            if (new Date(poll.output.endDate) <= new Date(ballot.input.timeStamp)) {
+                console.error(`Invalid Ballot [${ballot.id}]: poll [${poll.id}] has already ended bfore `);
                 return false;
             }
+        }
 
-            if (output.voteOption === undefined) {
-                console.error(`Invalid Ballot [${ballot.id}]: voteOption not defined`);
-                return false;
-            }
+        //
+        if (previousBallot !== undefined) {
+            console.error(`Invalid Ballot [${ballot.id}]: voter [${address}] : has already voted for poll: [${poll.id}] `);
+            return false;
+        }
 
-            // we check if the option is valid with in the poll
-            if ((Object.values(poll.output.options).find(i => i === output.voteOption) === undefined)) {
-                console.error(`Invalid Ballot [${ballot.id}]: voteOption [${output.voteOption}] : is not found within poll :[${poll.output.name}]`);
-                return false;
-            }
-
-            // we check if the voter is valid with in the poll
-            if ((Object.values(poll.output.voters).find(i => i === ballot.input.address) === undefined)) {
-                console.error(`Invalid Ballot [${ballot.id}]: voter [${address}] : is not found within poll:[${poll.output.name}] voters`);
-                return false;
-            }
-
-            //
-            if (previousBallot !== undefined) {
-                console.error(`Invalid Ballot [${ballot.id}]: voter [${address}] : has already voted for poll: [${poll.output.name}] `);
-                return false;
-            }
-        
 
 
 

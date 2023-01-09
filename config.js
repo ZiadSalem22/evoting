@@ -19,6 +19,8 @@ const TRANSACTION_TYPE = {
     POLL: 'POLL',
     BALLOT: 'BALLOT'
 }
+//date format ISO expample 2001-24-24T20:30:20
+ const ISOregex = /^(?:\d{4})-(?:\d{2})-(?:\d{2})T(?:\d{2}):(?:\d{2}):(?:\d{2}(?:\.\d*)?)(?:(?:-(?:\d{2}):(?:\d{2})|Z)?)$/;
 
 
 
@@ -31,5 +33,6 @@ module.exports ={
     REWARD_INPUT,
     MINING_REWARD,
     CHAR_MAX_LENGTH,
-    TRANSACTION_TYPE
+    TRANSACTION_TYPE,
+    ISOregex
 };

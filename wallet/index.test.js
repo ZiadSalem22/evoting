@@ -5,6 +5,7 @@ let Blockchain = require('../blockchain');
 const { STARTING_BALANCE } = require('../config');
 const Poll = require('../voting/poll');
 const Ballot = require('../voting/ballot');
+const e = require('express');
 
 describe('Wallet', () => {
 
@@ -87,12 +88,14 @@ describe('Wallet', () => {
     describe('createPoll()', () => {
 
         // created our poll data
-        let name, options, voters;
+        let name, options, voters, startDate, endDate;
         beforeEach(() => {
             name = 'foo-poll';
             options = ['option 1', 'option 2', 'option 3'];
             voters = ["041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512", "041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7513"];
             name.trim();
+            startDate = "2023-12-25T09:00:00";
+            endDate = "2023-12-27T18:00:00";
         });
 
         //makes sure it  checks for all the data to be valid
@@ -128,7 +131,7 @@ describe('Wallet', () => {
 
             let poll;
             beforeEach(() => {
-                 poll = wallet.createPoll({ name, options, voters })
+                 poll = wallet.createPoll({ name, options, voters,startDate,endDate });
             });
 
             it('creates and instance of `Poll`', () => {
@@ -149,6 +152,14 @@ describe('Wallet', () => {
 
             it('outputs the right `voters`', () => {
                 expect(poll.output.voters).toEqual(voters);
+            });
+
+            it('outputs the right `startDate`', () => {
+                expect(poll.output.startDate).toEqual(new Date(startDate));
+            });
+
+            it('outputs the right `endDate`', () => {
+                expect(poll.output.endDate).toEqual(new Date(endDate));
             });
             
             it('is valid poll', () => {
