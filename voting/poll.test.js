@@ -193,13 +193,15 @@ describe('Poll', () => {
         });
     });
 
-    describe('output', () => {
+    describe('name', () => {
 
-        it('has an `output`', () => {
-            expect(poll).toHaveProperty('output');
+        //poll must have names
+        it('has an `name`', () => {
+            expect(poll).toHaveProperty('id');
         });
 
-        describe('Name', () => {
+
+        describe('has a valid name ', () => {
 
             it('sets the `name` and trims it', () => {
                 expect(poll.output.name).toEqual(name);
@@ -212,8 +214,17 @@ describe('Poll', () => {
                 }
                 ).toThrow('Invalid name: name too long');
             });
-
         });
+
+    });
+
+
+    describe('output', () => {
+
+        it('has an `output`', () => {
+            expect(poll).toHaveProperty('output');
+        });
+
 
         it('sets the `options`', () => {
             expect(poll.output.options).toEqual(options);
