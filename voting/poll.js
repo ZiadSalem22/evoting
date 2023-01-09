@@ -1,15 +1,15 @@
 const uuid = require('uuid/'); // uuid v1 is time stamped based 
-const { CHAR_MAX_LENGTH, TRANSACTION_TYPE } = require('../config');
+const { CHAR_MAX_LENGTH, TRANSACTION_TYPE, ISOregex } = require('../config');
 const { verifySignature } = require('../util');
 
 class Poll {
-    constructor({ createrWallet, name, options, voters }) {
+    constructor({ createrWallet, name, options, voters, startDate, endDate }) {
 
         //poll Id
         this.id = uuid();
         this.transactionType = TRANSACTION_TYPE.POLL;
 
-        this.output = this.createOutput({ name, options, voters });
+        this.output = this.createOutput({ name, options, voters, startDate, endDate });
 
         this.input = this.createInput({
             createrWallet,
@@ -80,7 +80,7 @@ class Poll {
     }
 
 
-    createOutput({ name, options, voters }) {
+    createOutput({ name, options, voters, startDate, endDate }) {
 
 
 
@@ -105,11 +105,38 @@ class Poll {
             throw new Error('Invalid voters: voters not entered');
         }
 
+        if (startDate === undefined) {
+            startDate = new Date (Date.now());
+
+        } else if (ISOregex.test(startDate) === false) {
+            throw new Error(`Invalid dates: invalid start date please enter data in this format "2006-06-06T22:50:30"`);
+
+        } else if(new Date(startDate) <= new Date(Date.now())){
+
+            throw new Error(`Invalid  dates: start date [${new Date(startDate)}] is in past`);
+        }
+        else{startDate = new Date(startDate);}
+
+        if (endDate !== undefined) {
+            if (ISOregex.test(endDate) === false) {
+                throw new Error(`Invalid dates: invalid end date please enter data in this format "2006-06-06T22:50:30"`);
+            }
+            
+            endDate = new Date(endDate);
+            if( new Date (startDate.getTime() + 5*60000)  >= endDate){
+             throw new Error( `Invalid dates: invalid end date [${endDate}]: is before start date [${startDate}], end date has to be at lease 5 minutes after start date`);
+            }
+
+        }
+
+
 
         const output = {
             name,
             options: Poll.vaildOptions(options),
-            voters: Poll.vaildVoters(voters)
+            voters: Poll.vaildVoters(voters),
+            startDate,
+            endDate
         };
 
         return output;
@@ -137,6 +164,13 @@ class Poll {
             return false;
         }
 
+        if (output.endDate !== undefined){
+
+            if (new Date (new Date(output.startDate).getTime() + 5*60000)  >= new Date(output.endDate)){
+                console.error(`Invalid Poll Dates: from ${address}`);
+                return false;
+            }
+        }
 
         //if signature is invalid we will return false
         if (!verifySignature({

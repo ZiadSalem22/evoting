@@ -34,9 +34,9 @@ class Wallet {
     return this.keyPair.sign(cryptoHash(data));
   };
 
-  createPoll({ name, options, voters }) {
+  createPoll({ name, options, voters, startDate, endDate }) {
 
-    return new Poll({ createrWallet: this, name, options, voters });
+    return new Poll({ createrWallet: this, name, options, voters, startDate, endDate });
 
   }
 

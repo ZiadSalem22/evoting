@@ -14,18 +14,22 @@ describe('Poll', () => {
         global.console.error = errorMock;
     });
 
-    let poll, createrWallet, name, options, voters;
+    let poll, createrWallet, name, options, voters, startDate, endDate;
 
     beforeEach(() => {
         createrWallet = new Wallet();
         name = 'foo-poll';
         options = ['option 1', 'option 2', 'option 3'];
         voters = ["041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512", "041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7513"];
+        startDate = '2023-12-25T09:00:00';
+        endDate = '2023-12-27T09:00:00';
         poll = new Poll({
             createrWallet,
             name,
             options,
-            voters
+            voters,
+            startDate,
+            endDate
         });
         name = name.trim();
     });
@@ -193,15 +197,13 @@ describe('Poll', () => {
         });
     });
 
-    describe('name', () => {
+    describe('output', () => {
 
-        //poll must have names
-        it('has an `name`', () => {
-            expect(poll).toHaveProperty('id');
+        it('has an `output`', () => {
+            expect(poll).toHaveProperty('output');
         });
 
-
-        describe('has a valid name ', () => {
+        describe('Name', () => {
 
             it('sets the `name` and trims it', () => {
                 expect(poll.output.name).toEqual(name);
@@ -214,17 +216,8 @@ describe('Poll', () => {
                 }
                 ).toThrow('Invalid name: name too long');
             });
+
         });
-
-    });
-
-
-    describe('output', () => {
-
-        it('has an `output`', () => {
-            expect(poll).toHaveProperty('output');
-        });
-
 
         it('sets the `options`', () => {
             expect(poll.output.options).toEqual(options);
@@ -233,6 +226,132 @@ describe('Poll', () => {
         it('sets the `voters`', () => {
             expect(poll.output.voters).toEqual(voters);
         });
+
+    //startData  & endDate
+     describe('startDate and endDate', () => {
+
+        //poll must have startDate
+        it('has an `startDate`', () => {
+            expect(poll.output).toHaveProperty('startDate');
+        });
+
+        it('has an `endDate`', () => {
+            expect(poll.output).toHaveProperty('endDate');
+        });
+
+
+        describe('has a valid Start date and end date ', () => {
+
+            it('sets the `startData`', () => {
+                expect(poll.output.startDate).toEqual(new Date (startDate));
+            });
+
+            it('sets the `endDate`', () => {
+                expect(poll.output.endDate).toEqual(new Date(endDate));
+            });
+        });
+
+        describe('start date and end date cases', () => {
+
+            describe('has no start date ', () => {
+                it('sets start date to Date.now()', () => {
+                    poll = new Poll({
+                        createrWallet,
+                        name,
+                        options,
+                        voters,
+                        endDate
+                    });
+                    expect(poll.output.startDate).not.toEqual(undefined);
+                });
+            });
+
+            describe('has no end date ', () => {
+                it('sets end date to undefined', () => {
+                    poll = new Poll({
+                        createrWallet,
+                        name,
+                        options,
+                        voters,
+                        startDate
+                    });
+                    expect(poll.output.endDate).toEqual(undefined);
+                });
+            });
+
+            describe('sends start date that has passed date now ', () => {
+                it('throws error', () => {
+                   let  oldDate = '2006-06-06T09:00:00';
+                    expect(
+                        () => {
+                            poll = new Poll({
+                                createrWallet,
+                                name,
+                                options,
+                                voters,
+                                startDate : oldDate
+                            });
+                        }
+                    ).toThrow(`Invalid  dates: start date [${new Date(oldDate)}] is in past`);
+                });
+            });
+
+            describe('sends and invalid end date that is before start date ', () => {
+                it('throws error', () => {
+                   let  evilEndDate ='2006-06-06T02:20:00';
+                    expect(
+                        () => {
+                            poll = new Poll({
+                                createrWallet,
+                                name,
+                                options,
+                                voters,
+                                startDate,
+                                endDate : evilEndDate
+                            });
+                        }
+                    ).toThrow(`Invalid dates: invalid end date [${new Date(evilEndDate)}]: is before start date [${new Date(startDate)}], end date has to be at lease 5 minutes after start date`);
+                });
+            });
+
+            describe('sends dates as not strings', () => {
+                it('throws error', () => {
+                    endDate = 4;
+                    expect(
+                        () => {
+                            poll = new Poll({
+                                createrWallet,
+                                name,
+                                options,
+                                voters,
+                                startDate,
+                                endDate
+                            });
+                        }
+                    ).toThrow(`Invalid dates: invalid end date please enter data in this format "2006-06-06T22:50:30"`);
+                });
+
+                it('throws error', () => {
+                    startDate = 4;
+                    expect(
+                        () => {
+                            poll = new Poll({
+                                createrWallet,
+                                name,
+                                options,
+                                voters,
+                                startDate,
+                                endDate
+                            });
+                        }
+                    ).toThrow(`Invalid dates: invalid start date please enter data in this format "2006-06-06T22:50:30"`);
+                });
+            });
+
+
+        });
+
+    });
 
 
 
@@ -308,6 +427,16 @@ describe('Poll', () => {
                     expect(Poll.validPoll(poll)).toBe(false);
                     expect(errorMock).toHaveBeenCalled();
                 })
+            });
+
+            describe('when end Date is before start date', () => {
+                it('reutrns false and logs an error', async () => {
+
+                    poll.output.endDate = new Date('2006-06-06T02:20:00');
+
+                    expect(Poll.validPoll(poll)).toBe(false);
+                    expect(errorMock).toHaveBeenCalled();
+                });
             });
         });
 

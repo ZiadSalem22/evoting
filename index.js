@@ -83,7 +83,7 @@ app.post('/api/mine', (req, res) => {
 app.post('/api/poll', (req, res) => {
 
 
-    const { data: { name, options, voters }, privateKey } = req.body;
+    const { data: { name, options, voters, startDate, endDate }, privateKey } = req.body;
     let clientWallet = new Wallet(privateKey);
 
 
@@ -100,7 +100,9 @@ app.post('/api/poll', (req, res) => {
             poll = clientWallet.createPoll({
                 name,
                 options,
-                voters
+                voters,
+                startDate,
+                endDate
             });
         }
 
