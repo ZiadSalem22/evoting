@@ -2,14 +2,13 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const request = require('request');//for HTTP Requests
+const path = require('path');
 const BlockChain = require('./blockchain');
 const PubSub = require('./app/pubsub');
 const TransactionPool = require('./wallet/transaction-pool');
 const Wallet = require('./wallet/index');
 const { response } = require('express');
-const TrasactionMiner = require('./app/transaction-miner');
 const TransactionMiner = require('./app/transaction-miner');
-const Poll = require('./voting/poll');
 const { TRANSACTION_TYPE } = require('./config');
 const Ballot = require('./voting/ballot');
 
@@ -39,12 +38,13 @@ const PORT = PEER_PORT || DEFAULT_PORT;
 const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
 
 
-
-
-// setTimeout(() => pubsub.broadcastChain(), 1000);
-
 //we use the use method to inject the middleware to express
+
+//this is body paraser
 app.use(bodyParser.json());
+
+// express static will allow us to surve static vibes from a dir
+app.use(express.static(path.join(__dirname,'client')));
 
 //using the get method , first 
 // get first parm is the end point location on the server
@@ -250,7 +250,7 @@ app.get('/api/miner-wallet-info', (req, res) => {
 })
 
 
-//get miner wallet info
+//get  wallet info by private key
 app.get('/api/wallet-info', (req, res) => {
 
     const { privateKey } = req.body;
@@ -275,7 +275,7 @@ app.get('/api/wallet-info', (req, res) => {
 });
 
 
-//get miner wallet info
+//get create wallets
 app.get('/api/create-wallets', (req, res) => {
 
     //number of wallets
@@ -311,6 +311,10 @@ app.get('/api/create-wallets', (req, res) => {
         wallets
     });
 })
+
+app.get('*',(req,res)=>{
+    res.sendFile(path.join(__dirname,'client/index.html'));
+});
 
 //request from root node so it will have the longest node first
 const syncWithRootState = () => {
