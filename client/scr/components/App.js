@@ -1,5 +1,5 @@
-import { json } from "body-parser";
 import React,{Component} from "react";// default, {secondary}
+import Blocks from "./Blocks";
 
 class App extends Component {
     state = {
@@ -19,6 +19,8 @@ class App extends Component {
                 <div>Address: {address}</div>
                 <div>PivateKey: {privateKey}</div>
                 <div>Balnace: {balance}</div>
+                <br/>
+                <Blocks/>
             </div>
         )
     }
