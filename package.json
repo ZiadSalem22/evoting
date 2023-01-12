@@ -9,7 +9,8 @@
     "start-redis": "wsl redis-server --daemonize yes",
     "end-redis": "wsl redis-cli shutdown",
     "dev": "npm run start-redis && nodemon index.js",
-    "dev-peer": "cross-env GENERATE_PEER_PORT='true' nodemon index.js"
+    "dev-peer": "cross-env GENERATE_PEER_PORT='true' nodemon index.js",
+    "build-client": "parcel build client/scr/index.html --out-dir client/dist"
   },
   "jest": {
     "testEnvironment": "node"
