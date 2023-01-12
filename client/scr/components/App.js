@@ -1,9 +1,25 @@
+import { json } from "body-parser";
 import React,{Component} from "react";// default, {secondary}
 
 class App extends Component {
+    state = {
+        minerWalletInfo :{}
+    }
+
+    componentDidMount(){
+        fetch('http://localhost:3000/api/miner-wallet-info')
+        .then(response => response.json())
+        .then(json => this.setState({minerWalletInfo:json}));
+    }
     render() {
+        const { address, privateKey, balance} = this.state.minerWalletInfo;
         return(
-            <div> Welcome to the E-Voting Blockchain</div>
+            <div> 
+                <div>Welcome to the E-Voting Blockchain</div>
+                <div>Address: {address}</div>
+                <div>PivateKey: {privateKey}</div>
+                <div>Balnace: {balance}</div>
+            </div>
         )
     }
 }
