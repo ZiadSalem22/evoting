@@ -7,7 +7,6 @@ const BlockChain = require('./blockchain');
 const PubSub = require('./app/pubsub');
 const TransactionPool = require('./wallet/transaction-pool');
 const Wallet = require('./wallet/index');
-const { response } = require('express');
 const TransactionMiner = require('./app/transaction-miner');
 const { TRANSACTION_TYPE } = require('./config');
 const Ballot = require('./voting/ballot');
