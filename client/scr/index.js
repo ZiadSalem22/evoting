@@ -4,6 +4,6 @@ import { render } from 'react-dom';// render is the key of installing react to t
 
 // here we render a specifc div  (html or xml) code with a specific element id in our document
 render(
-    <div>E-Voting in React!</div>,
+    <div>E-Voting in React! Thrid live update</div>,
     document.getElementById('root')
 );
