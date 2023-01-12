@@ -44,7 +44,7 @@ const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
 app.use(bodyParser.json());
 
 // express static will allow us to surve static vibes from a dir
-app.use(express.static(path.join(__dirname,'client')));
+app.use(express.static(path.join(__dirname,'client/dist')));
 
 //using the get method , first 
 // get first parm is the end point location on the server
@@ -313,7 +313,7 @@ app.get('/api/create-wallets', (req, res) => {
 })
 
 app.get('*',(req,res)=>{
-    res.sendFile(path.join(__dirname,'client/index.html'));
+    res.sendFile(path.join(__dirname,'client/dist/index.html'));
 });
 
 //request from root node so it will have the longest node first
