@@ -10,6 +10,7 @@ const Wallet = require('./wallet/index');
 const TransactionMiner = require('./app/transaction-miner');
 const { TRANSACTION_TYPE } = require('./config');
 const Ballot = require('./voting/ballot');
+const { createWallets, toMatrix, getReadyVotingData } = require('./util/helpers');
 
 //we create our application  using the express function
 const app = express();
@@ -43,7 +44,7 @@ const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
 app.use(bodyParser.json());
 
 // express static will allow us to surve static vibes from a dir
-app.use(express.static(path.join(__dirname,'client/dist')));
+app.use(express.static(path.join(__dirname, 'client/dist')));
 
 //using the get method , first 
 // get first parm is the end point location on the server
@@ -56,7 +57,12 @@ app.get('/api/blocks', (req, res) => {
 
 //get voting Data Get Polls and ballots;
 app.get('/api/voting-data', (req, res) => {
-    res.json(BlockChain.getVotingData({ chain: blockchain.chain }));
+  
+    const data = getReadyVotingData({chain : blockchain.chain});
+
+    res.json({     
+        data
+    });
 });
 
 
@@ -157,8 +163,6 @@ app.post('/api/ballot', (req, res) => {
     }
 
     transactionPool.setTransaction(ballot);
-
-    // console.log('transactionPool', transactionPool);
 
     pubsub.broadcastTransaction(ballot);
 
@@ -284,7 +288,7 @@ app.get('/api/create-wallets', (req, res) => {
         count = 1;
     }
 
-    if ((count > 2000000) || (count <= 0)){
+    if ((count > 2000000) || (count <= 0)) {
         return res.status(400).json({ type: 'error', message: 'please enter a valid count from 1 to 2000000 ' });
     }
 
@@ -301,7 +305,7 @@ app.get('/api/create-wallets', (req, res) => {
                 chain: blockchain.chain,
                 address: clientWallet.publicKey
             }),
-            count: i+1
+            count: i + 1
         };
     }
 
@@ -309,11 +313,83 @@ app.get('/api/create-wallets', (req, res) => {
     res.json({
         wallets
     });
-})
-
-app.get('*',(req,res)=>{
-    res.sendFile(path.join(__dirname,'client/dist/index.html'));
 });
+
+
+app.get('/api/seed', (req, res) => {
+
+    //first we create our wallets
+
+    let wallets = createWallets(1000);
+    let voters = [];
+
+    for (let wallet of wallets) {
+        voters.push(wallet.publicKey);
+    }
+
+
+
+    let poll1 = wallet.createPoll({
+        name: 'الانتخابات الرئاسية الليبية 2023',
+        options: ['سيف الاسلام القذافي ', 'عبدالحميد الدبيبة', 'فتحي باشاغا'],
+        voters: voters
+    });
+
+    let poll2 = new Wallet().createPoll({
+        name: 'استفتاء علي المسودة الدستورية رقم 1 2023',
+        options: ['نعم', 'لا'],
+        voters: voters
+    });
+
+
+    transactionPool.setTransaction(poll1);
+    pubsub.broadcastTransaction(poll1);
+
+    transactionPool.setTransaction(poll2);
+    pubsub.broadcastTransaction(poll2);
+
+    transactionMiner.mineTransactions();
+
+    let ballot1, ballot2;
+
+    for (let wallet of wallets) {
+
+        ballot1 = new Ballot({
+            createrWallet: wallet,
+            pollId: poll1.id,
+            voteOption: poll1.output.options[Math.floor(Math.random() * poll1.output.options.length)],
+            chain: blockchain.chain
+        });
+
+        ballot2 = new Ballot({
+            createrWallet: wallet,
+            pollId: poll2.id,
+            voteOption: poll2.output.options[Math.floor(Math.random() * poll2.output.options.length)],
+            chain: blockchain.chain
+        });
+
+        transactionPool.setTransaction(ballot1);
+        pubsub.broadcastTransaction(ballot1);
+        transactionPool.setTransaction(ballot2);
+        pubsub.broadcastTransaction(ballot2);
+
+        if (wallets.indexOf(wallet) % 30 === 0) {
+            transactionMiner.mineTransactions();
+        }
+    }
+
+    transactionMiner.mineTransactions();
+
+
+    res.redirect('/api/blocks');
+
+
+});
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client/dist/index.html'));
+});
+
 
 //request from root node so it will have the longest node first
 const syncWithRootState = () => {
