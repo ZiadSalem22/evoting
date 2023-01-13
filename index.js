@@ -318,9 +318,10 @@ app.get('/api/create-wallets', (req, res) => {
 
 app.get('/api/seed', (req, res) => {
 
+
     //first we create our wallets
 
-    let wallets = createWallets(1000);
+    let wallets = createWallets(200);
     let voters = [];
 
     for (let wallet of wallets) {
@@ -370,6 +371,7 @@ app.get('/api/seed', (req, res) => {
 
         transactionPool.setTransaction(ballot1);
         pubsub.broadcastTransaction(ballot1);
+
         transactionPool.setTransaction(ballot2);
         pubsub.broadcastTransaction(ballot2);
 
