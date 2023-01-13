@@ -1,5 +1,6 @@
 import React,{Component} from "react";// default, {secondary}
 import Blocks from "./Blocks";
+import logo from '../assests/HNEC_Logo.png'
 
 class App extends Component {
     state = {
@@ -14,11 +15,15 @@ class App extends Component {
     render() {
         const { address, privateKey, balance} = this.state.minerWalletInfo;
         return(
-            <div> 
+            <div className="App"> 
+                <img className="logo" src={logo}></img>
+                <br/>
                 <div>Welcome to the E-Voting Blockchain</div>
+                <div className="WalletInfo">
                 <div>Address: {address}</div>
                 <div>PivateKey: {privateKey}</div>
                 <div>Balnace: {balance}</div>
+                </div>
                 <br/>
                 <Blocks/>
             </div>
