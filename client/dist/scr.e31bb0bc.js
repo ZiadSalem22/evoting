@@ -40757,7 +40757,98 @@ exports.utils = _utils;
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./Accordion":"../../node_modules/react-bootstrap/es/Accordion.js","./Alert":"../../node_modules/react-bootstrap/es/Alert.js","./Badge":"../../node_modules/react-bootstrap/es/Badge.js","./Breadcrumb":"../../node_modules/react-bootstrap/es/Breadcrumb.js","./BreadcrumbItem":"../../node_modules/react-bootstrap/es/BreadcrumbItem.js","./Button":"../../node_modules/react-bootstrap/es/Button.js","./ButtonGroup":"../../node_modules/react-bootstrap/es/ButtonGroup.js","./ButtonToolbar":"../../node_modules/react-bootstrap/es/ButtonToolbar.js","./Carousel":"../../node_modules/react-bootstrap/es/Carousel.js","./CarouselItem":"../../node_modules/react-bootstrap/es/CarouselItem.js","./Checkbox":"../../node_modules/react-bootstrap/es/Checkbox.js","./Clearfix":"../../node_modules/react-bootstrap/es/Clearfix.js","./CloseButton":"../../node_modules/react-bootstrap/es/CloseButton.js","./ControlLabel":"../../node_modules/react-bootstrap/es/ControlLabel.js","./Col":"../../node_modules/react-bootstrap/es/Col.js","./Collapse":"../../node_modules/react-bootstrap/es/Collapse.js","./Dropdown":"../../node_modules/react-bootstrap/es/Dropdown.js","./DropdownButton":"../../node_modules/react-bootstrap/es/DropdownButton.js","./Fade":"../../node_modules/react-bootstrap/es/Fade.js","./Form":"../../node_modules/react-bootstrap/es/Form.js","./FormControl":"../../node_modules/react-bootstrap/es/FormControl.js","./FormGroup":"../../node_modules/react-bootstrap/es/FormGroup.js","./Glyphicon":"../../node_modules/react-bootstrap/es/Glyphicon.js","./Grid":"../../node_modules/react-bootstrap/es/Grid.js","./HelpBlock":"../../node_modules/react-bootstrap/es/HelpBlock.js","./Image":"../../node_modules/react-bootstrap/es/Image.js","./InputGroup":"../../node_modules/react-bootstrap/es/InputGroup.js","./Jumbotron":"../../node_modules/react-bootstrap/es/Jumbotron.js","./Label":"../../node_modules/react-bootstrap/es/Label.js","./ListGroup":"../../node_modules/react-bootstrap/es/ListGroup.js","./ListGroupItem":"../../node_modules/react-bootstrap/es/ListGroupItem.js","./Media":"../../node_modules/react-bootstrap/es/Media.js","./MenuItem":"../../node_modules/react-bootstrap/es/MenuItem.js","./Modal":"../../node_modules/react-bootstrap/es/Modal.js","./ModalBody":"../../node_modules/react-bootstrap/es/ModalBody.js","./ModalDialog":"../../node_modules/react-bootstrap/es/ModalDialog.js","./ModalFooter":"../../node_modules/react-bootstrap/es/ModalFooter.js","./ModalHeader":"../../node_modules/react-bootstrap/es/ModalHeader.js","./ModalTitle":"../../node_modules/react-bootstrap/es/ModalTitle.js","./Nav":"../../node_modules/react-bootstrap/es/Nav.js","./Navbar":"../../node_modules/react-bootstrap/es/Navbar.js","./NavbarBrand":"../../node_modules/react-bootstrap/es/NavbarBrand.js","./NavDropdown":"../../node_modules/react-bootstrap/es/NavDropdown.js","./NavItem":"../../node_modules/react-bootstrap/es/NavItem.js","./Overlay":"../../node_modules/react-bootstrap/es/Overlay.js","./OverlayTrigger":"../../node_modules/react-bootstrap/es/OverlayTrigger.js","./PageHeader":"../../node_modules/react-bootstrap/es/PageHeader.js","./PageItem":"../../node_modules/react-bootstrap/es/PageItem.js","./Pager":"../../node_modules/react-bootstrap/es/Pager.js","./Pagination":"../../node_modules/react-bootstrap/es/Pagination.js","./Panel":"../../node_modules/react-bootstrap/es/Panel.js","./PanelGroup":"../../node_modules/react-bootstrap/es/PanelGroup.js","./Popover":"../../node_modules/react-bootstrap/es/Popover.js","./ProgressBar":"../../node_modules/react-bootstrap/es/ProgressBar.js","./Radio":"../../node_modules/react-bootstrap/es/Radio.js","./ResponsiveEmbed":"../../node_modules/react-bootstrap/es/ResponsiveEmbed.js","./Row":"../../node_modules/react-bootstrap/es/Row.js","./SafeAnchor":"../../node_modules/react-bootstrap/es/SafeAnchor.js","./SplitButton":"../../node_modules/react-bootstrap/es/SplitButton.js","./Tab":"../../node_modules/react-bootstrap/es/Tab.js","./TabContainer":"../../node_modules/react-bootstrap/es/TabContainer.js","./TabContent":"../../node_modules/react-bootstrap/es/TabContent.js","./Table":"../../node_modules/react-bootstrap/es/Table.js","./TabPane":"../../node_modules/react-bootstrap/es/TabPane.js","./Tabs":"../../node_modules/react-bootstrap/es/Tabs.js","./Thumbnail":"../../node_modules/react-bootstrap/es/Thumbnail.js","./ToggleButton":"../../node_modules/react-bootstrap/es/ToggleButton.js","./ToggleButtonGroup":"../../node_modules/react-bootstrap/es/ToggleButtonGroup.js","./Tooltip":"../../node_modules/react-bootstrap/es/Tooltip.js","./Well":"../../node_modules/react-bootstrap/es/Well.js","./utils":"../../node_modules/react-bootstrap/es/utils/index.js"}],"components/Block.js":[function(require,module,exports) {
+},{"./Accordion":"../../node_modules/react-bootstrap/es/Accordion.js","./Alert":"../../node_modules/react-bootstrap/es/Alert.js","./Badge":"../../node_modules/react-bootstrap/es/Badge.js","./Breadcrumb":"../../node_modules/react-bootstrap/es/Breadcrumb.js","./BreadcrumbItem":"../../node_modules/react-bootstrap/es/BreadcrumbItem.js","./Button":"../../node_modules/react-bootstrap/es/Button.js","./ButtonGroup":"../../node_modules/react-bootstrap/es/ButtonGroup.js","./ButtonToolbar":"../../node_modules/react-bootstrap/es/ButtonToolbar.js","./Carousel":"../../node_modules/react-bootstrap/es/Carousel.js","./CarouselItem":"../../node_modules/react-bootstrap/es/CarouselItem.js","./Checkbox":"../../node_modules/react-bootstrap/es/Checkbox.js","./Clearfix":"../../node_modules/react-bootstrap/es/Clearfix.js","./CloseButton":"../../node_modules/react-bootstrap/es/CloseButton.js","./ControlLabel":"../../node_modules/react-bootstrap/es/ControlLabel.js","./Col":"../../node_modules/react-bootstrap/es/Col.js","./Collapse":"../../node_modules/react-bootstrap/es/Collapse.js","./Dropdown":"../../node_modules/react-bootstrap/es/Dropdown.js","./DropdownButton":"../../node_modules/react-bootstrap/es/DropdownButton.js","./Fade":"../../node_modules/react-bootstrap/es/Fade.js","./Form":"../../node_modules/react-bootstrap/es/Form.js","./FormControl":"../../node_modules/react-bootstrap/es/FormControl.js","./FormGroup":"../../node_modules/react-bootstrap/es/FormGroup.js","./Glyphicon":"../../node_modules/react-bootstrap/es/Glyphicon.js","./Grid":"../../node_modules/react-bootstrap/es/Grid.js","./HelpBlock":"../../node_modules/react-bootstrap/es/HelpBlock.js","./Image":"../../node_modules/react-bootstrap/es/Image.js","./InputGroup":"../../node_modules/react-bootstrap/es/InputGroup.js","./Jumbotron":"../../node_modules/react-bootstrap/es/Jumbotron.js","./Label":"../../node_modules/react-bootstrap/es/Label.js","./ListGroup":"../../node_modules/react-bootstrap/es/ListGroup.js","./ListGroupItem":"../../node_modules/react-bootstrap/es/ListGroupItem.js","./Media":"../../node_modules/react-bootstrap/es/Media.js","./MenuItem":"../../node_modules/react-bootstrap/es/MenuItem.js","./Modal":"../../node_modules/react-bootstrap/es/Modal.js","./ModalBody":"../../node_modules/react-bootstrap/es/ModalBody.js","./ModalDialog":"../../node_modules/react-bootstrap/es/ModalDialog.js","./ModalFooter":"../../node_modules/react-bootstrap/es/ModalFooter.js","./ModalHeader":"../../node_modules/react-bootstrap/es/ModalHeader.js","./ModalTitle":"../../node_modules/react-bootstrap/es/ModalTitle.js","./Nav":"../../node_modules/react-bootstrap/es/Nav.js","./Navbar":"../../node_modules/react-bootstrap/es/Navbar.js","./NavbarBrand":"../../node_modules/react-bootstrap/es/NavbarBrand.js","./NavDropdown":"../../node_modules/react-bootstrap/es/NavDropdown.js","./NavItem":"../../node_modules/react-bootstrap/es/NavItem.js","./Overlay":"../../node_modules/react-bootstrap/es/Overlay.js","./OverlayTrigger":"../../node_modules/react-bootstrap/es/OverlayTrigger.js","./PageHeader":"../../node_modules/react-bootstrap/es/PageHeader.js","./PageItem":"../../node_modules/react-bootstrap/es/PageItem.js","./Pager":"../../node_modules/react-bootstrap/es/Pager.js","./Pagination":"../../node_modules/react-bootstrap/es/Pagination.js","./Panel":"../../node_modules/react-bootstrap/es/Panel.js","./PanelGroup":"../../node_modules/react-bootstrap/es/PanelGroup.js","./Popover":"../../node_modules/react-bootstrap/es/Popover.js","./ProgressBar":"../../node_modules/react-bootstrap/es/ProgressBar.js","./Radio":"../../node_modules/react-bootstrap/es/Radio.js","./ResponsiveEmbed":"../../node_modules/react-bootstrap/es/ResponsiveEmbed.js","./Row":"../../node_modules/react-bootstrap/es/Row.js","./SafeAnchor":"../../node_modules/react-bootstrap/es/SafeAnchor.js","./SplitButton":"../../node_modules/react-bootstrap/es/SplitButton.js","./Tab":"../../node_modules/react-bootstrap/es/Tab.js","./TabContainer":"../../node_modules/react-bootstrap/es/TabContainer.js","./TabContent":"../../node_modules/react-bootstrap/es/TabContent.js","./Table":"../../node_modules/react-bootstrap/es/Table.js","./TabPane":"../../node_modules/react-bootstrap/es/TabPane.js","./Tabs":"../../node_modules/react-bootstrap/es/Tabs.js","./Thumbnail":"../../node_modules/react-bootstrap/es/Thumbnail.js","./ToggleButton":"../../node_modules/react-bootstrap/es/ToggleButton.js","./ToggleButtonGroup":"../../node_modules/react-bootstrap/es/ToggleButtonGroup.js","./Tooltip":"../../node_modules/react-bootstrap/es/Tooltip.js","./Well":"../../node_modules/react-bootstrap/es/Well.js","./utils":"../../node_modules/react-bootstrap/es/utils/index.js"}],"../../config.js":[function(require,module,exports) {
+var MINE_RATE = 4000;
+var INITIAL_DIFFICULTY = 3;
+var STARTING_BALANCE = 1000;
+var REWARD_INPUT = {
+  address: '*authorized-reward*'
+}; //miner reward
+var MINING_REWARD = 50;
+//voting
+var CHAR_MAX_LENGTH = 300;
+var GENESIS_DATA = {
+  timeStamp: 1,
+  lastHash: '----',
+  data: [],
+  nonce: 0,
+  difficulty: INITIAL_DIFFICULTY,
+  hash: 'hash-one'
+};
+var TRANSACTION_TYPE = {
+  CURRENCY: 'CURRENCY',
+  POLL: 'POLL',
+  BALLOT: 'BALLOT'
+};
+//date format ISO expample 2001-24-24T20:30:20
+var ISOregex = /^(?:\d{4})-(?:\d{2})-(?:\d{2})T(?:\d{2}):(?:\d{2}):(?:\d{2}(?:\.\d*)?)(?:(?:-(?:\d{2}):(?:\d{2})|Z)?)$/;
+
+//polls and ballots branch 
+
+module.exports = {
+  GENESIS_DATA: GENESIS_DATA,
+  MINE_RATE: MINE_RATE,
+  STARTING_BALANCE: STARTING_BALANCE,
+  REWARD_INPUT: REWARD_INPUT,
+  MINING_REWARD: MINING_REWARD,
+  CHAR_MAX_LENGTH: CHAR_MAX_LENGTH,
+  TRANSACTION_TYPE: TRANSACTION_TYPE,
+  ISOregex: ISOregex
+};
+},{}],"components/Transation.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _react = _interopRequireDefault(require("react"));
+var _config = require("../../../config");
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+//stateless functional style of creating a component
+var Transaction = function Transaction(_ref) {
+  var transaction = _ref.transaction;
+  var id = transaction.id,
+    transactionType = transaction.transactionType,
+    input = transaction.input,
+    output = transaction.output,
+    outputMap = transaction.outputMap;
+  switch (transactionType) {
+    case _config.TRANSACTION_TYPE.POLL:
+      var options = Object.values(output.options);
+      var voters = Object.values(output.voters);
+      var endDate = new Date(output.endDate).toLocaleString() || '';
+      return /*#__PURE__*/_react.default.createElement("div", {
+        className: "Transaction"
+      }, /*#__PURE__*/_react.default.createElement("div", null, "Transaction/Poll Id: ", "".concat(id), " | Transaction Type: ", "".concat(transactionType), " "), /*#__PURE__*/_react.default.createElement("div", null, "TimeStamp: ", "".concat(new Date(input.timeStamp).toLocaleString()), " "), /*#__PURE__*/_react.default.createElement("div", null, "From address: ", "".concat(input.address), " "), /*#__PURE__*/_react.default.createElement("div", null, "Signature: "), /*#__PURE__*/_react.default.createElement("div", null, "r:".concat(input.signature.r)), /*#__PURE__*/_react.default.createElement("div", null, "s: ".concat(input.signature.s)), /*#__PURE__*/_react.default.createElement("div", null, "recoveryParam: ".concat(input.signature.recoveryParam), " "), /*#__PURE__*/_react.default.createElement("div", null, "Poll Name: ", "".concat(output.name), " "), /*#__PURE__*/_react.default.createElement("div", null, "Strat Date: ", "".concat(new Date(output.startDate).toLocaleString()), " | End Date ", "".concat(endDate), " "), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, "Options [", options.length, "]:  ", options.map(function (option) {
+        return /*#__PURE__*/_react.default.createElement("div", {
+          key: option
+        }, "".concat(option));
+      }), " "), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, "Voters [", voters.length, "]:  ", voters.map(function (voter) {
+        return /*#__PURE__*/_react.default.createElement("div", {
+          key: voter
+        }, "".concat(voter));
+      })));
+      break;
+    case _config.TRANSACTION_TYPE.BALLOT:
+      return /*#__PURE__*/_react.default.createElement("div", {
+        className: "Transaction"
+      }, /*#__PURE__*/_react.default.createElement("div", null, "Transaction/Ballot Id: ", "".concat(id), " | Transaction Type: ", "".concat(transactionType), " "), /*#__PURE__*/_react.default.createElement("div", null, "TimeStamp: ", "".concat(new Date(input.timeStamp).toLocaleString()), " "), /*#__PURE__*/_react.default.createElement("div", null, "From address: ", "".concat(input.address), " "), /*#__PURE__*/_react.default.createElement("div", null, "Signature: "), /*#__PURE__*/_react.default.createElement("div", null, "r:".concat(input.signature.r)), /*#__PURE__*/_react.default.createElement("div", null, "s: ".concat(input.signature.s)), /*#__PURE__*/_react.default.createElement("div", null, "recoveryParam: ".concat(input.signature.recoveryParam), " "), /*#__PURE__*/_react.default.createElement("div", null, "Poll Id:", "".concat(output.pollId), " "), /*#__PURE__*/_react.default.createElement("div", null, "voted Option:  ", "[".concat(output.voteOption, "]"), " "));
+      break;
+    default:
+      var recipient = Object.keys(outputMap);
+      return /*#__PURE__*/_react.default.createElement("div", {
+        className: "Transaction"
+      }, /*#__PURE__*/_react.default.createElement("div", null, "Transaction Id: ", "".concat(id), " | transaction Type: ", "".concat(transactionType)), /*#__PURE__*/_react.default.createElement("div", null, "TimeStamp: ", "".concat(new Date(input.timeStamp).toLocaleString()), " "), /*#__PURE__*/_react.default.createElement("div", null, "From address: ", "".concat(input.address), " "), /*#__PURE__*/_react.default.createElement("div", null, "From: ", "".concat(input.address), " | Balnace: ", input.amount), recipient.map(function (recipient) {
+        return /*#__PURE__*/_react.default.createElement("div", {
+          key: recipient
+        }, "To:", "".concat(recipient), " : sent ", outputMap[recipient]);
+      }));
+  }
+};
+var _default = Transaction;
+exports.default = _default;
+},{"react":"../../node_modules/react/index.js","../../../config":"../../config.js"}],"components/Block.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40766,6 +40857,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _react = _interopRequireWildcard(require("react"));
 var _reactBootstrap = require("react-bootstrap");
+var _Transation = _interopRequireDefault(require("./Transation"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
@@ -40809,14 +40902,20 @@ var Block = /*#__PURE__*/function (_Component) {
       var stringifiedData = JSON.stringify(data);
       var dataDisplay = stringifiedData.length > 35 ? "".concat(stringifiedData.substring(0, 35), "...") : stringifiedData;
       if (this.state.displayTransaction) {
-        return /*#__PURE__*/_react.default.createElement("div", null, JSON.stringify(data), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
-          bsStyle: "danger",
+        return /*#__PURE__*/_react.default.createElement("div", null, data.map(function (transaction) {
+          return /*#__PURE__*/_react.default.createElement("div", {
+            key: transaction.id
+          }, /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement(_Transation.default, {
+            transaction: transaction
+          }));
+        }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+          bsStyle: "success",
           bsSize: "small",
           onClick: this.toggleTransaction
         }, "Show Less"));
       }
       return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", null, "Data: ", dataDisplay), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
-        bsStyle: "danger",
+        bsStyle: "success",
         bsSize: "small",
         onClick: this.toggleTransaction
       }, "Show More"));
@@ -40826,11 +40925,17 @@ var Block = /*#__PURE__*/function (_Component) {
     value: function render() {
       var _this$props$block = this.props.block,
         timeStamp = _this$props$block.timeStamp,
-        hash = _this$props$block.hash;
-      var hashDisplay = "".concat(hash.substring(0, 15), "...");
+        hash = _this$props$block.hash,
+        lastHash = _this$props$block.lastHash,
+        nonce = _this$props$block.nonce,
+        difficulty = _this$props$block.difficulty;
+
+      // const hashDisplay = `${hash.substring(0, 15)}...`;
+      var hashDisplay = "".concat(hash);
       return /*#__PURE__*/_react.default.createElement("div", {
-        className: "Block"
-      }, /*#__PURE__*/_react.default.createElement("div", null, " Hash: ", hashDisplay), /*#__PURE__*/_react.default.createElement("div", null, " TimeStamp: ", new Date(timeStamp).toLocaleString()), this.displayTransaction);
+        className: "Block",
+        onDoubleClick: this.toggleTransaction
+      }, /*#__PURE__*/_react.default.createElement("div", null, " TimeStamp: ", new Date(timeStamp).toLocaleString()), /*#__PURE__*/_react.default.createElement("div", null, " Hash: ", hash), /*#__PURE__*/_react.default.createElement("div", null, " Last Hash: ", lastHash), /*#__PURE__*/_react.default.createElement("div", null, " Difficulty: ", difficulty), /*#__PURE__*/_react.default.createElement("div", null, " nonce: ", nonce), this.displayTransaction);
     }
   }]);
   return Block;
@@ -40838,7 +40943,7 @@ var Block = /*#__PURE__*/function (_Component) {
 ;
 var _default = Block;
 exports.default = _default;
-},{"react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/es/index.js"}],"components/Blocks.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/es/index.js","./Transation":"components/Transation.js"}],"components/Blocks.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40885,7 +40990,7 @@ var Blocks = /*#__PURE__*/function (_Component) {
         return response.json();
       }).then(function (json) {
         return _this2.setState({
-          blocks: json
+          blocks: json.reverse()
         });
       });
     }

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Button } from "react-bootstrap";
+import Transaction from "./Transation";
 
 class Block extends Component {
 
@@ -27,10 +28,17 @@ class Block extends Component {
         if (this.state.displayTransaction) {
             return (
                 <div>
-                    {JSON.stringify(data)}
+                    {
+                        data.map(transaction =>(
+                            <div key={transaction.id}>
+                                <hr/>
+                                <Transaction transaction={transaction}/>
+                            </div>
+                        ))
+                    }
                     <br />
                     <Button
-                        bsStyle="danger"
+                        bsStyle="success"
                         bsSize="small"
                         onClick={this.toggleTransaction}
                     >Show Less
@@ -44,7 +52,7 @@ class Block extends Component {
             <div>
                 <div>Data: {dataDisplay}</div>
                 <Button
-                    bsStyle="danger"
+                    bsStyle="success"
                     bsSize="small"
                     onClick={this.toggleTransaction}
                 >Show More
@@ -57,15 +65,19 @@ class Block extends Component {
     render() {
 
 
-        const { timeStamp, hash } = this.props.block;
+        const { timeStamp, hash, lastHash, nonce, difficulty } = this.props.block;
 
-        const hashDisplay = `${hash.substring(0, 15)}...`;
+        // const hashDisplay = `${hash.substring(0, 15)}...`;
+        const hashDisplay = `${hash}`;
 
 
         return (
-            <div className="Block">
-                <div> Hash: {hashDisplay}</div>
+            <div className="Block"  onDoubleClick={this.toggleTransaction}>
                 <div> TimeStamp: {new Date(timeStamp).toLocaleString()}</div>
+                <div> Hash: {hash}</div>
+                <div> Last Hash: {lastHash}</div>
+                <div> Difficulty: {difficulty}</div>
+                <div> nonce: {nonce}</div>
                 {this.displayTransaction}
             </div>
         );
