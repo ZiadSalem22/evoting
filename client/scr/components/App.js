@@ -1,6 +1,6 @@
 import React,{Component} from "react";// default, {secondary}
-import Blocks from "./Blocks";
 import logo from '../assests/HNEC_Logo.png'
+import { Link } from "react-router-dom";
 
 class App extends Component {
     state = {
@@ -19,13 +19,14 @@ class App extends Component {
                 <img className="logo" src={logo}></img>
                 <br/>
                 <div>Welcome to the E-Voting Blockchain</div>
+                <br/>
+                <div> <Link to="/blocks">Blocks</Link></div>
+                <br/>
                 <div className="WalletInfo">
                 <div>Address: {address}</div>
-                <div>PivateKey: {privateKey}</div>
-                <div>Balnace: {balance}</div>
+                <div>PrivateKey: {privateKey}</div>
+                <div>Balance: {balance}</div>
                 </div>
-                <br/>
-                <Blocks/>
             </div>
         )
     }
