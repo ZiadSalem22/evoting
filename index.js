@@ -319,9 +319,17 @@ app.get('/api/create-wallets', (req, res) => {
 app.get('/api/seed', (req, res) => {
 
 
+       //number of wallets
+       const { data: { count } } = req.body;
+
+       if (count === undefined) {
+           count = 100;
+       }
+   
+
     //first we create our wallets
 
-    let wallets = createWallets(200);
+    let wallets = createWallets(count);
     let voters = [];
 
     for (let wallet of wallets) {
