@@ -2,6 +2,7 @@ import { json } from "body-parser";
 import React, { Component } from "react";
 import { FormGroup, FormControl,Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import history from "../history";
 
 
 class ConductTransaction extends Component {
@@ -35,13 +36,15 @@ class ConductTransaction extends Component {
                 amount
         }
 
-        fetch('http://localhost:3000/api/transact',{
+        fetch(`${document.location.origin}/api/transact`,{
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({privateKey,data})
         }).then(response => response.json())
         .then(json =>{
-            alert(json.message || json.type)//message when error 
+            alert(json.message || json.type);//message when error
+            history.push('/transaction-pool') 
+
         })
     };
 

@@ -49,8 +49,8 @@ body {
     padding: 4%;
 }
 
-.ConductTransaction{
-    padding: 3%;
+.ConductTransaction,.TransactionPool{
+    padding: 5%;
     margin: 2%;
 
 }
