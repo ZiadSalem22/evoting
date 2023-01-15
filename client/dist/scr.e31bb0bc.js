@@ -76084,10 +76084,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _bodyParser = require("body-parser");
 var _react = _interopRequireWildcard(require("react"));
+var _reactBootstrap = require("react-bootstrap");
 var _reactRouterDom = require("react-router-dom");
 var _Transaction = _interopRequireDefault(require("./Transaction"));
+var _history = _interopRequireDefault(require("../history"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -76126,6 +76127,16 @@ var TransactionPool = /*#__PURE__*/function (_Component) {
         });
       });
     });
+    _defineProperty(_assertThisInitialized(_this), "fetchMineTransactions", function () {
+      fetch("".concat(document.location.origin, "/api/mine-transactions")).then(function (response) {
+        if (response.status == 200) {
+          alert('success');
+          _history.default.push('/blocks');
+        } else {
+          alert('the mine-transaction block request did not complete');
+        }
+      });
+    });
     return _this;
   }
   _createClass(TransactionPool, [{
@@ -76161,14 +76172,17 @@ var TransactionPool = /*#__PURE__*/function (_Component) {
         }, /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement(_Transaction.default, {
           transaction: transaction
         }));
-      }));
+      }), /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+        bsStyle: "success",
+        onClick: this.fetchMineTransactions
+      }, "Mine the Transactions"));
     }
   }]);
   return TransactionPool;
 }(_react.Component);
 var _default = TransactionPool;
 exports.default = _default;
-},{"body-parser":"../../node_modules/body-parser/index.js","react":"../../node_modules/react/index.js","react-router-dom":"../../node_modules/react-router-dom/es/index.js","./Transaction":"components/Transaction.js"}],"index.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/es/index.js","react-router-dom":"../../node_modules/react-router-dom/es/index.js","./Transaction":"components/Transaction.js","../history":"history.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -76226,7 +76240,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53255" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64248" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
