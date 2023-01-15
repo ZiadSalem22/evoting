@@ -49,6 +49,12 @@ body {
     padding: 4%;
 }
 
+.ConductTransaction{
+    padding: 3%;
+    margin: 2%;
+
+}
+
 a, a:hover{
     color:#5cb4fd ;
     text-decoration: underline;
@@ -57,5 +63,5 @@ a, a:hover{
 button, :single-button,button:hover{
     color: #5cb4fd;
     text-decoration: underline;
-
 }
+
