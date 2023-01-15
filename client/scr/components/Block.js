@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button } from "react-bootstrap";
-import Transaction from "./Transation";
+import Transaction from "./Transaction";
 
 class Block extends Component {
 

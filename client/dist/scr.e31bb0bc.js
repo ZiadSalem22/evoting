@@ -28828,8 +28828,8 @@ var _history = require("history");
 //from this file we will create one overall instance of the history object 
 var _default = (0, _history.createBrowserHistory)(); // this will track the user navigation through the browser Environment 
 exports.default = _default;
-},{"history":"../../node_modules/history/es/index.js"}],"assests/HNEC_Logo.png":[function(require,module,exports) {
-module.exports = "/HNEC_Logo.a9aa4224.png";
+},{"history":"../../node_modules/history/es/index.js"}],"assets/HNEC_Logo.png":[function(require,module,exports) {
+module.exports = "/HNEC_Logo.80fdff35.png";
 },{}],"components/App.js":[function(require,module,exports) {
 "use strict";
 
@@ -28838,7 +28838,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _react = _interopRequireWildcard(require("react"));
-var _HNEC_Logo = _interopRequireDefault(require("../assests/HNEC_Logo.png"));
+var _HNEC_Logo = _interopRequireDefault(require("../assets/HNEC_Logo.png"));
 var _reactRouterDom = require("react-router-dom");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -28874,7 +28874,7 @@ var App = /*#__PURE__*/function (_Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
-      fetch('http://localhost:3000/api/miner-wallet-info').then(function (response) {
+      fetch("".concat(document.location.origin, "/api/miner-wallet-info")).then(function (response) {
         return response.json();
       }).then(function (json) {
         return _this2.setState({
@@ -28898,7 +28898,9 @@ var App = /*#__PURE__*/function (_Component) {
         to: "/blocks"
       }, "Blocks")), /*#__PURE__*/_react.default.createElement("div", null, " ", /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
         to: "/conduct-transaction"
-      }, "Create a Currency Transaction")), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", {
+      }, "Create a Currency Transaction")), /*#__PURE__*/_react.default.createElement("div", null, " ", /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+        to: "/transaction-pool"
+      }, "Transaction Pool")), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", {
         className: "WalletInfo"
       }, /*#__PURE__*/_react.default.createElement("div", null, "Address: ", address), /*#__PURE__*/_react.default.createElement("div", null, "PrivateKey: ", privateKey), /*#__PURE__*/_react.default.createElement("div", null, "Balance: ", balance)));
     }
@@ -28907,7 +28909,7 @@ var App = /*#__PURE__*/function (_Component) {
 }(_react.Component);
 var _default = App;
 exports.default = _default;
-},{"react":"../../node_modules/react/index.js","../assests/HNEC_Logo.png":"assests/HNEC_Logo.png","react-router-dom":"../../node_modules/react-router-dom/es/index.js"}],"../../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","../assets/HNEC_Logo.png":"assets/HNEC_Logo.png","react-router-dom":"../../node_modules/react-router-dom/es/index.js"}],"../../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 function getBundleURLCached() {
   if (!bundleURL) {
@@ -44257,7 +44259,7 @@ module.exports = {
   TRANSACTION_TYPE: TRANSACTION_TYPE,
   ISOregex: ISOregex
 };
-},{}],"components/Transation.js":[function(require,module,exports) {
+},{}],"components/Transaction.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -44282,7 +44284,7 @@ var Transaction = function Transaction(_ref) {
       var endDate = new Date(output.endDate).toLocaleString() || '';
       return /*#__PURE__*/_react.default.createElement("div", {
         className: "Transaction"
-      }, /*#__PURE__*/_react.default.createElement("div", null, "Transaction/Poll Id: ", "".concat(id), " | Transaction Type: ", "".concat(transactionType), " "), /*#__PURE__*/_react.default.createElement("div", null, "TimeStamp: ", "".concat(new Date(input.timeStamp).toLocaleString()), " "), /*#__PURE__*/_react.default.createElement("div", null, "From address: ", "".concat(input.address), " "), /*#__PURE__*/_react.default.createElement("div", null, "Signature: "), /*#__PURE__*/_react.default.createElement("div", null, "r:".concat(input.signature.r)), /*#__PURE__*/_react.default.createElement("div", null, "s: ".concat(input.signature.s)), /*#__PURE__*/_react.default.createElement("div", null, "recoveryParam: ".concat(input.signature.recoveryParam), " "), /*#__PURE__*/_react.default.createElement("div", null, "Poll Name: ", "".concat(output.name), " "), /*#__PURE__*/_react.default.createElement("div", null, "Strat Date: ", "".concat(new Date(output.startDate).toLocaleString()), " | End Date ", "".concat(endDate), " "), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, "Options [", options.length, "]:  ", options.map(function (option) {
+      }, /*#__PURE__*/_react.default.createElement("div", null, "Transaction/Poll Id: ", "".concat(id), " | Transaction Type: ", "".concat(transactionType), " "), /*#__PURE__*/_react.default.createElement("div", null, "TimeStamp: ", "".concat(new Date(input.timeStamp).toLocaleString()), " "), /*#__PURE__*/_react.default.createElement("div", null, "From address: ", "".concat(input.address), " "), /*#__PURE__*/_react.default.createElement("div", null, "Signature: "), /*#__PURE__*/_react.default.createElement("div", null, "r:".concat(input.signature.r)), /*#__PURE__*/_react.default.createElement("div", null, "s: ".concat(input.signature.s)), /*#__PURE__*/_react.default.createElement("div", null, "recoveryParam: ".concat(input.signature.recoveryParam), " "), /*#__PURE__*/_react.default.createElement("div", null, "Poll Name: ", "".concat(output.name), " "), /*#__PURE__*/_react.default.createElement("div", null, "Start Date: ", "".concat(new Date(output.startDate).toLocaleString()), " | End Date ", "".concat(endDate), " "), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, "Options [", options.length, "]:  ", options.map(function (option) {
         return /*#__PURE__*/_react.default.createElement("div", {
           key: option
         }, "".concat(option));
@@ -44301,7 +44303,7 @@ var Transaction = function Transaction(_ref) {
       var recipient = Object.keys(outputMap);
       return /*#__PURE__*/_react.default.createElement("div", {
         className: "Transaction"
-      }, /*#__PURE__*/_react.default.createElement("div", null, "Transaction Id: ", "".concat(id), " | transaction Type: ", "".concat(transactionType)), /*#__PURE__*/_react.default.createElement("div", null, "TimeStamp: ", "".concat(new Date(input.timeStamp).toLocaleString()), " "), /*#__PURE__*/_react.default.createElement("div", null, "From address: ", "".concat(input.address), " "), /*#__PURE__*/_react.default.createElement("div", null, "From: ", "".concat(input.address), " | Balnace: ", input.amount), recipient.map(function (recipient) {
+      }, /*#__PURE__*/_react.default.createElement("div", null, "Transaction Id: ", "".concat(id), " | transaction Type: ", "".concat(transactionType)), /*#__PURE__*/_react.default.createElement("div", null, "TimeStamp: ", "".concat(new Date(input.timeStamp).toLocaleString()), " "), /*#__PURE__*/_react.default.createElement("div", null, "From Address: ", "".concat(input.address), " | Balance: ", input.amount), recipient.map(function (recipient) {
         return /*#__PURE__*/_react.default.createElement("div", {
           key: recipient
         }, "To:", "".concat(recipient), " : sent ", outputMap[recipient]);
@@ -44319,7 +44321,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _react = _interopRequireWildcard(require("react"));
 var _reactBootstrap = require("react-bootstrap");
-var _Transation = _interopRequireDefault(require("./Transation"));
+var _Transaction = _interopRequireDefault(require("./Transaction"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -44367,7 +44369,7 @@ var Block = /*#__PURE__*/function (_Component) {
         return /*#__PURE__*/_react.default.createElement("div", null, data.map(function (transaction) {
           return /*#__PURE__*/_react.default.createElement("div", {
             key: transaction.id
-          }, /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement(_Transation.default, {
+          }, /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement(_Transaction.default, {
             transaction: transaction
           }));
         }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
@@ -44405,7 +44407,7 @@ var Block = /*#__PURE__*/function (_Component) {
 ;
 var _default = Block;
 exports.default = _default;
-},{"react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/es/index.js","./Transation":"components/Transation.js"}],"components/Blocks.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/es/index.js","./Transaction":"components/Transaction.js"}],"components/Blocks.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -44449,7 +44451,7 @@ var Blocks = /*#__PURE__*/function (_Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
-      fetch('http://localhost:3000/api/blocks').then(function (response) {
+      fetch("".concat(document.location.origin, "/api/blocks")).then(function (response) {
         return response.json();
       }).then(function (json) {
         return _this2.setState({
@@ -75968,6 +75970,8 @@ var _bodyParser = require("body-parser");
 var _react = _interopRequireWildcard(require("react"));
 var _reactBootstrap = require("react-bootstrap");
 var _reactRouterDom = require("react-router-dom");
+var _history = _interopRequireDefault(require("../history"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
@@ -76021,7 +76025,7 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
         recipient: recipient,
         amount: amount
       };
-      fetch('http://localhost:3000/api/transact', {
+      fetch("".concat(document.location.origin, "/api/transact"), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -76033,7 +76037,8 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
       }).then(function (response) {
         return response.json();
       }).then(function (json) {
-        alert(json.message || json.type); //message when error 
+        alert(json.message || json.type); //message when error
+        _history.default.push('/transaction-pool');
       });
     });
     return _this;
@@ -76072,7 +76077,98 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
 ;
 var _default = ConductTransaction;
 exports.default = _default;
-},{"body-parser":"../../node_modules/body-parser/index.js","react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/es/index.js","react-router-dom":"../../node_modules/react-router-dom/es/index.js"}],"index.js":[function(require,module,exports) {
+},{"body-parser":"../../node_modules/body-parser/index.js","react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/es/index.js","react-router-dom":"../../node_modules/react-router-dom/es/index.js","../history":"history.js"}],"components/TransactionPool.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _bodyParser = require("body-parser");
+var _react = _interopRequireWildcard(require("react"));
+var _reactRouterDom = require("react-router-dom");
+var _Transaction = _interopRequireDefault(require("./Transaction"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+var POLL_INTERVAL_MS = 10000;
+var TransactionPool = /*#__PURE__*/function (_Component) {
+  _inherits(TransactionPool, _Component);
+  var _super = _createSuper(TransactionPool);
+  function TransactionPool() {
+    var _this;
+    _classCallCheck(this, TransactionPool);
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _super.call.apply(_super, [this].concat(args));
+    _defineProperty(_assertThisInitialized(_this), "state", {
+      transactionPoolMap: {}
+    });
+    _defineProperty(_assertThisInitialized(_this), "fetchTransactionPoolMap", function () {
+      fetch("".concat(document.location.origin, "/api/transaction-pool-map")).then(function (response) {
+        return response.json();
+      }).then(function (json) {
+        return _this.setState({
+          transactionPoolMap: json
+        });
+      });
+    });
+    return _this;
+  }
+  _createClass(TransactionPool, [{
+    key: "componentDidMount",
+    value:
+    // run code as soon as we call the component  on html document it will fetch the pool
+    function componentDidMount() {
+      var _this2 = this;
+      this.fetchTransactionPoolMap();
+
+      //this is how we set interval for js components 
+      this.fetchPoolInterval = setInterval(function () {
+        return _this2.fetchTransactionPoolMap();
+      }, POLL_INTERVAL_MS);
+    }
+
+    //run code when we the component is removed from html document
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      clearInterval(this.fetchPoolInterval);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/_react.default.createElement("div", {
+        className: "TransactionPool"
+      }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+        to: "/"
+      }, "Home")), /*#__PURE__*/_react.default.createElement("h3", null, "Transaction Pool"), Object.values(this.state.transactionPoolMap).map(function (transaction) {
+        return /*#__PURE__*/_react.default.createElement("div", {
+          key: transaction.id
+        }, /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement(_Transaction.default, {
+          transaction: transaction
+        }));
+      }));
+    }
+  }]);
+  return TransactionPool;
+}(_react.Component);
+var _default = TransactionPool;
+exports.default = _default;
+},{"body-parser":"../../node_modules/body-parser/index.js","react":"../../node_modules/react/index.js","react-router-dom":"../../node_modules/react-router-dom/es/index.js","./Transaction":"components/Transaction.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -76083,6 +76179,7 @@ var _App = _interopRequireDefault(require("./components/App"));
 require("./index.css");
 var _Blocks = _interopRequireDefault(require("./components/Blocks"));
 var _ConductTransaction = _interopRequireDefault(require("./components/ConductTransaction"));
+var _TransactionPool = _interopRequireDefault(require("./components/TransactionPool"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 //getting react  module from react node module folder
 // render is the key of installing react to the front end it allows us to call react into the html document
@@ -76100,8 +76197,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
   path: "/conduct-transaction",
   component: _ConductTransaction.default
+}), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+  path: "/transaction-pool",
+  component: _TransactionPool.default
 }))), document.getElementById('root'));
-},{"react":"../../node_modules/react/index.js","react-dom":"../../node_modules/react-dom/index.js","react-router-dom":"../../node_modules/react-router-dom/es/index.js","./history":"history.js","./components/App":"components/App.js","./index.css":"index.css","./components/Blocks":"components/Blocks.js","./components/ConductTransaction":"components/ConductTransaction.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","react-dom":"../../node_modules/react-dom/index.js","react-router-dom":"../../node_modules/react-router-dom/es/index.js","./history":"history.js","./components/App":"components/App.js","./index.css":"index.css","./components/Blocks":"components/Blocks.js","./components/ConductTransaction":"components/ConductTransaction.js","./components/TransactionPool":"components/TransactionPool.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -76126,7 +76226,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63648" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53255" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
