@@ -20,10 +20,9 @@ class Home extends Component {
                 <br/>
                 <div>Welcome to the Libyan E-Voting Platform Blockchain</div>
                 <br/>
-                <div> <Link to="/blocks">Blocks</Link></div>
+                {/* <div> <Link to="/blocks">Blocks</Link></div>
                 <div> <Link to="/conduct-transaction">Create a Currency Transaction</Link></div>
-                <div> <Link to="/transaction-pool">Transaction Pool</Link></div>
-                <br/>
+                <div> <Link to="/transaction-pool">Transaction Pool</Link></div> */}
                 <div className="WalletInfo">
                 <div>Address: {address}</div>
                 <div>PrivateKey: {privateKey}</div>

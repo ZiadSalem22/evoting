@@ -17,7 +17,7 @@ class Blocks extends Component {
         console.log('this.state',this.state);
         return (
             <div className="Blocks">
-                <div><Link to="/">Home</Link></div>
+                {/* <div><Link to="/">Home</Link></div> */}
                 <h3>Blocks</h3>
                 {
                     

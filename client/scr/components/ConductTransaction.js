@@ -50,7 +50,7 @@ class ConductTransaction extends Component {
         // console.log('this.state', this.state);
         return (
             <div className="ConductTransaction">
-                <Link to='/'>Home</Link>
+                {/* <Link to='/'>Home</Link> */}
                 <h3>Conduct a Currency Transaction</h3>
                 <FormGroup>
                     <FormControl
