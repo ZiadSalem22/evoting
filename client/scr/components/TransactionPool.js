@@ -2,7 +2,7 @@ import React,{Component} from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Transaction from "./Transaction";
-import history from "../history";
+import { useNavigate } from 'react-router-dom';
 
 const POLL_INTERVAL_MS = 10000;
 
@@ -20,12 +20,12 @@ class TransactionPool extends Component{
     }
     
     fetchMineTransactions =() =>{
-        
+
         fetch(`${document.location.origin}/api/mine-transactions`)
         .then(response =>{
             if (response.status == 200){
                 alert('success');
-                history.push('/blocks');
+                this.props.navigation('/blocks');
             } else {
                 alert('the mine-transaction block request did not complete')
                 
@@ -49,7 +49,9 @@ class TransactionPool extends Component{
     }
 
     render(){
+        const { navigation } = this.props;
         return(
+            
             <div className="TransactionPool"> 
                 <div><Link to='/'>Home</Link></div>
                 <h3>Transaction Pool</h3>
@@ -65,7 +67,7 @@ class TransactionPool extends Component{
                 }
                 <hr/>
                 <Button 
-                bsStyle="success"
+                // bsStyle="success"
                 onClick={this.fetchMineTransactions}
                 >
                     Mine the Transactions
@@ -76,4 +78,8 @@ class TransactionPool extends Component{
 
 }
 
-export default TransactionPool;
+export default function(props) {
+    const navigation = useNavigate();
+  
+    return <TransactionPool {...props} navigation={navigation} />;
+  }

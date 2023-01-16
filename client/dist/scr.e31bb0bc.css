@@ -11,7 +11,7 @@ body {
     word-wrap:break-word;
 }
 
-.App{
+.Home{
     display: flex;
     flex-direction: column;
     align-items: center;
