@@ -1,8 +1,6 @@
-import { json } from "body-parser";
 import React, { Component } from "react";
 import { FormGroup, FormControl,Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import history from "../history";
+import { Link, useNavigate } from "react-router-dom";
 
 
 class ConductTransaction extends Component {
@@ -43,8 +41,7 @@ class ConductTransaction extends Component {
         }).then(response => response.json())
         .then(json =>{
             alert(json.message || json.type);//message when error
-            history.push('/transaction-pool') 
-
+            this.props.navigation('/transaction-pool') 
         })
     };
 
@@ -53,7 +50,7 @@ class ConductTransaction extends Component {
         // console.log('this.state', this.state);
         return (
             <div className="ConductTransaction">
-                <Link to='/'>Home</Link>
+                {/* <Link to='/'>Home</Link> */}
                 <h3>Conduct a Currency Transaction</h3>
                 <FormGroup>
                     <FormControl
@@ -81,7 +78,7 @@ class ConductTransaction extends Component {
                 </FormGroup>
                 <div>
                     <Button
-                    bsStyle="danger"
+                    // bsStyle="danger"
                     onClick={this.conductTransaction}
                     >
                         Submit
@@ -92,4 +89,8 @@ class ConductTransaction extends Component {
     }
 };
 
-export default ConductTransaction;
+export default function(props) {
+    const navigation = useNavigate();
+  
+    return <ConductTransaction {...props} navigation={navigation} />;
+  }

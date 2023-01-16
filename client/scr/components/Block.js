@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import { Button } from "react-bootstrap";
 import Transaction from "./Transaction";
 
+
 class Block extends Component {
 
-    //to select if we want a breif display or deatiled  
+    //to select if we want a brief display or detailed  
     state = {
         displayTransaction: false
     };
@@ -38,8 +39,8 @@ class Block extends Component {
                     }
                     <br />
                     <Button
-                        bsStyle="success"
-                        bsSize="small"
+                        // bsStyle="success"
+                        // bsSize="small"
                         onClick={this.toggleTransaction}
                     >Show Less
                     </Button>
@@ -52,8 +53,8 @@ class Block extends Component {
             <div>
                 <div>Data: {dataDisplay}</div>
                 <Button
-                    bsStyle="success"
-                    bsSize="small"
+                    // bsStyle="success"
+                    // bsSize="small"
                     onClick={this.toggleTransaction}
                 >Show More
                 </Button>
