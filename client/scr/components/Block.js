@@ -76,12 +76,12 @@ class Block extends Component {
 
         return (
             <div className="Block"  onDoubleClick={this.toggleTransaction}>
-                <div><Badge style={{ fontSize: "20px" }} bg="dark" text="light">Block#  {`${blocknumber+1}`}</Badge> </div>
-                <div><Badge style={{ fontSize: "16px" }} bg="light" text="dark">TimeStamp:  {`${new Date(timeStamp).toLocaleString()}`}</Badge> </div>
-                <div> <Badge style={{ fontSize: "16px" }} bg="success" >Hash:</Badge> {hash}</div>
-                <div> <Badge style={{ fontSize: "16px" }} bg="secondary" >Last Hash:</Badge> {lastHash}</div>
-               <div> <Badge style={{ fontSize: "16px" }} bg="light" text="dark">Difficulty:  {difficulty}</Badge> </div> 
-               <div><Badge style={{ fontSize: "16px" }} bg="light" text="dark">nonce:  {nonce}</Badge> </div> 
+                <div className="BlockInfo"><Badge style={{ fontSize: "20px" }} bg="dark" text="light">Block#  {`${blocknumber+1}`}</Badge> </div>
+                <div className="BlockInfo"><Badge style={{ fontSize: "16px" }} bg="light" text="dark">TimeStamp:  {`${new Date(timeStamp).toLocaleString()}`}</Badge> </div>
+                <div className="BlockInfo"> <Badge style={{ fontSize: "16px" }} bg="success" >Hash:</Badge> {hash}</div>
+                <div className="BlockInfo"> <Badge style={{ fontSize: "16px" }} bg="secondary" >Last Hash:</Badge> {lastHash}</div>
+               <div className="BlockInfo"> <Badge style={{ fontSize: "16px" }} bg="light" text="dark">Difficulty:  {difficulty}</Badge> </div> 
+               <div className="BlockInfo"><Badge style={{ fontSize: "16px" }} bg="light" text="dark">nonce:  {nonce}</Badge> </div> 
                 {this.displayTransaction}
             </div>
         );

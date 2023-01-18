@@ -48,6 +48,10 @@ body {
     word-spacing: 110%;
 }
 
+.BlockInfo{
+    margin-bottom: 3px;
+}
+
 .Poll {
     padding: 4%;
     font-size: medium;

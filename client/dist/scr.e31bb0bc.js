@@ -52794,35 +52794,47 @@ var Block = /*#__PURE__*/function (_Component) {
       return /*#__PURE__*/_react.default.createElement("div", {
         className: "Block",
         onDoubleClick: this.toggleTransaction
-      }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+      }, /*#__PURE__*/_react.default.createElement("div", {
+        className: "BlockInfo"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
         style: {
           fontSize: "20px"
         },
         bg: "dark",
         text: "light"
-      }, "Block#  ", "".concat(blocknumber + 1)), " "), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+      }, "Block#  ", "".concat(blocknumber + 1)), " "), /*#__PURE__*/_react.default.createElement("div", {
+        className: "BlockInfo"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
         style: {
           fontSize: "16px"
         },
         bg: "light",
         text: "dark"
-      }, "TimeStamp:  ", "".concat(new Date(timeStamp).toLocaleString())), " "), /*#__PURE__*/_react.default.createElement("div", null, " ", /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+      }, "TimeStamp:  ", "".concat(new Date(timeStamp).toLocaleString())), " "), /*#__PURE__*/_react.default.createElement("div", {
+        className: "BlockInfo"
+      }, " ", /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
         style: {
           fontSize: "16px"
         },
         bg: "success"
-      }, "Hash:"), " ", hash), /*#__PURE__*/_react.default.createElement("div", null, " ", /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+      }, "Hash:"), " ", hash), /*#__PURE__*/_react.default.createElement("div", {
+        className: "BlockInfo"
+      }, " ", /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
         style: {
           fontSize: "16px"
         },
         bg: "secondary"
-      }, "Last Hash:"), " ", lastHash), /*#__PURE__*/_react.default.createElement("div", null, " ", /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+      }, "Last Hash:"), " ", lastHash), /*#__PURE__*/_react.default.createElement("div", {
+        className: "BlockInfo"
+      }, " ", /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
         style: {
           fontSize: "16px"
         },
         bg: "light",
         text: "dark"
-      }, "Difficulty:  ", difficulty), " "), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+      }, "Difficulty:  ", difficulty), " "), /*#__PURE__*/_react.default.createElement("div", {
+        className: "BlockInfo"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
         style: {
           fontSize: "16px"
         },
