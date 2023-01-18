@@ -1,7 +1,7 @@
 import React,{Component} from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Transaction from "./Transaction";
+import Transaction from "../components/Transaction";
 import { useNavigate } from 'react-router-dom';
 
 const POLL_INTERVAL_MS = 10000;
@@ -53,7 +53,6 @@ class TransactionPool extends Component{
         return(
             
             <div className="TransactionPool"> 
-                {/* <div><Link to='/'>Home</Link></div> */}
                 <h3>Transaction Pool</h3>
                 {
                     Object.values(this.state.transactionPoolMap).map(transaction =>{
@@ -67,7 +66,6 @@ class TransactionPool extends Component{
                 }
                 <hr/>
                 <Button 
-                // bsStyle="success"
                 onClick={this.fetchMineTransactions}
                 >
                     Mine the Transactions

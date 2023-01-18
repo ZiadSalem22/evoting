@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import Block from "./Block";
+import Block from "../components/Block";
 import { Link } from "react-router-dom";
 
 class Blocks extends Component {

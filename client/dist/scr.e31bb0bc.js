@@ -52603,7 +52603,7 @@ var Block = /*#__PURE__*/function (_Component) {
 ;
 var _default = Block;
 exports.default = _default;
-},{"react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/esm/index.js","./Transaction":"components/Transaction.js"}],"components/Blocks.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/esm/index.js","./Transaction":"components/Transaction.js"}],"pages/Blocks.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -52611,7 +52611,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _react = _interopRequireWildcard(require("react"));
-var _Block = _interopRequireDefault(require("./Block"));
+var _Block = _interopRequireDefault(require("../components/Block"));
 var _reactRouterDom = require("react-router-dom");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -52673,7 +52673,7 @@ var Blocks = /*#__PURE__*/function (_Component) {
 }(_react.Component);
 var _default = Blocks;
 exports.default = _default;
-},{"react":"../../node_modules/react/index.js","./Block":"components/Block.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js"}],"components/ConductTransaction.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","../components/Block":"components/Block.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js"}],"pages/ConductTransaction.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -52682,11 +52682,20 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = _default;
 var _react = _interopRequireWildcard(require("react"));
 var _reactBootstrap = require("react-bootstrap");
+var _ThemeProvider = require("react-bootstrap/esm/ThemeProvider");
 var _reactRouterDom = require("react-router-dom");
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
@@ -52708,79 +52717,124 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
       args[_key] = arguments[_key];
     }
     _this = _super.call.apply(_super, [this].concat(args));
-    _defineProperty(_assertThisInitialized(_this), "state", {
-      privateKey: '',
-      recipient: '',
-      amount: 0
+    _defineProperty(_assertThisInitialized(_this), "setField", function (field, value) {
+      _this.props.setForm(_objectSpread(_objectSpread({}, _this.props.form), {}, _defineProperty({}, field, value)));
+      if (!!_this.props.errors[field]) {
+        _this.props.setErrors(_objectSpread(_objectSpread({}, _this.props.errors), {}, _defineProperty({}, field, null)));
+      }
     });
-    _defineProperty(_assertThisInitialized(_this), "updatePrivateKey", function (event) {
-      _this.setState({
-        privateKey: event.target.value
-      });
-    });
-    _defineProperty(_assertThisInitialized(_this), "updateRecipient", function (event) {
-      _this.setState({
-        recipient: event.target.value
-      });
-    });
-    _defineProperty(_assertThisInitialized(_this), "updateAmount", function (event) {
-      _this.setState({
-        amount: Number(event.target.value)
-      });
+    _defineProperty(_assertThisInitialized(_this), "validateForm", function () {
+      var _this$props$form = _this.props.form,
+        amount = _this$props$form.amount,
+        recipient = _this$props$form.recipient,
+        privateKey = _this$props$form.privateKey;
+      var newErrors = {};
+      if (!recipient || recipient.trim() === '') {
+        newErrors.recipient = 'please enter your recipient address';
+      } else if (recipient.length !== 130) {
+        newErrors.recipient = 'please enter valid recipient address example \n 0497f2b16ecde8cf1ce5165ce437c6c25db3860606aeed436371cec3fa35c22c378bf1c10ac4f0c53358bbb26ffaef2ad2d0dcf75982fc2b721237ab53ebcc0268 ';
+      }
+      if (!privateKey || privateKey.trim() === '') {
+        newErrors.privateKey = 'please enter your privateKey';
+      } else if (privateKey.length < '55685527491970eb3000f6cd279e43151cb854fb2fa2c44e23ffb985c841d850'.length) {
+        newErrors.privateKey = 'please enter valid recipient address example \n 55685527491970eb3000f6cd279e43151cb854fb2fa2c44e23ffb985c841d850 ';
+      }
+      if (!amount || amount < 1) {
+        newErrors.amount = 'please enter valid amount > 1 ';
+      }
+      return newErrors;
     });
     _defineProperty(_assertThisInitialized(_this), "conductTransaction", function () {
-      var _this$state = _this.state,
-        privateKey = _this$state.privateKey,
-        recipient = _this$state.recipient,
-        amount = _this$state.amount;
-      var data = {
-        recipient: recipient,
-        amount: amount
-      };
-      fetch("".concat(document.location.origin, "/api/transact"), {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          privateKey: privateKey,
-          data: data
-        })
-      }).then(function (response) {
-        return response.json();
-      }).then(function (json) {
-        alert(json.message || json.type); //message when error
-        _this.props.navigation('/transaction-pool');
-      });
+      var formErrors = _this.validateForm();
+      if (Object.keys(formErrors).length > 0) {
+        _this.props.setErrors(formErrors);
+      } else {
+        // const { privateKey, } = this.state;
+        var _this$props$form2 = _this.props.form,
+          amount = _this$props$form2.amount,
+          recipient = _this$props$form2.recipient,
+          privateKey = _this$props$form2.privateKey;
+        var data = {
+          recipient: recipient,
+          amount: amount
+        };
+        fetch("".concat(document.location.origin, "/api/transact"), {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            privateKey: privateKey,
+            data: data
+          })
+        }).then(function (response) {
+          return response.json();
+        }).then(function (json) {
+          alert(json.message || json.type); //message when error
+          _this.props.navigation('/transaction-pool');
+        });
+      }
     });
     return _this;
   }
   _createClass(ConductTransaction, [{
     key: "render",
     value: function render() {
-      // console.log('this.state', this.state);
+      var _this2 = this;
       return /*#__PURE__*/_react.default.createElement("div", {
         className: "ConductTransaction"
-      }, /*#__PURE__*/_react.default.createElement("h3", null, "Conduct a Currency Transaction"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form, {
+        className: "ConductTransactionForm"
+      }, /*#__PURE__*/_react.default.createElement("h3", null, "Conduct a Currency Transaction"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
+        controlId: "privateKey"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Your Private Key:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
         inputMode: "text",
+        style: {
+          fontSize: "15px"
+        },
         placeholder: "Private Key 041eb5ggfccex234....",
-        value: this.state.privateKey,
-        onChange: this.updatePrivateKey
-      })), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
-        input: "text",
+        value: this.props.form.privateKey || '',
+        onChange: function onChange(e) {
+          return _this2.setField('privateKey', e.target.value.trim());
+        },
+        isInvalid: !!this.props.errors.privateKey
+      }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
+        type: "invalid"
+      }, this.props.errors.privateKey)), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
+        controlId: "recipient"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Recipient Wallet Address:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        type: "text",
+        as: "textarea",
+        rows: 2,
+        style: {
+          fontSize: "15px"
+        },
         placeholder: "recipient",
-        value: this.state.recipient,
-        onChange: this.updateRecipient
-      })), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
-        inputMode: "number",
+        value: this.props.form.recipient || '',
+        onChange: function onChange(e) {
+          return _this2.setField('recipient', e.target.value.trim());
+        },
+        isInvalid: !!this.props.errors.recipient
+      }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
+        type: "invalid"
+      }, this.props.errors.recipient)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
+        controlId: "amount",
+        className: "amount"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Currency Amount:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        type: "number",
         placeholder: "amount",
-        value: this.state.amount,
-        onChange: this.updateAmount
-      })), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button
+        value: this.props.form.amount || 0,
+        onChange: function onChange(e) {
+          return _this2.setField('amount', e.target.value);
+        },
+        isInvalid: !!this.props.errors.amount
+      }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
+        type: "invalid"
+      }, this.props.errors.amount)), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button
       // bsStyle="danger"
       , {
         onClick: this.conductTransaction
-      }, "Submit")));
+      }, "Submit"))));
     }
   }]);
   return ConductTransaction;
@@ -52788,11 +52842,23 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
 ;
 function _default(props) {
   var navigation = (0, _reactRouterDom.useNavigate)();
+  var _useState = (0, _react.useState)({}),
+    _useState2 = _slicedToArray(_useState, 2),
+    form = _useState2[0],
+    setForm = _useState2[1];
+  var _useState3 = (0, _react.useState)({}),
+    _useState4 = _slicedToArray(_useState3, 2),
+    errors = _useState4[0],
+    setErrors = _useState4[1];
   return /*#__PURE__*/_react.default.createElement(ConductTransaction, _extends({}, props, {
-    navigation: navigation
+    navigation: navigation,
+    form: form,
+    setForm: setForm,
+    errors: errors,
+    setErrors: setErrors
   }));
 }
-},{"react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js"}],"components/TransactionPool.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/esm/index.js","react-bootstrap/esm/ThemeProvider":"../../node_modules/react-bootstrap/esm/ThemeProvider.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js"}],"pages/TransactionPool.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -52802,7 +52868,7 @@ exports.default = _default;
 var _react = _interopRequireWildcard(require("react"));
 var _reactBootstrap = require("react-bootstrap");
 var _reactRouterDom = require("react-router-dom");
-var _Transaction = _interopRequireDefault(require("./Transaction"));
+var _Transaction = _interopRequireDefault(require("../components/Transaction"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -52886,9 +52952,7 @@ var TransactionPool = /*#__PURE__*/function (_Component) {
         }, /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement(_Transaction.default, {
           transaction: transaction
         }));
-      }), /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button
-      // bsStyle="success"
-      , {
+      }), /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
         onClick: this.fetchMineTransactions
       }, "Mine the Transactions"));
     }
@@ -52901,7 +52965,7 @@ function _default(props) {
     navigation: navigation
   }));
 }
-},{"react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js","./Transaction":"components/Transaction.js"}],"assets/HNEC_Logo.png":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js","../components/Transaction":"components/Transaction.js"}],"assets/HNEC_Logo.png":[function(require,module,exports) {
 module.exports = "/HNEC_Logo.80fdff35.png";
 },{}],"pages/Home.js":[function(require,module,exports) {
 "use strict";
@@ -53086,9 +53150,9 @@ exports.default = void 0;
 var _react = _interopRequireDefault(require("react"));
 var _reactRouterDom = require("react-router-dom");
 var _Home = _interopRequireDefault(require("./pages/Home"));
-var _Blocks = _interopRequireDefault(require("./components/Blocks"));
-var _ConductTransaction = _interopRequireDefault(require("./components/ConductTransaction"));
-var _TransactionPool = _interopRequireDefault(require("./components/TransactionPool"));
+var _Blocks = _interopRequireDefault(require("./pages/Blocks"));
+var _ConductTransaction = _interopRequireDefault(require("./pages/ConductTransaction"));
+var _TransactionPool = _interopRequireDefault(require("./pages/TransactionPool"));
 var _NavBar = _interopRequireDefault(require("./components/NavBar"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 // import './App.css';
@@ -53111,16 +53175,16 @@ function App() {
 }
 var _default = App;
 exports.default = _default;
-},{"react":"../../node_modules/react/index.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js","./pages/Home":"pages/Home.js","./components/Blocks":"components/Blocks.js","./components/ConductTransaction":"components/ConductTransaction.js","./components/TransactionPool":"components/TransactionPool.js","./components/NavBar":"components/NavBar.js"}],"index.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js","./pages/Home":"pages/Home.js","./pages/Blocks":"pages/Blocks.js","./pages/ConductTransaction":"pages/ConductTransaction.js","./pages/TransactionPool":"pages/TransactionPool.js","./components/NavBar":"components/NavBar.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
 var _client = require("react-dom/client");
 var _reactRouterDom = require("react-router-dom");
 require("./index.css");
-var _Blocks = _interopRequireDefault(require("./components/Blocks"));
-var _ConductTransaction = _interopRequireDefault(require("./components/ConductTransaction"));
-var _TransactionPool = _interopRequireDefault(require("./components/TransactionPool"));
+var _Blocks = _interopRequireDefault(require("./pages/Blocks"));
+var _ConductTransaction = _interopRequireDefault(require("./pages/ConductTransaction"));
+var _TransactionPool = _interopRequireDefault(require("./pages/TransactionPool"));
 var _App = _interopRequireDefault(require("./App"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 //getting react  module from react node module folder
@@ -53129,7 +53193,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var root = (0, _client.createRoot)(document.getElementById('root'));
 // here we render a specific div  (html or xml) code with a specific element id in our document
 root.render( /*#__PURE__*/_react.default.createElement(_App.default, null));
-},{"react":"../../node_modules/react/index.js","react-dom/client":"../../node_modules/react-dom/client.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js","./index.css":"index.css","./components/Blocks":"components/Blocks.js","./components/ConductTransaction":"components/ConductTransaction.js","./components/TransactionPool":"components/TransactionPool.js","./App":"App.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","react-dom/client":"../../node_modules/react-dom/client.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js","./index.css":"index.css","./pages/Blocks":"pages/Blocks.js","./pages/ConductTransaction":"pages/ConductTransaction.js","./pages/TransactionPool":"pages/TransactionPool.js","./App":"App.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -53154,7 +53218,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53185" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61871" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

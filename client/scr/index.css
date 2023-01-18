@@ -51,6 +51,27 @@ body {
     padding: 4%;
 }
 
+.ConductTransaction{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ConductTransactionForm{
+    border: 5px solid #5cb4fd;
+    border-radius:  25px;
+    padding: 3%;
+    margin: 2%;
+    width: 600px;
+    max-width: 1000px;
+    word-wrap: break-word;
+    word-spacing: 110%;
+}
+/* 
+.amount{
+    max-width: 600px;
+
+} */
 .ConductTransaction,.TransactionPool{
     padding: 5%;
     margin: 2%;
