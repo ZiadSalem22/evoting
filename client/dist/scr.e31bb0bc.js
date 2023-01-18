@@ -52461,6 +52461,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _react = _interopRequireDefault(require("react"));
+var _reactBootstrap = require("react-bootstrap");
 var _config = require("../../../config");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 //stateless functional style of creating a component
@@ -52477,36 +52478,227 @@ var Transaction = function Transaction(_ref) {
       var voters = Object.values(output.voters);
       var endDate = new Date(output.endDate).toLocaleString() || '';
       return /*#__PURE__*/_react.default.createElement("div", {
-        className: "Transaction"
-      }, /*#__PURE__*/_react.default.createElement("div", null, "Transaction/Poll Id: ", "".concat(id), " | Transaction Type: ", "".concat(transactionType), " "), /*#__PURE__*/_react.default.createElement("div", null, "TimeStamp: ", "".concat(new Date(input.timeStamp).toLocaleString()), " "), /*#__PURE__*/_react.default.createElement("div", null, "From address: ", "".concat(input.address), " "), /*#__PURE__*/_react.default.createElement("div", null, "Signature: "), /*#__PURE__*/_react.default.createElement("div", null, "r:".concat(input.signature.r)), /*#__PURE__*/_react.default.createElement("div", null, "s: ".concat(input.signature.s)), /*#__PURE__*/_react.default.createElement("div", null, "recoveryParam: ".concat(input.signature.recoveryParam), " "), /*#__PURE__*/_react.default.createElement("div", null, "Poll Name: ", "".concat(output.name), " "), /*#__PURE__*/_react.default.createElement("div", null, "Start Date: ", "".concat(new Date(output.startDate).toLocaleString()), " | End Date ", "".concat(endDate), " "), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, "Options [", options.length, "]:  ", options.map(function (option) {
+        className: "Poll"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Container, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "17px"
+        },
+        bg: "light",
+        text: "dark"
+      }, "Transaction/Poll Id: ", "".concat(id)), /*#__PURE__*/_react.default.createElement("br", null), " ", /*#__PURE__*/_react.default.createElement("div", {
+        style: {
+          whiteSpace: "nowrap"
+        }
+      })), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "14px"
+        }
+      }, "Transaction Type: ", transactionType)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "14px"
+        },
+        bg: "light",
+        text: "dark"
+      }, "TimeStamp:  ", "".concat(new Date(input.timeStamp).toLocaleString())), "  "))), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "14px"
+        },
+        bg: "info",
+        text: "dark"
+      }, "From Address:"), /*#__PURE__*/_react.default.createElement("br", null), "".concat(input.address), " ")), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, " ", /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "14px"
+        },
+        bg: "info",
+        text: "dark"
+      }, "Signature:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement("div", null, "r:".concat(input.signature.r))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement("div", null, "s: ".concat(input.signature.s))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement("div", null, "recoveryParam: ".concat(input.signature.recoveryParam), " ")))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "14px"
+        },
+        bg: "warning",
+        text: "dark"
+      }, "Poll Name:"), /*#__PURE__*/_react.default.createElement("br", null), " ", /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "17px"
+        },
+        bg: "light",
+        text: "dark"
+      }, " ", "".concat(output.name)))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "14px"
+        },
+        bg: "warning",
+        text: "dark"
+      }, "Start Date:"), /*#__PURE__*/_react.default.createElement("br", null), " ", /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "17px"
+        },
+        bg: "light",
+        text: "dark"
+      }, " ", "".concat(new Date(output.startDate).toLocaleString()))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "14px"
+        },
+        bg: "warning",
+        text: "dark"
+      }, " End Date:"), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "17px"
+        },
+        bg: "light",
+        text: "dark"
+      }, " ", "".concat(new Date(output.endDate).toLocaleString())))), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "14px"
+        },
+        bg: "warning",
+        text: "dark"
+      }, "Options [", options.length, "]: "))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, options.map(function (option) {
         return /*#__PURE__*/_react.default.createElement("div", {
           key: option
-        }, "".concat(option));
-      }), " "), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, "Voters [", voters.length, "]:  ", voters.map(function (voter) {
+        }, /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+          style: {
+            whiteSpace: "normal",
+            fontSize: "14px"
+          },
+          bg: "light",
+          text: "dark"
+        }, "".concat(option)));
+      })), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "14px"
+        },
+        bg: "warning",
+        text: "dark"
+      }, "Voters [", voters.length, "]: "))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, voters.map(function (voter) {
         return /*#__PURE__*/_react.default.createElement("div", {
           key: voter
-        }, "".concat(voter));
-      })));
+        }, /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", {
+          style: {
+            fontSize: "14px"
+          }
+        }, "".concat(voter)));
+      }))));
       break;
     case _config.TRANSACTION_TYPE.BALLOT:
       return /*#__PURE__*/_react.default.createElement("div", {
-        className: "Transaction"
-      }, /*#__PURE__*/_react.default.createElement("div", null, "Transaction/Ballot Id: ", "".concat(id), " | Transaction Type: ", "".concat(transactionType), " "), /*#__PURE__*/_react.default.createElement("div", null, "TimeStamp: ", "".concat(new Date(input.timeStamp).toLocaleString()), " "), /*#__PURE__*/_react.default.createElement("div", null, "From address: ", "".concat(input.address), " "), /*#__PURE__*/_react.default.createElement("div", null, "Signature: "), /*#__PURE__*/_react.default.createElement("div", null, "r:".concat(input.signature.r)), /*#__PURE__*/_react.default.createElement("div", null, "s: ".concat(input.signature.s)), /*#__PURE__*/_react.default.createElement("div", null, "recoveryParam: ".concat(input.signature.recoveryParam), " "), /*#__PURE__*/_react.default.createElement("div", null, "Poll Id:", "".concat(output.pollId), " "), /*#__PURE__*/_react.default.createElement("div", null, "voted Option:  ", "[".concat(output.voteOption, "]"), " "));
+        className: "Ballot"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Container, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "17px"
+        },
+        bg: "light",
+        text: "dark"
+      }, "Transaction/Ballot Id: ", "".concat(id)), /*#__PURE__*/_react.default.createElement("br", null), " ", /*#__PURE__*/_react.default.createElement("div", {
+        style: {
+          whiteSpace: "nowrap"
+        }
+      })), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "14px"
+        }
+      }, "Transaction Type: ", transactionType)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "14px"
+        },
+        bg: "light",
+        text: "dark"
+      }, "TimeStamp:  ", "".concat(new Date(input.timeStamp).toLocaleString())), "  "))), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "14px"
+        },
+        bg: "info",
+        text: "dark"
+      }, "From Address:"), /*#__PURE__*/_react.default.createElement("br", null), "".concat(input.address), " ")), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, " ", /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "14px"
+        },
+        bg: "info",
+        text: "dark"
+      }, "Signature:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement("div", null, "r:".concat(input.signature.r))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement("div", null, "s: ".concat(input.signature.s))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement("div", null, "recoveryParam: ".concat(input.signature.recoveryParam), " ")))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "14px"
+        },
+        bg: "warning",
+        text: "dark"
+      }, "Poll Id:"), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          whiteSpace: "normal",
+          fontSize: "14px"
+        },
+        bg: "light",
+        text: "dark"
+      }, "".concat(output.pollId)))), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "14px"
+        },
+        bg: "warning",
+        text: "dark"
+      }, "Voted Option: "), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          whiteSpace: "normal",
+          fontSize: "14px"
+        },
+        bg: "light",
+        text: "dark"
+      }, "".concat(output.voteOption))))));
       break;
     default:
       var recipient = Object.keys(outputMap);
       return /*#__PURE__*/_react.default.createElement("div", {
         className: "Transaction"
-      }, /*#__PURE__*/_react.default.createElement("div", null, "Transaction Id: ", "".concat(id), " | transaction Type: ", "".concat(transactionType)), /*#__PURE__*/_react.default.createElement("div", null, "TimeStamp: ", "".concat(new Date(input.timeStamp).toLocaleString()), " "), /*#__PURE__*/_react.default.createElement("div", null, "From Address: ", "".concat(input.address), " | Balance: ", input.amount), recipient.map(function (recipient) {
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Container, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "17px"
+        },
+        bg: "light",
+        text: "dark"
+      }, "Transaction Id: ", "".concat(id)), /*#__PURE__*/_react.default.createElement("br", null), " ", /*#__PURE__*/_react.default.createElement("div", {
+        style: {
+          whiteSpace: "nowrap"
+        }
+      })), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "14px"
+        },
+        bg: "success"
+      }, "Transaction Type: ", transactionType)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "14px"
+        },
+        bg: "light",
+        text: "dark"
+      }, "TimeStamp:  ", "".concat(new Date(input.timeStamp).toLocaleString())), "  "))), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "14px"
+        },
+        bg: "danger"
+      }, "From Address:"), /*#__PURE__*/_react.default.createElement("br", null), "".concat(input.address), " "), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "14px"
+        },
+        bg: "danger"
+      }, "Balance: "), input.amount)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, recipient.map(function (recipient) {
         return /*#__PURE__*/_react.default.createElement("div", {
           key: recipient
-        }, "To:", "".concat(recipient), " : sent ", outputMap[recipient]);
-      }));
+        }, /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+          bg: "success",
+          style: {
+            whiteSpace: "normal",
+            fontSize: "14px"
+          }
+        }, " To:"), " ", "".concat(recipient), " : ", /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+          style: {
+            fontSize: "14px"
+          },
+          bg: "success"
+        }, " sent: ", outputMap[recipient]));
+      }))));
   }
 };
 var _default = Transaction;
 exports.default = _default;
-},{"react":"../../node_modules/react/index.js","../../../config":"../../config.js"}],"components/Block.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/esm/index.js","../../../config":"../../config.js"}],"components/Block.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -52558,7 +52750,7 @@ var Block = /*#__PURE__*/function (_Component) {
     function get() {
       var data = this.props.block.data;
       var stringifiedData = JSON.stringify(data);
-      var dataDisplay = stringifiedData.length > 35 ? "".concat(stringifiedData.substring(0, 35), "...") : stringifiedData;
+      var dataDisplay = stringifiedData.length > 35 ? " Transactions count : ".concat(Object.keys(data).length) : stringifiedData;
       if (this.state.displayTransaction) {
         return /*#__PURE__*/_react.default.createElement("div", null, data.map(function (transaction) {
           return /*#__PURE__*/_react.default.createElement("div", {
@@ -52573,7 +52765,13 @@ var Block = /*#__PURE__*/function (_Component) {
           onClick: this.toggleTransaction
         }, "Show Less"));
       }
-      return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", null, "Data: ", dataDisplay), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button
+      return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "16px"
+        },
+        bg: "light",
+        text: "dark"
+      }, "Data:"), dataDisplay), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button
       // bsStyle="success"
       // bsSize="small"
       , {
@@ -52589,13 +52787,48 @@ var Block = /*#__PURE__*/function (_Component) {
         lastHash = _this$props$block.lastHash,
         nonce = _this$props$block.nonce,
         difficulty = _this$props$block.difficulty;
+      var blocknumber = this.props.blockNumber;
 
       // const hashDisplay = `${hash.substring(0, 15)}...`;
       var hashDisplay = "".concat(hash);
       return /*#__PURE__*/_react.default.createElement("div", {
         className: "Block",
         onDoubleClick: this.toggleTransaction
-      }, /*#__PURE__*/_react.default.createElement("div", null, " TimeStamp: ", new Date(timeStamp).toLocaleString()), /*#__PURE__*/_react.default.createElement("div", null, " Hash: ", hash), /*#__PURE__*/_react.default.createElement("div", null, " Last Hash: ", lastHash), /*#__PURE__*/_react.default.createElement("div", null, " Difficulty: ", difficulty), /*#__PURE__*/_react.default.createElement("div", null, " nonce: ", nonce), this.displayTransaction);
+      }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "20px"
+        },
+        bg: "dark",
+        text: "light"
+      }, "Block#  ", "".concat(blocknumber + 1)), " "), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "16px"
+        },
+        bg: "light",
+        text: "dark"
+      }, "TimeStamp:  ", "".concat(new Date(timeStamp).toLocaleString())), " "), /*#__PURE__*/_react.default.createElement("div", null, " ", /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "16px"
+        },
+        bg: "success"
+      }, "Hash:"), " ", hash), /*#__PURE__*/_react.default.createElement("div", null, " ", /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "16px"
+        },
+        bg: "secondary"
+      }, "Last Hash:"), " ", lastHash), /*#__PURE__*/_react.default.createElement("div", null, " ", /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "16px"
+        },
+        bg: "light",
+        text: "dark"
+      }, "Difficulty:  ", difficulty), " "), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "16px"
+        },
+        bg: "light",
+        text: "dark"
+      }, "nonce:  ", nonce), " "), this.displayTransaction);
     }
   }]);
   return Block;
@@ -52658,13 +52891,14 @@ var Blocks = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      console.log('this.state', this.state);
+      var _this3 = this;
       return /*#__PURE__*/_react.default.createElement("div", {
         className: "Blocks"
       }, /*#__PURE__*/_react.default.createElement("h3", null, "Blocks"), this.state.blocks.map(function (block) {
         return /*#__PURE__*/_react.default.createElement(_Block.default, {
           key: block.hash,
-          block: block
+          block: block,
+          blockNumber: _this3.state.blocks.length - 1 - _this3.state.blocks.indexOf(block)
         });
       }));
     }
@@ -53218,7 +53452,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61871" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59597" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
