@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button } from "react-bootstrap";
+import { Badge, Button } from "react-bootstrap";
 import Transaction from "./Transaction";
 
 
@@ -23,7 +23,7 @@ class Block extends Component {
         const stringifiedData = JSON.stringify(data);
 
         const dataDisplay = stringifiedData.length > 35 ?
-            `${stringifiedData.substring(0, 35)}...` :
+            ` Transactions count : ${Object.keys(data).length}` :
             stringifiedData;
 
         if (this.state.displayTransaction) {
@@ -51,7 +51,8 @@ class Block extends Component {
 
         return (
             <div>
-                <div>Data: {dataDisplay}</div>
+                <div><Badge  style={{ fontSize: "16px" }} bg="light" text="dark" >Data:</Badge>{dataDisplay}</div>
+                <br/>
                 <Button
                     // bsStyle="success"
                     // bsSize="small"
@@ -67,6 +68,7 @@ class Block extends Component {
 
 
         const { timeStamp, hash, lastHash, nonce, difficulty } = this.props.block;
+        const blocknumber = this.props.blockNumber;
 
         // const hashDisplay = `${hash.substring(0, 15)}...`;
         const hashDisplay = `${hash}`;
@@ -74,11 +76,12 @@ class Block extends Component {
 
         return (
             <div className="Block"  onDoubleClick={this.toggleTransaction}>
-                <div> TimeStamp: {new Date(timeStamp).toLocaleString()}</div>
-                <div> Hash: {hash}</div>
-                <div> Last Hash: {lastHash}</div>
-                <div> Difficulty: {difficulty}</div>
-                <div> nonce: {nonce}</div>
+                <div className="BlockInfo"><Badge style={{ fontSize: "20px" }} bg="dark" text="light">Block#  {`${blocknumber+1}`}</Badge> </div>
+                <div className="BlockInfo"><Badge style={{ fontSize: "16px" }} bg="light" text="dark">TimeStamp:  {`${new Date(timeStamp).toLocaleString()}`}</Badge> </div>
+                <div className="BlockInfo"> <Badge style={{ fontSize: "16px" }} bg="success" >Hash:</Badge> {hash}</div>
+                <div className="BlockInfo"> <Badge style={{ fontSize: "16px" }} bg="secondary" >Last Hash:</Badge> {lastHash}</div>
+               <div className="BlockInfo"> <Badge style={{ fontSize: "16px" }} bg="light" text="dark">Difficulty:  {difficulty}</Badge> </div> 
+               <div className="BlockInfo"><Badge style={{ fontSize: "16px" }} bg="light" text="dark">nonce:  {nonce}</Badge> </div> 
                 {this.displayTransaction}
             </div>
         );

@@ -8,16 +8,17 @@ body {
     font-size: 20px;
     font-family: 'Quicksand';
     padding-bottom: 5%;
-    word-wrap:break-word;
+    word-wrap: break-word;
 }
 
-.Home{
+.Home {
     display: flex;
     flex-direction: column;
     align-items: center;
-    
+
 }
-.Blocks{
+
+.Blocks {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -26,40 +27,80 @@ body {
 .logo {
     width: 250px;
     height: 250px;
-    border-radius:  20px;
-    margin-top:  60px;
+    border-radius: 20px;
+    margin-top: 60px;
 
 
 }
 
-.WalletInfo{
+.WalletInfo {
     width: 500px;
 }
 
-.Block{
+.Block {
     border: 5px solid #5cb4fd;
-    border-radius:  25px;
+    border-radius: 25px;
     padding: 3%;
     margin: 2%;
-    max-width: 1050px;
+    max-width: 800px;
     font-size: medium;
     word-wrap: break-word;
     word-spacing: 110%;
 }
 
-.Transaction{
-    padding: 4%;
+.BlockInfo{
+    margin-bottom: 3px;
 }
 
-.ConductTransaction{
+.Poll {
+    padding: 4%;
+    font-size: medium;
+    background-image: linear-gradient(55deg,
+            hsl(55deg 100% 50%) 0%,
+            hsl(54deg 78% 41%) -1%,
+            hsl(53deg 65% 29%) -1%,
+            hsl(52deg 51% 16%) 3%,
+            hsl(0deg 0% 0%) 100%);
+
+    border: 0.5px solid #5cb4fd;
+    border-radius: 25px;
+}
+
+.Ballot {
+    padding: 4%;
+    font-size: medium;
+    background-image: linear-gradient(55deg,
+            hsl(210deg 89% 60%) 0%,
+            hsl(211deg 53% 45%) -1%,
+            hsl(213deg 46% 31%) -1%,
+            hsl(216deg 36% 17%) 3%,
+            hsl(0deg 0% 0%) 100%);
+    border: 0.5px solid #5cb4fd;
+    border-radius: 25px;
+}
+
+.Transaction {
+    padding: 4%;
+    font-size: medium;
+    background-image: linear-gradient(55deg,
+            hsl(131deg 83% 27%) 0%,
+            hsl(126deg 63% 23%) -1%,
+            hsl(121deg 48% 17%) -1%,
+            hsl(113deg 38% 10%) 3%,
+            hsl(0deg 0% 0%) 100%);
+    border: 0.5px solid #5cb4fd;
+    border-radius: 25px;
+}
+
+.ConductTransaction {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.ConductTransactionForm{
+.ConductTransactionForm {
     border: 5px solid #5cb4fd;
-    border-radius:  25px;
+    border-radius: 25px;
     padding: 3%;
     margin: 2%;
     width: 600px;
@@ -67,27 +108,36 @@ body {
     word-wrap: break-word;
     word-spacing: 110%;
 }
+
 /* 
 .amount{
     max-width: 600px;
 
 } */
-.ConductTransaction,.TransactionPool{
+
+.TransactionPool{
+    max-width:  800;
+
+
+}
+.ConductTransaction,
+.TransactionPool {
     padding: 5%;
     margin: 2%;
 
 }
 
-a, a:hover{
-    color:#5cb4fd ;
-    text-decoration: underline;
-}
-
-button, :single-button,button:hover{
+a,
+a:hover {
     color: #5cb4fd;
     text-decoration: underline;
 }
 
-
+button,
+:single-button,
+button:hover {
+    color: #5cb4fd;
+    text-decoration: underline;
+}
 
 /*# sourceMappingURL=/scr.e31bb0bc.css.map */

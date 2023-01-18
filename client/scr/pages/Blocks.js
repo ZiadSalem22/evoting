@@ -14,7 +14,6 @@ class Blocks extends Component {
     }
 
     render(){
-        console.log('this.state',this.state);
         return (
             <div className="Blocks">
                 {/* <div><Link to="/">Home</Link></div> */}
@@ -23,7 +22,7 @@ class Blocks extends Component {
                     
                     this.state.blocks.map(block=> {
                         return (                            
-                            <Block key={block.hash} block={block} />
+                            <Block key={block.hash} block={block}  blockNumber={this.state.blocks.length - 1- this.state.blocks.indexOf(block) }/>
                         )
                     })
                 }

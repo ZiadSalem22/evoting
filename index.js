@@ -341,13 +341,15 @@ app.get('/api/seed', (req, res) => {
     let poll1 = wallet.createPoll({
         name: 'الانتخابات الرئاسية الليبية 2023',
         options: ['سيف الاسلام القذافي ', 'عبدالحميد الدبيبة', 'فتحي باشاغا'],
-        voters: voters
+        voters: voters,
+        endDate: '2023-12-27T09:00:00'
     });
 
     let poll2 = new Wallet().createPoll({
         name: 'استفتاء علي المسودة الدستورية رقم 1 2023',
         options: ['نعم', 'لا'],
-        voters: voters
+        voters: voters,
+        endDate: '2023-12-27T09:00:00'
     });
 
 
@@ -383,7 +385,7 @@ app.get('/api/seed', (req, res) => {
         transactionPool.setTransaction(ballot2);
         pubsub.broadcastTransaction(ballot2);
 
-        if (wallets.indexOf(wallet) % 30 === 0) {
+        if (wallets.indexOf(wallet) % 3 === 0) {
             transactionMiner.mineTransactions();
         }
     }
