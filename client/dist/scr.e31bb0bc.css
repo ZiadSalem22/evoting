@@ -110,6 +110,12 @@ body {
     max-width: 600px;
 
 } */
+
+.TransactionPool{
+    max-width:  800;
+
+
+}
 .ConductTransaction,
 .TransactionPool {
     padding: 5%;
