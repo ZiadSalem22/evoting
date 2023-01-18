@@ -2,9 +2,9 @@ import React from 'react';
 // import './App.css';
 import { BrowserRouter as Router, Routes, Route,useNavigate } from 'react-router-dom';
 import Home from './pages/Home';
-import Blocks from './components/Blocks';
-import ConductTransaction from './components/ConductTransaction';
-import TransactionPool from './components/TransactionPool';
+import Blocks from './pages/Blocks';
+import ConductTransaction from './pages/ConductTransaction';
+import TransactionPool from './pages/TransactionPool';
 import NavBar  from './components/NavBar';
 
 function App() {
