@@ -26,7 +26,7 @@ class ConductPoll extends Component {
     setOptions
 
     validateForm = () => {
-        const {  privateKey } = this.props.form
+        const { privateKey } = this.props.form
         const newErrors = {}
 
 
@@ -58,36 +58,36 @@ class ConductPoll extends Component {
             this.props.setErrors(formErrors);
 
         } else {
-        const { name, options, voters, startDate, endDate, privateKey, } = this.props.form;
+            const { name, options, voters, startDate, endDate, privateKey, } = this.props.form;
 
-        let nSD,nED;
-        if (startDate){
-          nSD =  startDate+':00'
-        }
+            let nSD, nED;
+            if (startDate) {
+                nSD = startDate + ':00'
+            }
 
-        if (endDate){
-            nED =  endDate+':00'
-        }
-        
-        const data = {
-            name: name.trim() || undefined,
-            options: options.split(',').map(s => s.trim()).filter(s => s !== ''),
-            voters:  voters.split(',').map(s => s.trim()).filter(s => s !== ''),
-            startDate: nSD || undefined,
-            endDate: nED || undefined
-        }
-        console.log('data', data);
-        fetch(`${document.location.origin}/api/poll`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ privateKey, data })
-        }).then(response => response.json())
-            .then(json => {
-                alert(json.message || json.type);//message when error
-                if( !json.message || json.message === 'Please mine a new new block before adding another Poll to the Pool from the same wallet' ){
+            if (endDate) {
+                nED = endDate + ':00'
+            }
+
+            const data = {
+                name: name.trim() || undefined,
+                options: options.split(',').map(s => s.trim()).filter(s => s !== ''),
+                voters: voters.split(',').map(s => s.trim()).filter(s => s !== ''),
+                startDate: nSD || undefined,
+                endDate: nED || undefined
+            }
+            console.log('data', data);
+            fetch(`${document.location.origin}/api/poll`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ privateKey, data })
+            }).then(response => response.json())
+                .then(json => {
+                    alert(json.message || json.type);//message when error
+                    if (!json.message || json.message === 'Please mine a new new block before adding another Poll to the Pool from the same wallet') {
                         this.props.navigation('/transaction-pool');
-                }
-            })
+                    }
+                })
         }
 
 
@@ -104,7 +104,7 @@ class ConductPoll extends Component {
                         <Form.Label>Your Private Key:</Form.Label>
                         <FormControl
                             type='text'
-                            style={{ fontSize: "15px" }}
+                            className="text"
                             placeholder="Private Key 041eb5ggfccex234...."
                             value={this.props.form.privateKey || ''}
                             onChange={(e) => this.setField('privateKey', e.target.value.trim())}
@@ -119,9 +119,7 @@ class ConductPoll extends Component {
                         <Form.Label>Name:</Form.Label>
                         <FormControl
                             type='text'
-                            // as="textarea"
-                            // rows={2}
-                            // style={{fontSize:"15px"}}
+                            className="text"
                             placeholder="enter poll name"
                             value={this.props.form.name || ''}
                             onChange={(e) => this.setField('name', e.target.value)}
@@ -132,22 +130,14 @@ class ConductPoll extends Component {
                         </Form.Control.Feedback>
                     </FormGroup>
 
-                    <Row>
-                        <Col>Options</Col>
-                    </Row>
-                    <Row>
-                        {/* {renderOptions} */}
-
-                    </Row>
-
                     <FormGroup controlId="pollOptions" className="pollOptions">
                         <Form.Label>Poll Options:</Form.Label>
                         <FormControl
+                            className="text"
                             type='text'
                             as="textarea"
                             rows={5}
-                            style={{ fontSize: "15px" }}
-                            placeholder="enter voting options"
+                            placeholder="enter voting options separated by ',' example: option1,option2 "
                             value={this.props.form.options || ""}
                             onChange={(e) => this.setField('options', e.target.value)}
                             isInvalid={!!this.props.errors.options}
@@ -160,11 +150,11 @@ class ConductPoll extends Component {
                     <FormGroup controlId="pollVoters" className="pollVoters">
                         <Form.Label>Poll Voters:</Form.Label>
                         <FormControl
+                            className="text"
                             type='text'
                             as="textarea"
                             rows={5}
-                            style={{ fontSize: "15px" }}
-                            placeholder="enter voting  wallet address of the people who can vote"
+                            placeholder="enter voters addresses separated by ',' example: 0e3...,04e"
                             value={this.props.form.voters || ""}
                             onChange={(e) => this.setField('voters', e.target.value)}
                             isInvalid={!!this.props.errors.voters}
@@ -174,9 +164,10 @@ class ConductPoll extends Component {
                         </Form.Control.Feedback>
                     </FormGroup>
 
-                    <FormGroup controlId="pollStartDate" className="pollStartDate">
+                    <FormGroup controlId="pollStartDate" className="formDate">
                         <Form.Label>Start Date:</Form.Label>
                         <FormControl
+                            className="text"
                             type='datetime-local'
                             value={this.props.form.startDate || ""}
                             onChange={(e) => this.setField('startDate', e.target.value)}
@@ -188,9 +179,10 @@ class ConductPoll extends Component {
                     </FormGroup>
 
 
-                    <FormGroup controlId="pollEndDate" className="pollEndDate">
+                    <FormGroup controlId="pollEndDate" className="formDate">
                         <Form.Label>End Time:</Form.Label>
                         <FormControl
+                            className="text"
                             type='datetime-local'
                             value={this.props.form.endDate || ""}
                             onChange={(e) => this.setField('endDate', e.target.value)}

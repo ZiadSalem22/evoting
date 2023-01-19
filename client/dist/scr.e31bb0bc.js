@@ -53034,10 +53034,8 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/_react.default.createElement("h3", null, "Conduct a Currency Transaction"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
         controlId: "privateKey"
       }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Your Private Key:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        className: "text",
         inputMode: "text",
-        style: {
-          fontSize: "15px"
-        },
         placeholder: "Private Key 041eb5ggfccex234....",
         value: this.props.form.privateKey || '',
         onChange: function onChange(e) {
@@ -53050,11 +53048,9 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
         controlId: "recipient"
       }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Recipient Wallet Address:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
         type: "text",
+        className: "text",
         as: "textarea",
         rows: 2,
-        style: {
-          fontSize: "15px"
-        },
         placeholder: "recipient",
         value: this.props.form.recipient || '',
         onChange: function onChange(e) {
@@ -53068,6 +53064,7 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
         className: "amount"
       }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Currency Amount:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
         type: "number",
+        className: "text",
         placeholder: "amount",
         value: this.props.form.amount || 0,
         onChange: function onChange(e) {
@@ -53514,9 +53511,7 @@ var ConductPoll = /*#__PURE__*/function (_Component) {
         controlId: "privateKey"
       }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Your Private Key:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
         type: "text",
-        style: {
-          fontSize: "15px"
-        },
+        className: "text",
         placeholder: "Private Key 041eb5ggfccex234....",
         value: this.props.form.privateKey || '',
         onChange: function onChange(e) {
@@ -53528,11 +53523,8 @@ var ConductPoll = /*#__PURE__*/function (_Component) {
       }, this.props.errors.privateKey)), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
         controlId: "pollName"
       }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Name:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
-        type: "text"
-        // as="textarea"
-        // rows={2}
-        // style={{fontSize:"15px"}}
-        ,
+        type: "text",
+        className: "text",
         placeholder: "enter poll name",
         value: this.props.form.name || '',
         onChange: function onChange(e) {
@@ -53541,17 +53533,15 @@ var ConductPoll = /*#__PURE__*/function (_Component) {
         isInvalid: !!this.props.errors.name
       }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
         type: "invalid"
-      }, this.props.errors.name)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, "Options")), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
+      }, this.props.errors.name)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
         controlId: "pollOptions",
         className: "pollOptions"
       }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Poll Options:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        className: "text",
         type: "text",
         as: "textarea",
         rows: 5,
-        style: {
-          fontSize: "15px"
-        },
-        placeholder: "enter voting options",
+        placeholder: "enter voting options separated by ',' example: option1,option2 ",
         value: this.props.form.options || "",
         onChange: function onChange(e) {
           return _this2.setField('options', e.target.value);
@@ -53563,13 +53553,11 @@ var ConductPoll = /*#__PURE__*/function (_Component) {
         controlId: "pollVoters",
         className: "pollVoters"
       }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Poll Voters:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        className: "text",
         type: "text",
         as: "textarea",
         rows: 5,
-        style: {
-          fontSize: "15px"
-        },
-        placeholder: "enter voting  wallet address of the people who can vote",
+        placeholder: "enter voters addresses separated by ',' example: 0e3...,04e",
         value: this.props.form.voters || "",
         onChange: function onChange(e) {
           return _this2.setField('voters', e.target.value);
@@ -53579,8 +53567,9 @@ var ConductPoll = /*#__PURE__*/function (_Component) {
         type: "invalid"
       }, this.props.errors.voters)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
         controlId: "pollStartDate",
-        className: "pollStartDate"
+        className: "formDate"
       }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Start Date:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        className: "text",
         type: "datetime-local",
         value: this.props.form.startDate || "",
         onChange: function onChange(e) {
@@ -53591,8 +53580,9 @@ var ConductPoll = /*#__PURE__*/function (_Component) {
         type: "invalid"
       }, this.props.errors.startDate)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
         controlId: "pollEndDate",
-        className: "pollEndDate"
+        className: "formDate"
       }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "End Time:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        className: "text",
         type: "datetime-local",
         value: this.props.form.endDate || "",
         onChange: function onChange(e) {
