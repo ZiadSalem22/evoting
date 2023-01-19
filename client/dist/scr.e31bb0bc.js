@@ -52983,7 +52983,7 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
       if (!privateKey || privateKey.trim() === '') {
         newErrors.privateKey = 'please enter your privateKey';
       } else if (privateKey.length < '55685527491970eb3000f6cd279e43151cb854fb2fa2c44e23ffb985c841d850'.length) {
-        newErrors.privateKey = 'please enter valid recipient address example \n 55685527491970eb3000f6cd279e43151cb854fb2fa2c44e23ffb985c841d850 ';
+        newErrors.privateKey = 'please enter valid private address example \n 55685527491970eb3000f6cd279e43151cb854fb2fa2c44e23ffb985c841d850 ';
       }
       if (!amount || amount < 1) {
         newErrors.amount = 'please enter valid amount > 1 ';
@@ -53034,10 +53034,8 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/_react.default.createElement("h3", null, "Conduct a Currency Transaction"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
         controlId: "privateKey"
       }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Your Private Key:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        className: "text",
         inputMode: "text",
-        style: {
-          fontSize: "15px"
-        },
         placeholder: "Private Key 041eb5ggfccex234....",
         value: this.props.form.privateKey || '',
         onChange: function onChange(e) {
@@ -53050,11 +53048,9 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
         controlId: "recipient"
       }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Recipient Wallet Address:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
         type: "text",
+        className: "text",
         as: "textarea",
         rows: 2,
-        style: {
-          fontSize: "15px"
-        },
         placeholder: "recipient",
         value: this.props.form.recipient || '',
         onChange: function onChange(e) {
@@ -53068,6 +53064,7 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
         className: "amount"
       }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Currency Amount:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
         type: "number",
+        className: "text",
         placeholder: "amount",
         value: this.props.form.amount || 0,
         onChange: function onChange(e) {
@@ -53331,7 +53328,7 @@ function NavBar() {
     title: "Conduct Transaction",
     id: "offcanvasNavbarDropdown-expand-".concat('xl')
   }, /*#__PURE__*/_react.default.createElement(_NavDropdown.default.Item, {
-    href: "#action5"
+    href: "/conduct-poll"
   }, "Poll"), /*#__PURE__*/_react.default.createElement(_NavDropdown.default.Item, {
     href: "#action4"
   }, "Ballot"), /*#__PURE__*/_react.default.createElement(_NavDropdown.default.Divider, null), /*#__PURE__*/_react.default.createElement(_NavDropdown.default.Item, {
@@ -53386,7 +53383,252 @@ function NavBar() {
 }
 var _default = NavBar;
 exports.default = _default;
-},{"react":"../../node_modules/react/index.js","react-bootstrap/Button":"../../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Container":"../../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Form":"../../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Nav":"../../node_modules/react-bootstrap/esm/Nav.js","react-bootstrap/Navbar":"../../node_modules/react-bootstrap/esm/Navbar.js","react-bootstrap/NavDropdown":"../../node_modules/react-bootstrap/esm/NavDropdown.js","react-bootstrap/Offcanvas":"../../node_modules/react-bootstrap/esm/Offcanvas.js"}],"App.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","react-bootstrap/Button":"../../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Container":"../../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Form":"../../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Nav":"../../node_modules/react-bootstrap/esm/Nav.js","react-bootstrap/Navbar":"../../node_modules/react-bootstrap/esm/Navbar.js","react-bootstrap/NavDropdown":"../../node_modules/react-bootstrap/esm/NavDropdown.js","react-bootstrap/Offcanvas":"../../node_modules/react-bootstrap/esm/Offcanvas.js"}],"pages/ConductPoll.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = _default;
+var _react = _interopRequireWildcard(require("react"));
+var _reactBootstrap = require("react-bootstrap");
+var _reactRouterDom = require("react-router-dom");
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+var ConductPoll = /*#__PURE__*/function (_Component) {
+  _inherits(ConductPoll, _Component);
+  var _super = _createSuper(ConductPoll);
+  function ConductPoll() {
+    var _this;
+    _classCallCheck(this, ConductPoll);
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _super.call.apply(_super, [this].concat(args));
+    _defineProperty(_assertThisInitialized(_this), "setField", function (field, value) {
+      _this.props.setForm(_objectSpread(_objectSpread({}, _this.props.form), {}, _defineProperty({}, field, value)));
+      if (!!_this.props.errors[field]) {
+        _this.props.setErrors(_objectSpread(_objectSpread({}, _this.props.errors), {}, _defineProperty({}, field, null)));
+      }
+    });
+    _defineProperty(_assertThisInitialized(_this), "setOptions", void 0);
+    _defineProperty(_assertThisInitialized(_this), "validateForm", function () {
+      var privateKey = _this.props.form.privateKey;
+      var newErrors = {};
+      if (!privateKey || privateKey.trim() === '') {
+        newErrors.privateKey = 'please enter your privateKey';
+      } else if (privateKey.length < '55685527491970eb3000f6cd279e43151cb854fb2fa2c44e23ffb985c841d850'.length) {
+        newErrors.privateKey = 'please enter valid private address example \n 55685527491970eb3000f6cd279e43151cb854fb2fa2c44e23ffb985c841d850 ';
+      }
+      return newErrors;
+    });
+    _defineProperty(_assertThisInitialized(_this), "conductPoll", function () {
+      var formErrors = _this.validateForm();
+      if (Object.keys(formErrors).length > 0) {
+        _this.props.setErrors(formErrors);
+      } else {
+        var _this$props$form = _this.props.form,
+          name = _this$props$form.name,
+          options = _this$props$form.options,
+          voters = _this$props$form.voters,
+          startDate = _this$props$form.startDate,
+          endDate = _this$props$form.endDate,
+          privateKey = _this$props$form.privateKey;
+        var nSD, nED;
+        if (startDate) {
+          nSD = startDate + ':00';
+        }
+        if (endDate) {
+          nED = endDate + ':00';
+        }
+        var data = {
+          name: name.trim() || undefined,
+          options: options.split(',').map(function (s) {
+            return s.trim();
+          }).filter(function (s) {
+            return s !== '';
+          }),
+          voters: voters.split(',').map(function (s) {
+            return s.trim();
+          }).filter(function (s) {
+            return s !== '';
+          }),
+          startDate: nSD || undefined,
+          endDate: nED || undefined
+        };
+        console.log('data', data);
+        fetch("".concat(document.location.origin, "/api/poll"), {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            privateKey: privateKey,
+            data: data
+          })
+        }).then(function (response) {
+          return response.json();
+        }).then(function (json) {
+          alert(json.message || json.type); //message when error
+          if (!json.message || json.message === 'Please mine a new new block before adding another Poll to the Pool from the same wallet') {
+            _this.props.navigation('/transaction-pool');
+          }
+        });
+      }
+    });
+    return _this;
+  }
+  _createClass(ConductPoll, [{
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+      return /*#__PURE__*/_react.default.createElement("div", {
+        className: "ConductPoll"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form, {
+        className: "ConductPollForm"
+      }, /*#__PURE__*/_react.default.createElement("h3", null, "Conduct a New Poll"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
+        controlId: "privateKey"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Your Private Key:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        type: "text",
+        className: "text",
+        placeholder: "Private Key 041eb5ggfccex234....",
+        value: this.props.form.privateKey || '',
+        onChange: function onChange(e) {
+          return _this2.setField('privateKey', e.target.value.trim());
+        },
+        isInvalid: !!this.props.errors.privateKey
+      }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
+        type: "invalid"
+      }, this.props.errors.privateKey)), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
+        controlId: "pollName"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Name:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        type: "text",
+        className: "text",
+        placeholder: "enter poll name",
+        value: this.props.form.name || '',
+        onChange: function onChange(e) {
+          return _this2.setField('name', e.target.value);
+        },
+        isInvalid: !!this.props.errors.name
+      }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
+        type: "invalid"
+      }, this.props.errors.name)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
+        controlId: "pollOptions",
+        className: "pollOptions"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Poll Options:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        className: "text",
+        type: "text",
+        as: "textarea",
+        rows: 5,
+        placeholder: "enter voting options separated by ',' example: option1,option2 ",
+        value: this.props.form.options || "",
+        onChange: function onChange(e) {
+          return _this2.setField('options', e.target.value);
+        },
+        isInvalid: !!this.props.errors.options
+      }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
+        type: "invalid"
+      }, this.props.errors.options)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
+        controlId: "pollVoters",
+        className: "pollVoters"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Poll Voters:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        className: "text",
+        type: "text",
+        as: "textarea",
+        rows: 5,
+        placeholder: "enter voters addresses separated by ',' example: 0e3...,04e",
+        value: this.props.form.voters || "",
+        onChange: function onChange(e) {
+          return _this2.setField('voters', e.target.value);
+        },
+        isInvalid: !!this.props.errors.voters
+      }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
+        type: "invalid"
+      }, this.props.errors.voters)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
+        controlId: "pollStartDate",
+        className: "formDate"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Start Date:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        className: "text",
+        type: "datetime-local",
+        value: this.props.form.startDate || "",
+        onChange: function onChange(e) {
+          return _this2.setField('startDate', e.target.value);
+        },
+        isInvalid: !!this.props.errors.startDate
+      }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
+        type: "invalid"
+      }, this.props.errors.startDate)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
+        controlId: "pollEndDate",
+        className: "formDate"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "End Time:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        className: "text",
+        type: "datetime-local",
+        value: this.props.form.endDate || "",
+        onChange: function onChange(e) {
+          return _this2.setField('endDate', e.target.value);
+        },
+        isInvalid: !!this.props.errors.endDate
+      }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
+        type: "invalid"
+      }, this.props.errors.endDate)), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button
+      // bsStyle="danger"
+      , {
+        onClick: this.conductPoll
+      }, "Submit"))));
+    }
+  }]);
+  return ConductPoll;
+}(_react.Component);
+;
+function _default(props) {
+  var navigation = (0, _reactRouterDom.useNavigate)();
+  var _useState = (0, _react.useState)({
+      options: [],
+      voters: []
+    }),
+    _useState2 = _slicedToArray(_useState, 2),
+    form = _useState2[0],
+    setForm = _useState2[1];
+  var _useState3 = (0, _react.useState)({}),
+    _useState4 = _slicedToArray(_useState3, 2),
+    errors = _useState4[0],
+    setErrors = _useState4[1];
+  var _useState5 = (0, _react.useState)({}),
+    _useState6 = _slicedToArray(_useState5, 2),
+    options = _useState6[0],
+    setOptions = _useState6[1];
+  return /*#__PURE__*/_react.default.createElement(ConductPoll, _extends({}, props, {
+    options: options,
+    setOptions: setOptions,
+    navigation: navigation,
+    form: form,
+    setForm: setForm,
+    errors: errors,
+    setErrors: setErrors
+  }));
+}
+},{"react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -53400,9 +53642,8 @@ var _Blocks = _interopRequireDefault(require("./pages/Blocks"));
 var _ConductTransaction = _interopRequireDefault(require("./pages/ConductTransaction"));
 var _TransactionPool = _interopRequireDefault(require("./pages/TransactionPool"));
 var _NavBar = _interopRequireDefault(require("./components/NavBar"));
+var _ConductPoll = _interopRequireDefault(require("./pages/ConductPoll"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-// import './App.css';
-
 function App() {
   return /*#__PURE__*/_react.default.createElement(_reactRouterDom.BrowserRouter, null, /*#__PURE__*/_react.default.createElement(_NavBar.default, null), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Routes, null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: "/",
@@ -53411,6 +53652,9 @@ function App() {
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: "/blocks",
     element: /*#__PURE__*/_react.default.createElement(_Blocks.default, null)
+  }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+    path: "/conduct-poll",
+    element: /*#__PURE__*/_react.default.createElement(_ConductPoll.default, null)
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: "/conduct-transaction",
     element: /*#__PURE__*/_react.default.createElement(_ConductTransaction.default, null)
@@ -53421,7 +53665,7 @@ function App() {
 }
 var _default = App;
 exports.default = _default;
-},{"react":"../../node_modules/react/index.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js","./pages/Home":"pages/Home.js","./pages/Blocks":"pages/Blocks.js","./pages/ConductTransaction":"pages/ConductTransaction.js","./pages/TransactionPool":"pages/TransactionPool.js","./components/NavBar":"components/NavBar.js"}],"index.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js","./pages/Home":"pages/Home.js","./pages/Blocks":"pages/Blocks.js","./pages/ConductTransaction":"pages/ConductTransaction.js","./pages/TransactionPool":"pages/TransactionPool.js","./components/NavBar":"components/NavBar.js","./pages/ConductPoll":"pages/ConductPoll.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -53464,7 +53708,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59597" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54598" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

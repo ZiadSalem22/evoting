@@ -1,6 +1,6 @@
 body {
     /* background color*/
-    background-color: #000000;
+    background-color: #121212;
     /* text color*/
     color: #ffffff;
     /* position of text*/
@@ -62,7 +62,7 @@ body {
             hsl(52deg 51% 16%) 3%,
             hsl(0deg 0% 0%) 100%);
 
-    border: 0.5px solid #5cb4fd;
+    border: 0.5px solid #8e8e1b;
     border-radius: 25px;
 }
 
@@ -88,18 +88,19 @@ body {
             hsl(121deg 48% 17%) -1%,
             hsl(113deg 38% 10%) 3%,
             hsl(0deg 0% 0%) 100%);
-    border: 0.5px solid #5cb4fd;
+    border: 0.5px solid #007222;
     border-radius: 25px;
 }
 
-.ConductTransaction {
+
+.ConductPoll {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.ConductTransactionForm {
-    border: 5px solid #5cb4fd;
+.ConductPollForm {
+    border: 5px solid #8e8e1b;
     border-radius: 25px;
     padding: 3%;
     margin: 2%;
@@ -109,6 +110,31 @@ body {
     word-spacing: 110%;
 }
 
+.ConductTransaction {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ConductTransactionForm {
+    border: 5px solid #007222;
+    border-radius: 25px;
+    padding: 3%;
+    margin: 2%;
+    width: 600px;
+    max-width: 1000px;
+    word-wrap: break-word;
+    word-spacing: 110%;
+}
+
+.text{
+    font-weight:900;
+    font-size: 16px;
+}
+.formDate{
+    max-width: 300px;
+
+}
 /* 
 .amount{
     max-width: 600px;

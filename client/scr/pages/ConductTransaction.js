@@ -41,7 +41,7 @@ class ConductTransaction extends Component {
         if (!privateKey || privateKey.trim() === '') {
             newErrors.privateKey = 'please enter your privateKey';
         }else if (privateKey.length < '55685527491970eb3000f6cd279e43151cb854fb2fa2c44e23ffb985c841d850'.length){
-            newErrors.privateKey = 'please enter valid recipient address example \n 55685527491970eb3000f6cd279e43151cb854fb2fa2c44e23ffb985c841d850 ';
+            newErrors.privateKey = 'please enter valid private address example \n 55685527491970eb3000f6cd279e43151cb854fb2fa2c44e23ffb985c841d850 ';
         }
 
         if (!amount || amount < 1) {
@@ -109,8 +109,8 @@ class ConductTransaction extends Component {
                     <FormGroup controlId="privateKey">
                         <Form.Label>Your Private Key:</Form.Label>
                         <FormControl
+                            className="text"
                             inputMode='text'
-                            style={{fontSize:"15px"}}
                             placeholder="Private Key 041eb5ggfccex234...."
                             value={this.props.form.privateKey || ''}
                             onChange={(e) => this.setField('privateKey', e.target.value.trim())}
@@ -125,9 +125,9 @@ class ConductTransaction extends Component {
                         <Form.Label>Recipient Wallet Address:</Form.Label>
                         <FormControl
                             type='text'
+                            className="text"
                             as="textarea" 
                             rows={2} 
-                            style={{fontSize:"15px"}}
                             placeholder="recipient"
                             value={this.props.form.recipient || ''}
                             onChange={(e) => this.setField('recipient', e.target.value.trim())}
@@ -143,6 +143,7 @@ class ConductTransaction extends Component {
                         <Form.Label>Currency Amount:</Form.Label>
                         <FormControl
                             type='number'
+                            className="text"
                             placeholder="amount"
                             value={this.props.form.amount || 0}
                             onChange={(e) => this.setField('amount', e.target.value)}
