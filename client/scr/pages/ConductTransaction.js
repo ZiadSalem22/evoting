@@ -41,7 +41,7 @@ class ConductTransaction extends Component {
         if (!privateKey || privateKey.trim() === '') {
             newErrors.privateKey = 'please enter your privateKey';
         }else if (privateKey.length < '55685527491970eb3000f6cd279e43151cb854fb2fa2c44e23ffb985c841d850'.length){
-            newErrors.privateKey = 'please enter valid recipient address example \n 55685527491970eb3000f6cd279e43151cb854fb2fa2c44e23ffb985c841d850 ';
+            newErrors.privateKey = 'please enter valid private address example \n 55685527491970eb3000f6cd279e43151cb854fb2fa2c44e23ffb985c841d850 ';
         }
 
         if (!amount || amount < 1) {
