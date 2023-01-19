@@ -28,7 +28,7 @@ class Blockchain {
 
     static getVotingData({ chain }) {
 
-        let votingdata = {
+        let votingData = {
             polls: [],
             ballots: []
         }
@@ -46,25 +46,25 @@ class Blockchain {
         for (let i = 0; i < chain.length; i++) {
             const block = chain[i];
 
-            //loop for each transaction in blochain
-            for (let transaciton of block.data) {
+            //loop for each transaction in blockchain
+            for (let transaction of block.data) {
 
-                if (transaciton.transactionType === TRANSACTION_TYPE.BALLOT) {
+                if (transaction.transactionType === TRANSACTION_TYPE.BALLOT) {
                     //we check transaction 
-                    votingdata.ballots.push(transaciton)
+                    votingData.ballots.push(transaction)
                 }
-                if (transaciton.transactionType === TRANSACTION_TYPE.POLL) {
+                if (transaction.transactionType === TRANSACTION_TYPE.POLL) {
                     //we check transaction 
-                    votingdata.polls.push(transaciton)
+                    votingData.polls.push(transaction)
                 }
             }
         }
 
-        if (votingdata.polls.length === 0 && votingdata.ballots.length === 0) {
-            return undefined
-        }
+        // if (votingData.polls.length === 0 && votingData.ballots.length === 0) {
+        //     return undefined
+        // }
 
-        return votingdata;
+        return votingData;
     }
 
     validTransactionData({ chain }) {
