@@ -266,23 +266,22 @@ app.get('/api/wallet-info', (req, res) => {
 
     let clientWallet = new Wallet(privateKey);
 
-    const rawVotingData = BlockChain.getVotingData({chain : blockchain.chain});
+    const data = BlockChain.getVotingData({chain : blockchain.chain});
      
 
     //comment
     res.json({
         address: clientWallet.publicKey,
         privateKey: clientWallet.privateKey,
-        // data:{
-        //     createdPolls: data.polls.filter(poll => poll.input.address === clientWallet.publicKey),
-        //     validToVotePolls: data.polls.filter(poll => poll.output.voters.includes(clientWallet.publicKey)),
-        //     ballots: data.ballots.filter(ballot => ballot.input.address === clientWallet.publicKey),
-        // },
+        data:{
+            createdPolls: data.polls.filter(poll => poll.input.address === clientWallet.publicKey),
+            validToVotePolls: data.polls.filter(poll => poll.output.voters.includes(clientWallet.publicKey)),
+            ballots: data.ballots.filter(ballot => ballot.input.address === clientWallet.publicKey),
+        },
         balance: Wallet.calculateBalance({
             chain: blockchain.chain,
             address: clientWallet.publicKey
         }),
-        rawVotingData
     });
 });
 
