@@ -39,7 +39,7 @@ describe('Blockchain', () => {
         expect(blockchain.chain[blockchain.chain.length - 1].data).toEqual(newData);
     });
 
-    // tests to check chain valiedtiy 
+    // tests to check chain valiedtiy
     describe('isValidChain()', () => {
 
         //tests to check if chain does not start with genesis blocl
@@ -61,7 +61,7 @@ describe('Blockchain', () => {
                 blockchain.addBlock({ data: 'thrid votes block' })
             });
 
-            //tests if last hash has been changed 
+            //tests if last hash has been changed
             describe('and a lastHash refrence has changed', () => {
                 it('returns fales', () => {
 
@@ -101,7 +101,7 @@ describe('Blockchain', () => {
                     expect(Blockchain.isValidChain(blockchain.chain)).toBe(false);
                 });
             });
-            //tests to know that all blocks in the chain are valid 
+            //tests to know that all blocks in the chain are valid
             describe('and the chain does not cotain any invalid blocks', () => {
                 it('returns true', () => {
 
@@ -126,7 +126,7 @@ describe('Blockchain', () => {
         describe('when the new chain is not longer', () => {
 
             beforeEach(() => {
-                //since newChain and BlockChain are the same they might be at the same length so we modify New chain to be distinct 
+                //since newChain and BlockChain are the same they might be at the same length so we modify New chain to be distinct
                 newChain[0] = { new: 'new field' }
 
                 //we try to replace it even though they are the same length at this point
@@ -146,7 +146,7 @@ describe('Blockchain', () => {
             });
         });
 
-        //tests when the new chain is longer 
+        //tests when the new chain is longer
         describe('when the new chain is longer', () => {
 
             // add blocks to the newChain
@@ -156,7 +156,7 @@ describe('Blockchain', () => {
                 newChain.addBlock({ data: 'thrid votes block' })
             });
 
-            //if the new long chain is invalid 
+            //if the new long chain is invalid
             describe('and the chain invalid', () => {
 
                 beforeEach(() => {
@@ -179,7 +179,7 @@ describe('Blockchain', () => {
 
             });
 
-            //if the new long chain is valid 
+            //if the new long chain is valid
             describe('and the chain is valid', () => {
 
                 beforeEach(() => {
@@ -219,7 +219,7 @@ describe('Blockchain', () => {
         let validTransactions, errorMock, tempBlockchain, tempWallet;
 
         let walltes = []; //wallets to add to your poll to use for ballots test
-        let voters = []; //public key for wallets 
+        let voters = []; //public key for wallets
         let polls = []; //our polls
 
 
@@ -262,7 +262,7 @@ describe('Blockchain', () => {
                 }
             }
             tempBlockchain.addBlock({ data: votingData.ballots});
-            
+
 
 
 
@@ -278,11 +278,16 @@ describe('Blockchain', () => {
             });
         });
 
-        describe('blockChain has voting data', () => {
+        describe('blockChain has no voting data', () => {
 
-            it('reutns undeifiend', async () => {
-                
-                expect(Blockchain.getVotingData({chain: new Blockchain().chain})).toEqual(undefined);
+            it('returns empty arrays', async () => {
+
+                let votingData2 = {
+                    polls: [],
+                    ballots: []
+                }
+                let v =Blockchain.getVotingData({chain: new Blockchain().chain});
+                expect(v).toEqual(votingData2);
             });
         });
 
@@ -306,8 +311,8 @@ describe('Blockchain', () => {
                 amount: 20
             });
 
-            
-            
+
+
             rewardTransaction = Transaction.rewardTransaction({ minerWallet: wallet });
             newChain.addBlock({ data: [ poll, rewardTransaction] });
 

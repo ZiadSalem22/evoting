@@ -11,6 +11,7 @@ const TransactionMiner = require('./app/transaction-miner');
 const { TRANSACTION_TYPE } = require('./config');
 const Ballot = require('./voting/ballot');
 const { createWallets, toMatrix, getReadyVotingData } = require('./util/helpers');
+const { getVotingData } = require('./blockchain');
 
 //we create our application  using the express function
 const app = express();
@@ -265,15 +266,23 @@ app.get('/api/wallet-info', (req, res) => {
 
     let clientWallet = new Wallet(privateKey);
 
+    const rawVotingData = BlockChain.getVotingData({chain : blockchain.chain});
+     
+
     //comment
     res.json({
         address: clientWallet.publicKey,
         privateKey: clientWallet.privateKey,
-
+        // data:{
+        //     createdPolls: data.polls.filter(poll => poll.input.address === clientWallet.publicKey),
+        //     validToVotePolls: data.polls.filter(poll => poll.output.voters.includes(clientWallet.publicKey)),
+        //     ballots: data.ballots.filter(ballot => ballot.input.address === clientWallet.publicKey),
+        // },
         balance: Wallet.calculateBalance({
             chain: blockchain.chain,
             address: clientWallet.publicKey
-        })
+        }),
+        rawVotingData
     });
 });
 
