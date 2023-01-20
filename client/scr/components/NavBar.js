@@ -35,7 +35,7 @@ function NavBar() {
                 id={`offcanvasNavbarDropdown-expand-${'xl'}`}
               >
                 <NavDropdown.Item href="/conduct-poll">Poll</NavDropdown.Item>
-                <NavDropdown.Item href="#action4">Ballot</NavDropdown.Item>
+                <NavDropdown.Item href="/conduct-ballot">Ballot</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="/conduct-transaction">Currency</NavDropdown.Item>
 

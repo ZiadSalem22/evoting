@@ -255,7 +255,7 @@ app.get('/api/miner-wallet-info', (req, res) => {
 
 
 //get  wallet info by private key
-app.get('/api/wallet-info', (req, res) => {
+app.post('/api/wallet-info', (req, res) => {
 
     const { privateKey } = req.body;
 
