@@ -40,8 +40,9 @@ function NavBar() {
                 <NavDropdown.Item href="/conduct-transaction">Currency</NavDropdown.Item>
 
               </NavDropdown>
+              <Nav.Link  href="/hnec">HNEC</Nav.Link>
             </Nav>
-            <Form className="d-flex">
+            {/* <Form className="d-flex">
               <Form.Control
                 type="search"
                 placeholder="Search"
@@ -49,7 +50,7 @@ function NavBar() {
                 aria-label="Search"
               />
               <Button variant="outline-success">Search</Button>
-            </Form>
+            </Form> */}
           </Offcanvas.Body>
         </Navbar.Offcanvas>
       </Container>

@@ -52424,7 +52424,8 @@ var REWARD_INPUT = {
 }; //miner reward
 var MINING_REWARD = 50;
 //voting
-var CHAR_MAX_LENGTH = 300;
+var HNEC_PUBLIC_ADDRESS = "041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512";
+var CHAR_MAX_LENGTH = 50;
 var GENESIS_DATA = {
   timeStamp: 1,
   lastHash: '----',
@@ -52438,7 +52439,7 @@ var TRANSACTION_TYPE = {
   POLL: 'POLL',
   BALLOT: 'BALLOT'
 };
-//date format ISO expample 2001-24-24T20:30:20
+//date format ISO example 2001-24-24T20:30:20
 var ISOregex = /^(?:\d{4})-(?:\d{2})-(?:\d{2})T(?:\d{2}):(?:\d{2}):(?:\d{2}(?:\.\d*)?)(?:(?:-(?:\d{2}):(?:\d{2})|Z)?)$/;
 
 //polls and ballots branch 
@@ -52449,6 +52450,7 @@ module.exports = {
   STARTING_BALANCE: STARTING_BALANCE,
   REWARD_INPUT: REWARD_INPUT,
   MINING_REWARD: MINING_REWARD,
+  HNEC_PUBLIC_ADDRESS: HNEC_PUBLIC_ADDRESS,
   CHAR_MAX_LENGTH: CHAR_MAX_LENGTH,
   TRANSACTION_TYPE: TRANSACTION_TYPE,
   ISOregex: ISOregex
@@ -53333,16 +53335,9 @@ function NavBar() {
     href: "/conduct-ballot"
   }, "Ballot"), /*#__PURE__*/_react.default.createElement(_NavDropdown.default.Divider, null), /*#__PURE__*/_react.default.createElement(_NavDropdown.default.Item, {
     href: "/conduct-transaction"
-  }, "Currency"))), /*#__PURE__*/_react.default.createElement(_Form.default, {
-    className: "d-flex"
-  }, /*#__PURE__*/_react.default.createElement(_Form.default.Control, {
-    type: "search",
-    placeholder: "Search",
-    className: "me-2",
-    "aria-label": "Search"
-  }), /*#__PURE__*/_react.default.createElement(_Button.default, {
-    variant: "outline-success"
-  }, "Search"))))))
+  }, "Currency")), /*#__PURE__*/_react.default.createElement(_Nav.default.Link, {
+    href: "/hnec"
+  }, "HNEC"))))))
   //   <Navbar bg="light" expand="lg">
   //     <Container fluid>
   //       <Navbar.Brand href="/">E-Voting</Navbar.Brand>
@@ -85255,7 +85250,6 @@ var ConductBallot = /*#__PURE__*/function (_Component) {
           pollId: pollId,
           voteOption: voteOption
         };
-        console.log("data", data);
         fetch("".concat(document.location.origin, "/api/ballot"), {
           method: "POST",
           headers: {
@@ -85372,7 +85366,145 @@ function _default(props) {
     setErrors: setErrors
   }));
 }
-},{"body-parser":"../../node_modules/body-parser/index.js","react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js"}],"App.js":[function(require,module,exports) {
+},{"body-parser":"../../node_modules/body-parser/index.js","react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js"}],"pages/HNEC.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = _default;
+var _react = _interopRequireWildcard(require("react"));
+var _HNEC_Logo = _interopRequireDefault(require("../assets/HNEC_Logo.png"));
+var _config = require("../../../config");
+var _reactBootstrap = require("react-bootstrap");
+var _reactRouterDom = require("react-router-dom");
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+var HNEC = /*#__PURE__*/function (_Component) {
+  _inherits(HNEC, _Component);
+  var _super = _createSuper(HNEC);
+  function HNEC() {
+    var _this;
+    _classCallCheck(this, HNEC);
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _super.call.apply(_super, [this].concat(args));
+    _defineProperty(_assertThisInitialized(_this), "setField", function (field, value) {
+      _this.props.setForm(_objectSpread(_objectSpread({}, _this.props.form), {}, _defineProperty({}, field, value)));
+      if (!!_this.props.errors[field]) {
+        _this.props.setErrors(_objectSpread(_objectSpread({}, _this.props.errors), {}, _defineProperty({}, field, null)));
+      }
+    });
+    _defineProperty(_assertThisInitialized(_this), "validateCount", function () {
+      var count = _this.props.form.count;
+      var newErrors = {};
+      if (!count || count < 1) {
+        newErrors.count = "please enter valid count > 1 ";
+      }
+      return newErrors;
+    });
+    _defineProperty(_assertThisInitialized(_this), "seed", function () {
+      var formErrors = _this.validateCount();
+      if (Object.keys(formErrors).length > 0) {
+        _this.props.setErrors(formErrors);
+      } else {
+        var count = _this.props.form.count;
+        var data = {
+          count: count
+        };
+        fetch("".concat(document.location.origin, "/api/seed"), {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            data: data
+          })
+        }).then(function (response) {
+          if (response.status == 200) {
+            alert("success");
+            _this.props.navigation("/blocks");
+          } else {
+            alert("the seed request did not complete");
+          }
+        });
+      }
+    });
+    return _this;
+  }
+  _createClass(HNEC, [{
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+      return /*#__PURE__*/_react.default.createElement("div", {
+        className: "Home"
+      }, /*#__PURE__*/_react.default.createElement("img", {
+        className: "logo",
+        src: _HNEC_Logo.default
+      }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Container, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, "Seed Dummy Data")), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
+        controlId: "count"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        type: "number",
+        className: "text",
+        placeholder: "count",
+        value: this.props.form.count || 0,
+        onChange: function onChange(e) {
+          return _this2.setField("count", e.target.value);
+        },
+        isInvalid: !!this.props.errors.count
+      }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
+        type: "invalid"
+      }, this.props.errors.count))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+        onClick: this.seed
+      }, "Seed"))), /*#__PURE__*/_react.default.createElement("hr", null)), /*#__PURE__*/_react.default.createElement("div", {
+        className: "WalletInfo"
+      }, /*#__PURE__*/_react.default.createElement("div", null, "HNEC Public Address: ", "".concat(_config.HNEC_PUBLIC_ADDRESS))));
+    }
+  }]);
+  return HNEC;
+}(_react.Component);
+function _default(props) {
+  var navigation = (0, _reactRouterDom.useNavigate)();
+  var _useState = (0, _react.useState)({}),
+    _useState2 = _slicedToArray(_useState, 2),
+    form = _useState2[0],
+    setForm = _useState2[1];
+  var _useState3 = (0, _react.useState)({}),
+    _useState4 = _slicedToArray(_useState3, 2),
+    errors = _useState4[0],
+    setErrors = _useState4[1];
+  return /*#__PURE__*/_react.default.createElement(HNEC, _extends({}, props, {
+    navigation: navigation,
+    form: form,
+    setForm: setForm,
+    errors: errors,
+    setErrors: setErrors
+  }));
+}
+},{"react":"../../node_modules/react/index.js","../assets/HNEC_Logo.png":"assets/HNEC_Logo.png","../../../config":"../../config.js","react-bootstrap":"../../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -85388,6 +85520,7 @@ var _TransactionPool = _interopRequireDefault(require("./pages/TransactionPool")
 var _NavBar = _interopRequireDefault(require("./components/NavBar"));
 var _ConductPoll = _interopRequireDefault(require("./pages/ConductPoll"));
 var _ConductBallot = _interopRequireDefault(require("./pages/ConductBallot"));
+var _HNEC = _interopRequireDefault(require("./pages/HNEC"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function App() {
   return /*#__PURE__*/_react.default.createElement(_reactRouterDom.BrowserRouter, null, /*#__PURE__*/_react.default.createElement(_NavBar.default, null), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Routes, null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
@@ -85409,11 +85542,14 @@ function App() {
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: "/transaction-pool",
     element: /*#__PURE__*/_react.default.createElement(_TransactionPool.default, null)
+  }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+    path: "/HNEC",
+    element: /*#__PURE__*/_react.default.createElement(_HNEC.default, null)
   })));
 }
 var _default = App;
 exports.default = _default;
-},{"react":"../../node_modules/react/index.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js","./pages/Home":"pages/Home.js","./pages/Blocks":"pages/Blocks.js","./pages/ConductTransaction":"pages/ConductTransaction.js","./pages/TransactionPool":"pages/TransactionPool.js","./components/NavBar":"components/NavBar.js","./pages/ConductPoll":"pages/ConductPoll.js","./pages/ConductBallot":"pages/ConductBallot.js"}],"index.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js","./pages/Home":"pages/Home.js","./pages/Blocks":"pages/Blocks.js","./pages/ConductTransaction":"pages/ConductTransaction.js","./pages/TransactionPool":"pages/TransactionPool.js","./components/NavBar":"components/NavBar.js","./pages/ConductPoll":"pages/ConductPoll.js","./pages/ConductBallot":"pages/ConductBallot.js","./pages/HNEC":"pages/HNEC.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -85456,7 +85592,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54598" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53390" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
