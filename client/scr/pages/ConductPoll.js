@@ -220,10 +220,8 @@ export default function (props) {
         voters: []
     })
     const [errors, setErrors] = useState({})
-    const [options, setOptions] = useState({})
 
 
     return <ConductPoll {...props}
-        options={options} setOptions={setOptions}
         navigation={navigation} form={form} setForm={setForm} errors={errors} setErrors={setErrors} />;
 }

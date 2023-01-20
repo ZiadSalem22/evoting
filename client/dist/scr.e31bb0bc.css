@@ -110,6 +110,23 @@ body {
     word-spacing: 110%;
 }
 
+.ConductBallot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ConductBallotForm {
+    border: 5px solid #5cb4fd;
+    border-radius: 25px;
+    padding: 3%;
+    margin: 2%;
+    width: 900px;
+    max-width: 1000px;
+    word-wrap: break-word;
+    word-spacing: 110%;
+}
+
 .ConductTransaction {
     display: flex;
     flex-direction: column;
@@ -147,7 +164,7 @@ body {
 
 }
 .ConductTransaction,
-.TransactionPool {
+.TransactionPool,.ConductBallot {
     padding: 5%;
     margin: 2%;
 
@@ -164,6 +181,18 @@ button,
 button:hover {
     color: #5cb4fd;
     text-decoration: underline;
+}
+
+.red {
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: .875em;
+    color: #d9534f;
+}
+
+.red-border{
+    border: 1px solid #dc3545;
 }
 
 /*# sourceMappingURL=/scr.e31bb0bc.css.map */
