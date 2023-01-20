@@ -324,7 +324,7 @@ app.get('/api/create-wallets', (req, res) => {
 });
 
 
-app.get('/api/seed', (req, res) => {
+app.post('/api/seed', (req, res) => {
 
 
        //number of wallets
@@ -393,7 +393,7 @@ app.get('/api/seed', (req, res) => {
         transactionPool.setTransaction(ballot2);
         pubsub.broadcastTransaction(ballot2);
 
-        if (wallets.indexOf(wallet) % 3 === 0) {
+        if (wallets.indexOf(wallet) % 10000 === 0) {
             transactionMiner.mineTransactions();
         }
     }

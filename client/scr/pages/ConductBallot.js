@@ -129,7 +129,6 @@ class ConductBallot extends Component {
         pollId,
         voteOption,
       };
-      console.log("data", data);
       fetch(`${document.location.origin}/api/ballot`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

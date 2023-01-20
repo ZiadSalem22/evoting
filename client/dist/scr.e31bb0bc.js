@@ -85250,7 +85250,6 @@ var ConductBallot = /*#__PURE__*/function (_Component) {
           pollId: pollId,
           voteOption: voteOption
         };
-        console.log("data", data);
         fetch("".concat(document.location.origin, "/api/ballot"), {
           method: "POST",
           headers: {
@@ -85373,14 +85372,25 @@ function _default(props) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports.default = _default;
 var _react = _interopRequireWildcard(require("react"));
 var _HNEC_Logo = _interopRequireDefault(require("../assets/HNEC_Logo.png"));
+var _config = require("../../../config");
+var _reactBootstrap = require("react-bootstrap");
 var _reactRouterDom = require("react-router-dom");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
@@ -85402,45 +85412,99 @@ var HNEC = /*#__PURE__*/function (_Component) {
       args[_key] = arguments[_key];
     }
     _this = _super.call.apply(_super, [this].concat(args));
-    _defineProperty(_assertThisInitialized(_this), "state", {
-      minerWalletInfo: {}
+    _defineProperty(_assertThisInitialized(_this), "setField", function (field, value) {
+      _this.props.setForm(_objectSpread(_objectSpread({}, _this.props.form), {}, _defineProperty({}, field, value)));
+      if (!!_this.props.errors[field]) {
+        _this.props.setErrors(_objectSpread(_objectSpread({}, _this.props.errors), {}, _defineProperty({}, field, null)));
+      }
+    });
+    _defineProperty(_assertThisInitialized(_this), "validateCount", function () {
+      var count = _this.props.form.count;
+      var newErrors = {};
+      if (!count || count < 1) {
+        newErrors.count = "please enter valid count > 1 ";
+      }
+      return newErrors;
+    });
+    _defineProperty(_assertThisInitialized(_this), "seed", function () {
+      var formErrors = _this.validateCount();
+      if (Object.keys(formErrors).length > 0) {
+        _this.props.setErrors(formErrors);
+      } else {
+        var count = _this.props.form.count;
+        var data = {
+          count: count
+        };
+        fetch("".concat(document.location.origin, "/api/seed"), {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            data: data
+          })
+        }).then(function (response) {
+          if (response.status == 200) {
+            alert("success");
+            _this.props.navigation("/blocks");
+          } else {
+            alert("the seed request did not complete");
+          }
+        });
+      }
     });
     return _this;
   }
   _createClass(HNEC, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this2 = this;
-      fetch("".concat(document.location.origin, "/api/miner-wallet-info")).then(function (response) {
-        return response.json();
-      }).then(function (json) {
-        return _this2.setState({
-          minerWalletInfo: json
-        });
-      });
-    }
-  }, {
     key: "render",
     value: function render() {
-      var _this$state$minerWall = this.state.minerWalletInfo,
-        address = _this$state$minerWall.address,
-        privateKey = _this$state$minerWall.privateKey,
-        balance = _this$state$minerWall.balance;
+      var _this2 = this;
       return /*#__PURE__*/_react.default.createElement("div", {
         className: "Home"
       }, /*#__PURE__*/_react.default.createElement("img", {
         className: "logo",
         src: _HNEC_Logo.default
-      }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, "Welcome to the Libyan E-Voting Platform Blockchain"), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", {
+      }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Container, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, "Seed Dummy Data")), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
+        controlId: "count"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        type: "number",
+        className: "text",
+        placeholder: "count",
+        value: this.props.form.count || 0,
+        onChange: function onChange(e) {
+          return _this2.setField("count", e.target.value);
+        },
+        isInvalid: !!this.props.errors.count
+      }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
+        type: "invalid"
+      }, this.props.errors.count))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+        onClick: this.seed
+      }, "Seed"))), /*#__PURE__*/_react.default.createElement("hr", null)), /*#__PURE__*/_react.default.createElement("div", {
         className: "WalletInfo"
-      }, /*#__PURE__*/_react.default.createElement("div", null, "Address: ", address), /*#__PURE__*/_react.default.createElement("div", null, "PrivateKey: ", privateKey), /*#__PURE__*/_react.default.createElement("div", null, "Balance: ", balance)));
+      }, /*#__PURE__*/_react.default.createElement("div", null, "HNEC Public Address: ", "".concat(_config.HNEC_PUBLIC_ADDRESS))));
     }
   }]);
   return HNEC;
 }(_react.Component);
-var _default = HNEC;
-exports.default = _default;
-},{"react":"../../node_modules/react/index.js","../assets/HNEC_Logo.png":"assets/HNEC_Logo.png","react-router-dom":"../../node_modules/react-router-dom/dist/index.js"}],"App.js":[function(require,module,exports) {
+function _default(props) {
+  var navigation = (0, _reactRouterDom.useNavigate)();
+  var _useState = (0, _react.useState)({}),
+    _useState2 = _slicedToArray(_useState, 2),
+    form = _useState2[0],
+    setForm = _useState2[1];
+  var _useState3 = (0, _react.useState)({}),
+    _useState4 = _slicedToArray(_useState3, 2),
+    errors = _useState4[0],
+    setErrors = _useState4[1];
+  return /*#__PURE__*/_react.default.createElement(HNEC, _extends({}, props, {
+    navigation: navigation,
+    form: form,
+    setForm: setForm,
+    errors: errors,
+    setErrors: setErrors
+  }));
+}
+},{"react":"../../node_modules/react/index.js","../assets/HNEC_Logo.png":"assets/HNEC_Logo.png","../../../config":"../../config.js","react-bootstrap":"../../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
