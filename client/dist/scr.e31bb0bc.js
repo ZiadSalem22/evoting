@@ -52424,7 +52424,8 @@ var REWARD_INPUT = {
 }; //miner reward
 var MINING_REWARD = 50;
 //voting
-var CHAR_MAX_LENGTH = 300;
+var HNEC_PUBLIC_ADDRESS = "041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512";
+var CHAR_MAX_LENGTH = 50;
 var GENESIS_DATA = {
   timeStamp: 1,
   lastHash: '----',
@@ -52438,7 +52439,7 @@ var TRANSACTION_TYPE = {
   POLL: 'POLL',
   BALLOT: 'BALLOT'
 };
-//date format ISO expample 2001-24-24T20:30:20
+//date format ISO example 2001-24-24T20:30:20
 var ISOregex = /^(?:\d{4})-(?:\d{2})-(?:\d{2})T(?:\d{2}):(?:\d{2}):(?:\d{2}(?:\.\d*)?)(?:(?:-(?:\d{2}):(?:\d{2})|Z)?)$/;
 
 //polls and ballots branch 
@@ -52449,6 +52450,7 @@ module.exports = {
   STARTING_BALANCE: STARTING_BALANCE,
   REWARD_INPUT: REWARD_INPUT,
   MINING_REWARD: MINING_REWARD,
+  HNEC_PUBLIC_ADDRESS: HNEC_PUBLIC_ADDRESS,
   CHAR_MAX_LENGTH: CHAR_MAX_LENGTH,
   TRANSACTION_TYPE: TRANSACTION_TYPE,
   ISOregex: ISOregex
@@ -53333,16 +53335,9 @@ function NavBar() {
     href: "/conduct-ballot"
   }, "Ballot"), /*#__PURE__*/_react.default.createElement(_NavDropdown.default.Divider, null), /*#__PURE__*/_react.default.createElement(_NavDropdown.default.Item, {
     href: "/conduct-transaction"
-  }, "Currency"))), /*#__PURE__*/_react.default.createElement(_Form.default, {
-    className: "d-flex"
-  }, /*#__PURE__*/_react.default.createElement(_Form.default.Control, {
-    type: "search",
-    placeholder: "Search",
-    className: "me-2",
-    "aria-label": "Search"
-  }), /*#__PURE__*/_react.default.createElement(_Button.default, {
-    variant: "outline-success"
-  }, "Search"))))))
+  }, "Currency")), /*#__PURE__*/_react.default.createElement(_Nav.default.Link, {
+    href: "/hnec"
+  }, "HNEC"))))))
   //   <Navbar bg="light" expand="lg">
   //     <Container fluid>
   //       <Navbar.Brand href="/">E-Voting</Navbar.Brand>
@@ -85372,7 +85367,80 @@ function _default(props) {
     setErrors: setErrors
   }));
 }
-},{"body-parser":"../../node_modules/body-parser/index.js","react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js"}],"App.js":[function(require,module,exports) {
+},{"body-parser":"../../node_modules/body-parser/index.js","react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js"}],"pages/HNEC.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _react = _interopRequireWildcard(require("react"));
+var _HNEC_Logo = _interopRequireDefault(require("../assets/HNEC_Logo.png"));
+var _reactRouterDom = require("react-router-dom");
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+var HNEC = /*#__PURE__*/function (_Component) {
+  _inherits(HNEC, _Component);
+  var _super = _createSuper(HNEC);
+  function HNEC() {
+    var _this;
+    _classCallCheck(this, HNEC);
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _super.call.apply(_super, [this].concat(args));
+    _defineProperty(_assertThisInitialized(_this), "state", {
+      minerWalletInfo: {}
+    });
+    return _this;
+  }
+  _createClass(HNEC, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+      fetch("".concat(document.location.origin, "/api/miner-wallet-info")).then(function (response) {
+        return response.json();
+      }).then(function (json) {
+        return _this2.setState({
+          minerWalletInfo: json
+        });
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$state$minerWall = this.state.minerWalletInfo,
+        address = _this$state$minerWall.address,
+        privateKey = _this$state$minerWall.privateKey,
+        balance = _this$state$minerWall.balance;
+      return /*#__PURE__*/_react.default.createElement("div", {
+        className: "Home"
+      }, /*#__PURE__*/_react.default.createElement("img", {
+        className: "logo",
+        src: _HNEC_Logo.default
+      }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, "Welcome to the Libyan E-Voting Platform Blockchain"), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", {
+        className: "WalletInfo"
+      }, /*#__PURE__*/_react.default.createElement("div", null, "Address: ", address), /*#__PURE__*/_react.default.createElement("div", null, "PrivateKey: ", privateKey), /*#__PURE__*/_react.default.createElement("div", null, "Balance: ", balance)));
+    }
+  }]);
+  return HNEC;
+}(_react.Component);
+var _default = HNEC;
+exports.default = _default;
+},{"react":"../../node_modules/react/index.js","../assets/HNEC_Logo.png":"assets/HNEC_Logo.png","react-router-dom":"../../node_modules/react-router-dom/dist/index.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -85388,6 +85456,7 @@ var _TransactionPool = _interopRequireDefault(require("./pages/TransactionPool")
 var _NavBar = _interopRequireDefault(require("./components/NavBar"));
 var _ConductPoll = _interopRequireDefault(require("./pages/ConductPoll"));
 var _ConductBallot = _interopRequireDefault(require("./pages/ConductBallot"));
+var _HNEC = _interopRequireDefault(require("./pages/HNEC"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function App() {
   return /*#__PURE__*/_react.default.createElement(_reactRouterDom.BrowserRouter, null, /*#__PURE__*/_react.default.createElement(_NavBar.default, null), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Routes, null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
@@ -85409,11 +85478,14 @@ function App() {
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: "/transaction-pool",
     element: /*#__PURE__*/_react.default.createElement(_TransactionPool.default, null)
+  }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+    path: "/HNEC",
+    element: /*#__PURE__*/_react.default.createElement(_HNEC.default, null)
   })));
 }
 var _default = App;
 exports.default = _default;
-},{"react":"../../node_modules/react/index.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js","./pages/Home":"pages/Home.js","./pages/Blocks":"pages/Blocks.js","./pages/ConductTransaction":"pages/ConductTransaction.js","./pages/TransactionPool":"pages/TransactionPool.js","./components/NavBar":"components/NavBar.js","./pages/ConductPoll":"pages/ConductPoll.js","./pages/ConductBallot":"pages/ConductBallot.js"}],"index.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js","./pages/Home":"pages/Home.js","./pages/Blocks":"pages/Blocks.js","./pages/ConductTransaction":"pages/ConductTransaction.js","./pages/TransactionPool":"pages/TransactionPool.js","./components/NavBar":"components/NavBar.js","./pages/ConductPoll":"pages/ConductPoll.js","./pages/ConductBallot":"pages/ConductBallot.js","./pages/HNEC":"pages/HNEC.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -85456,7 +85528,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54598" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53390" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
