@@ -53070,7 +53070,7 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
         placeholder: "amount",
         value: this.props.form.amount || 0,
         onChange: function onChange(e) {
-          return _this2.setField('amount', e.target.value);
+          return _this2.setField('amount', Number(e.target.value));
         },
         isInvalid: !!this.props.errors.amount
       }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
@@ -85592,7 +85592,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57668" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49662" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

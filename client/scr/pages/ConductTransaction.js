@@ -146,7 +146,7 @@ class ConductTransaction extends Component {
                             className="text"
                             placeholder="amount"
                             value={this.props.form.amount || 0}
-                            onChange={(e) => this.setField('amount', e.target.value)}
+                            onChange={(e) => this.setField('amount', Number(e.target.value))}
                             isInvalid={!!this.props.errors.amount}
                         />
                         <Form.Control.Feedback type="invalid">
