@@ -85460,28 +85460,160 @@ var HNEC = /*#__PURE__*/function (_Component) {
     value: function render() {
       var _this2 = this;
       return /*#__PURE__*/_react.default.createElement("div", {
-        className: "Home"
+        className: "Hnec"
       }, /*#__PURE__*/_react.default.createElement("img", {
         className: "logo",
         src: _HNEC_Logo.default
-      }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Container, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, "Seed Dummy Data")), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
+      }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", {
+        className: "HnecForm"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "23px"
+        },
+        bg: "light",
+        text: "dark"
+      }, "HENC Address"), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", {
+        style: {
+          marginTop: "10px"
+        }
+      }, "".concat(_config.HNEC_PUBLIC_ADDRESS)), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "23px"
+        },
+        bg: "light",
+        text: "dark"
+      }, "E-Voting Admins")), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form, {
+        className: "Seed"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "21px"
+        },
+        bg: "light",
+        text: "dark"
+      }, "Seed Dummy Data"))), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
         controlId: "count"
       }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
         type: "number",
-        className: "text",
-        placeholder: "count",
         value: this.props.form.count || 0,
         onChange: function onChange(e) {
-          return _this2.setField("count", e.target.value);
+          return _this2.setField("count", Number(e.target.value));
         },
         isInvalid: !!this.props.errors.count
       }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
         type: "invalid"
-      }, this.props.errors.count))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+      }, this.props.errors.count)))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
+        controlId: "privateKey",
+        style: {
+          paddingTop: "0.4cm"
+        }
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Enter Admin Private Key:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        className: "text",
+        inputMode: "text",
+        placeholder: "Private Key 041eb5ggfccex234....",
+        value: this.props.form.privateKey || "",
+        onChange: function onChange(e) {
+          return _this2.setField("privateKey", e.target.value.trim());
+        },
+        isInvalid: !!this.props.errors.privateKey
+      }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
+        type: "invalid"
+      }, this.props.errors.privateKey)), /*#__PURE__*/_react.default.createElement("br", null)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+        style: {
+          marginTop: "0.5cm"
+        },
         onClick: this.seed
-      }, "Seed"))), /*#__PURE__*/_react.default.createElement("hr", null)), /*#__PURE__*/_react.default.createElement("div", {
-        className: "WalletInfo"
-      }, /*#__PURE__*/_react.default.createElement("div", null, "HNEC Public Address: ", "".concat(_config.HNEC_PUBLIC_ADDRESS))));
+      }, "Seed"))))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form, {
+        className: "AdminOnly"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "21px"
+        },
+        bg: "light",
+        text: "dark"
+      }, "Admin Only Mode"))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement("br", null), "When this mode is turned on only admin\\s will be able to conduct Polls into the Blockchain")), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement("br", null)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, "Currently:", " ", /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "17px"
+        },
+        bg: "danger",
+        text: "light"
+      }, "Turned off"), " ", /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "17px"
+        },
+        bg: "success",
+        text: "light"
+      }, "Turned on"))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
+        controlId: "privateKey",
+        style: {
+          paddingTop: "0.4cm"
+        }
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Enter Admin Private Key:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        className: "text",
+        inputMode: "text",
+        placeholder: "Private Key 041eb5ggfccex234....",
+        value: this.props.form.privateKey || "",
+        onChange: function onChange(e) {
+          return _this2.setField("privateKey", e.target.value.trim());
+        },
+        isInvalid: !!this.props.errors.privateKey
+      }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
+        type: "invalid"
+      }, this.props.errors.privateKey)), /*#__PURE__*/_react.default.createElement("br", null)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+        style: {
+          marginTop: "0.5cm",
+          width: "100px"
+        },
+        onClick: this.seed
+      }, "Switch"))))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form, {
+        className: "ChangeAdmins"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "21px"
+        },
+        bg: "light",
+        text: "dark"
+      }, "Change Admins"))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
+        controlId: "AdminAddresses",
+        className: "pollVoters",
+        style: {
+          paddingTop: "0.4cm"
+        }
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "New Admin Addresses:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        className: "text",
+        type: "text",
+        as: "textarea",
+        rows: 5,
+        placeholder: "enter admin addresses separated by ',' example: 0e3...,04e",
+        value: this.props.form.adminAddresses || "",
+        onChange: function onChange(e) {
+          return _this2.setField("adminAddresses", e.target.value);
+        },
+        isInvalid: !!this.props.errors.adminAddresses
+      }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
+        type: "invalid"
+      }, this.props.errors.adminAddresses))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
+        controlId: "privateKey",
+        style: {
+          paddingTop: "0.4cm"
+        }
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Enter Admin Private Key:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        className: "text",
+        inputMode: "text",
+        placeholder: "Private Key 041eb5ggfccex234....",
+        value: this.props.form.privateKey || "",
+        onChange: function onChange(e) {
+          return _this2.setField("privateKey", e.target.value.trim());
+        },
+        isInvalid: !!this.props.errors.privateKey
+      }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
+        type: "invalid"
+      }, this.props.errors.privateKey)), /*#__PURE__*/_react.default.createElement("br", null)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+        style: {
+          marginTop: "0.5cm",
+          width: "100px"
+        },
+        onClick: this.seed
+      }, "Change"))))));
     }
   }]);
   return HNEC;
@@ -85592,7 +85724,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55367" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56292" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
