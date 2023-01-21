@@ -22,14 +22,14 @@ const app = express();
 const blockchain = new BlockChain();
 const transactionPool = new TransactionPool();
 const wallet = new Wallet();
-const pubsub = new PubSub({ blockchain, transactionPool });
+const authority = new Authority();
+const pubsub = new PubSub({ blockchain, transactionPool,authority });
 const transactionMiner = new TransactionMiner({
     blockchain,
     transactionPool,
     wallet,
     pubsub,
 });
-const authority = new Authority();
 
 const DEFAULT_PORT = 3000;
 let PEER_PORT;
@@ -73,10 +73,10 @@ app.get("/api/voting-data", (req, res) => {
 
 //get authority ;
 app.get("/api/info-authority", (req, res) => {
-    const data = { authority };
+   
 
     res.json({
-        data,
+        authority
     });
 });
 
@@ -98,6 +98,9 @@ app.post("/api/authority-admin-only-mode", (req, res) => {
         //if error is to be found we send an error in a proper form
         return res.status(400).json({ type: "error", message: error.message });
     }
+
+    pubsub.broadcastAuthority();
+
     res.json({ type: "success", authority });
 });
 
@@ -122,6 +125,8 @@ app.post("/api/authority-admin-addresses", (req, res) => {
         //if error is to be found we send an error in a proper form
         return res.status(400).json({ type: "error", message: error.message });
     }
+
+    pubsub.broadcastAuthority();
     res.json({ type: "success", authority });
 });
 
@@ -497,6 +502,23 @@ const syncWithRootState = () => {
                 console.log(
                     "replace Transaction Pool Map on a sync with",
                     rootTransactionPoolMap
+                );
+            }
+        }
+    );
+
+
+    request(
+        { url: `${ROOT_NODE_ADDRESS}/api/info-authority` },
+        (error, response, body) => {
+            if (!error && response.statusCode === 200) {
+                const rootAuthority = JSON.parse(body).authority;
+
+                authority.setAuthority(rootAuthority);
+
+                console.log(
+                    "replace authority on a sync with",
+                    rootAuthority
                 );
             }
         }

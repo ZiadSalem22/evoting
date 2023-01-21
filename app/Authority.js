@@ -11,6 +11,11 @@ class Authority {
 
     }
 
+    setAuthority(authority){
+        this.adminOnly = authority.adminOnly;
+        this.adminAddresses = authority.adminAddresses;
+    }
+
     setAdminAddresses({adminAddresses, adminWallet}) {
 
         if (adminAddresses === undefined){
@@ -36,7 +41,6 @@ class Authority {
         if (this.checkIfAdmin({adminWallet}) === false){
             throw new Error(`only admin can change admin Address: wallet ${adminWallet.publicKey} is not an admin`);
         }
-        console.log('admin only',adminOnly);
         return this.adminOnly = adminOnly || false;
     }
 
@@ -44,6 +48,14 @@ class Authority {
     
      return  this.adminAddresses.includes( adminWallet.publicKey);
     }
+
+    replaceAuthority(authority){
+        this.adminAddresses = authority.adminAddresses;
+        this.adminOnly = authority.adminOnly;
+    }
+
+    
+    
 
 
 }
