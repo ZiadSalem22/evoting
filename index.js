@@ -396,80 +396,89 @@ app.post("/api/seed", (req, res) => {
     //number of wallets
     const {
         data: { count },
+        privateKey
     } = req.body;
 
-    if (count === undefined) {
-        count = 100;
-    }
+    const requestWallet = new Wallet(privateKey);
 
-    //first we create our wallets
-
-    let wallets = createWallets(count);
-    let voters = [];
-
-    for (let wallet of wallets) {
-        voters.push(wallet.publicKey);
-    }
-
-    let poll1 = wallet.createPoll({
-        name: "الانتخابات الرئاسية الليبية 2023",
-        options: ["سيف الاسلام القذافي ", "عبدالحميد الدبيبة", "فتحي باشاغا"],
-        voters: voters,
-        endDate: "2023-12-27T09:00:00",
-    });
-
-    let poll2 = new Wallet().createPoll({
-        name: "استفتاء علي المسودة الدستورية رقم 1 2023",
-        options: ["نعم", "لا"],
-        voters: voters,
-        endDate: "2023-12-27T09:00:00",
-    });
-
-    transactionPool.setTransaction(poll1);
-    pubsub.broadcastTransaction(poll1);
-
-    transactionPool.setTransaction(poll2);
-    pubsub.broadcastTransaction(poll2);
-
-    transactionMiner.mineTransactions();
-
-    let ballot1, ballot2;
-
-    for (let wallet of wallets) {
-        ballot1 = new Ballot({
-            createrWallet: wallet,
-            pollId: poll1.id,
-            voteOption:
-                poll1.output.options[
-                    Math.floor(Math.random() * poll1.output.options.length)
-                ],
-            chain: blockchain.chain,
-        });
-
-        ballot2 = new Ballot({
-            createrWallet: wallet,
-            pollId: poll2.id,
-            voteOption:
-                poll2.output.options[
-                    Math.floor(Math.random() * poll2.output.options.length)
-                ],
-            chain: blockchain.chain,
-        });
-
-        transactionPool.setTransaction(ballot1);
-        pubsub.broadcastTransaction(ballot1);
-
-        transactionPool.setTransaction(ballot2);
-        pubsub.broadcastTransaction(ballot2);
-
-        if (wallets.indexOf(wallet) % 10000 === 0) {
-            transactionMiner.mineTransactions();
+    if ( authority.checkIfAdmin({adminWallet: requestWallet})){
+        if (count === undefined) {
+            count = 100;
         }
+    
+        //first we create our wallets
+    
+        let wallets = createWallets(count);
+        let voters = [];
+    
+        for (let wallet of wallets) {
+            voters.push(wallet.publicKey);
+        }
+    
+        let poll1 = wallet.createPoll({
+            name: "الانتخابات الرئاسية الليبية 2023",
+            options: ["سيف الاسلام القذافي ", "عبدالحميد الدبيبة", "فتحي باشاغا"],
+            voters: voters,
+            endDate: "2023-12-27T09:00:00",
+        });
+    
+        let poll2 = new Wallet().createPoll({
+            name: "استفتاء علي المسودة الدستورية رقم 1 2023",
+            options: ["نعم", "لا"],
+            voters: voters,
+            endDate: "2023-12-27T09:00:00",
+        });
+    
+        transactionPool.setTransaction(poll1);
+        pubsub.broadcastTransaction(poll1);
+    
+        transactionPool.setTransaction(poll2);
+        pubsub.broadcastTransaction(poll2);
+    
+        transactionMiner.mineTransactions();
+    
+        let ballot1, ballot2;
+    
+        for (let wallet of wallets) {
+            ballot1 = new Ballot({
+                createrWallet: wallet,
+                pollId: poll1.id,
+                voteOption:
+                    poll1.output.options[
+                        Math.floor(Math.random() * poll1.output.options.length)
+                    ],
+                chain: blockchain.chain,
+            });
+    
+            ballot2 = new Ballot({
+                createrWallet: wallet,
+                pollId: poll2.id,
+                voteOption:
+                    poll2.output.options[
+                        Math.floor(Math.random() * poll2.output.options.length)
+                    ],
+                chain: blockchain.chain,
+            });
+    
+            transactionPool.setTransaction(ballot1);
+            pubsub.broadcastTransaction(ballot1);
+    
+            transactionPool.setTransaction(ballot2);
+            pubsub.broadcastTransaction(ballot2);
+    
+            if (wallets.indexOf(wallet) % 10000 === 0) {
+                transactionMiner.mineTransactions();
+            }
+        }
+    
+        transactionMiner.mineTransactions();
+    
+        res.redirect("/api/blocks");
+
+    }else{
+        return res.status(400).json({ type: "error", message:`only admin can seed: wallet [${requestWallet.publicKey}] is not an admin` });
     }
 
-    transactionMiner.mineTransactions();
-
-    res.redirect("/api/blocks");
 });
 
 app.get("*", (req, res) => {
