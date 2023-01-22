@@ -17,6 +17,35 @@ body {
     align-items: center;
 
 }
+.Seed{
+    max-width: 400;
+    border: 1px solid #fafafa;
+    border-radius: 20px;
+    padding: 3%;
+    margin: 2%;
+    word-wrap: break-word;
+    word-spacing: 110%;
+}
+
+.AdminOnly{
+    max-width: 600px;
+    border: 1px solid #fafafa;
+    border-radius: 20px;
+    padding: 3%;
+    margin: 2%;
+    word-wrap: break-word;
+    word-spacing: 110%;
+}
+
+.ChangeAdmins{
+    width: 700px;
+    border: 1px solid #fafafa;
+    border-radius: 20px;
+    padding: 3%;
+    margin: 2%;
+    word-wrap: break-word;
+    word-spacing: 110%;
+}
 
 .Blocks {
     display: flex;
@@ -93,6 +122,23 @@ body {
 }
 
 
+.Hnec{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.HnecForm {
+    border: 1px solid #fafafa;
+    border-radius: 20px;
+    padding: 3%;
+    margin: 2%;
+    width: 900px;
+    max-width: 1000px;
+    word-wrap: break-word;
+    word-spacing: 110%;
+}
+
 .ConductPoll {
     display: flex;
     flex-direction: column;
@@ -126,6 +172,7 @@ body {
     word-wrap: break-word;
     word-spacing: 110%;
 }
+
 
 .ConductTransaction {
     display: flex;

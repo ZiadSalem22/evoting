@@ -85412,6 +85412,10 @@ var HNEC = /*#__PURE__*/function (_Component) {
       args[_key] = arguments[_key];
     }
     _this = _super.call.apply(_super, [this].concat(args));
+    _defineProperty(_assertThisInitialized(_this), "state", {
+      adminOnly: false,
+      adminAddresses: []
+    });
     _defineProperty(_assertThisInitialized(_this), "setField", function (field, value) {
       _this.props.setForm(_objectSpread(_objectSpread({}, _this.props.form), {}, _defineProperty({}, field, value)));
       if (!!_this.props.errors[field]) {
@@ -85424,6 +85428,16 @@ var HNEC = /*#__PURE__*/function (_Component) {
       if (!count || count < 1) {
         newErrors.count = "please enter valid count > 1 ";
       }
+      return newErrors;
+    });
+    _defineProperty(_assertThisInitialized(_this), "validateForm", function () {
+      var _this$props$form = _this.props.form,
+        PKAdminOnly = _this$props$form.PKAdminOnly,
+        PKAdminAddresses = _this$props$form.PKAdminAddresses,
+        adminAddresses = _this$props$form.adminAddresses;
+      var newErrors = {};
+      newErrors.PKAdminOnly = _this.validatePK(PKAdminOnly);
+      newErrors.PKAdminAddresses = _this.validatePK(PKAdminAddresses);
       return newErrors;
     });
     _defineProperty(_assertThisInitialized(_this), "seed", function () {
@@ -85453,35 +85467,273 @@ var HNEC = /*#__PURE__*/function (_Component) {
         });
       }
     });
+    _defineProperty(_assertThisInitialized(_this), "updateAdminOnly", function () {
+      var formErrors = _this.validateForm();
+      if (formErrors.PKAdminOnly !== undefined) {
+        _this.props.setErrors(formErrors);
+      } else {
+        var PKAdminOnly = _this.props.form.PKAdminOnly;
+        var privateKey = PKAdminOnly;
+        var data = {
+          adminOnly: !_this.state.adminOnly
+        };
+        fetch("".concat(document.location.origin, "/api/authority-admin-only-mode"), {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            privateKey: privateKey,
+            data: data
+          })
+        }).then(function (response) {
+          return response.json();
+        }).then(function (json) {
+          alert(json.message || json.type); //message when error
+          if (!json.message) {
+            _this.props.navigation("/");
+          }
+        });
+      }
+    });
+    _defineProperty(_assertThisInitialized(_this), "updateAdminAddresses", function () {
+      var formErrors = _this.validateForm();
+      if (formErrors.PKAdminAddresses !== undefined) {
+        _this.props.setErrors(formErrors);
+      } else {
+        var _this$props$form2 = _this.props.form,
+          PKAdminAddresses = _this$props$form2.PKAdminAddresses,
+          adminAddresses = _this$props$form2.adminAddresses;
+        var privateKey = PKAdminAddresses;
+        var data = {
+          adminAddresses: adminAddresses.split(',').map(function (s) {
+            return s.trim();
+          }).filter(function (s) {
+            return s !== '';
+          })
+        };
+        fetch("".concat(document.location.origin, "/api/authority-admin-addresses"), {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            privateKey: privateKey,
+            data: data
+          })
+        }).then(function (response) {
+          return response.json();
+        }).then(function (json) {
+          alert(json.message || json.type); //message when error
+          if (!json.message) {
+            _this.props.navigation("/");
+          }
+        });
+      }
+    });
+    _defineProperty(_assertThisInitialized(_this), "consoleLog", function () {
+      var PKAdminOnly = _this.props.form.PKAdminOnly;
+      console.log("PKAdminOnly", _this.props.form.PKAdminOnly);
+      // console.log("adminAddresses", adminAddresses);
+    });
     return _this;
   }
   _createClass(HNEC, [{
+    key: "validatePK",
+    value: function validatePK(privateKey) {
+      if (!privateKey || privateKey.trim() === "") {
+        return "please enter your privateKey";
+      } else if (privateKey.length < "55685527491970eb3000f6cd279e43151cb854fb2fa2c44e23ffb985c841d850".length) {
+        return "please enter valid private address example \n 55685527491970eb3000f6cd279e43151cb854fb2fa2c44e23ffb985c841d850 ";
+      }
+      return undefined;
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+      fetch("".concat(document.location.origin, "/api/info-authority")).then(function (response) {
+        return response.json();
+      }).then(function (json) {
+        return _this2.setState({
+          adminOnly: json.authority.adminOnly,
+          adminAddresses: json.authority.adminAddresses
+        });
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
       return /*#__PURE__*/_react.default.createElement("div", {
-        className: "Home"
+        className: "Hnec"
       }, /*#__PURE__*/_react.default.createElement("img", {
         className: "logo",
         src: _HNEC_Logo.default
-      }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Container, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, "Seed Dummy Data")), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
+      }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", {
+        className: "HnecForm"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "23px"
+        },
+        bg: "light",
+        text: "dark"
+      }, "HENC Address"), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", {
+        style: {
+          marginTop: "10px"
+        }
+      }, "".concat(_config.HNEC_PUBLIC_ADDRESS)), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "23px"
+        },
+        bg: "light",
+        text: "dark"
+      }, "E-Voting Admins"), this.state.adminAddresses.map(function (address) {
+        return /*#__PURE__*/_react.default.createElement("div", {
+          style: {
+            marginTop: "10px"
+          },
+          key: address
+        }, "".concat(address));
+      })), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form, {
+        className: "Seed"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "21px"
+        },
+        bg: "light",
+        text: "dark"
+      }, "Seed Dummy Data"))), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
         controlId: "count"
       }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
         type: "number",
-        className: "text",
-        placeholder: "count",
         value: this.props.form.count || 0,
         onChange: function onChange(e) {
-          return _this2.setField("count", e.target.value);
+          return _this3.setField("count", Number(e.target.value));
         },
         isInvalid: !!this.props.errors.count
       }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
         type: "invalid"
-      }, this.props.errors.count))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+      }, this.props.errors.count)))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
+        controlId: "privateKey",
+        style: {
+          paddingTop: "0.4cm"
+        }
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Enter Admin Private Key:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        className: "text",
+        inputMode: "text",
+        placeholder: "Private Key 041eb5ggfccex234....",
+        value: this.props.form.privateKey || "",
+        onChange: function onChange(e) {
+          return _this3.setField("privateKey", e.target.value.trim());
+        },
+        isInvalid: !!this.props.errors.privateKey
+      }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
+        type: "invalid"
+      }, this.props.errors.privateKey)), /*#__PURE__*/_react.default.createElement("br", null)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+        style: {
+          marginTop: "0.5cm"
+        },
         onClick: this.seed
-      }, "Seed"))), /*#__PURE__*/_react.default.createElement("hr", null)), /*#__PURE__*/_react.default.createElement("div", {
-        className: "WalletInfo"
-      }, /*#__PURE__*/_react.default.createElement("div", null, "HNEC Public Address: ", "".concat(_config.HNEC_PUBLIC_ADDRESS))));
+      }, "Seed"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+        style: {
+          marginTop: "0.5cm"
+        },
+        onClick: this.consoleLog
+      }, "consoleLog"))))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form, {
+        className: "AdminOnly"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "21px"
+        },
+        bg: "light",
+        text: "dark"
+      }, "Admin Only Mode"))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement("br", null), "When this mode is turned on only admin\\s will be able to conduct Polls into the Blockchain")), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement("br", null)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, "Currently:", " ", /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "17px"
+        },
+        bg: "danger",
+        text: "light",
+        hidden: this.state.adminOnly !== false
+      }, "Turned off"), " ", /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "17px"
+        },
+        bg: "success",
+        text: "light",
+        hidden: this.state.adminOnly !== true
+      }, "Turned on"))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
+        controlId: "privateKey",
+        style: {
+          paddingTop: "0.4cm"
+        }
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Enter Admin Private Key:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        className: "text",
+        inputMode: "text",
+        placeholder: "Private Key 041eb5ggfccex234....",
+        value: this.props.form.PKAdminOnly || "",
+        onChange: function onChange(e) {
+          return _this3.setField("PKAdminOnly", e.target.value.trim());
+        },
+        isInvalid: !!this.props.errors.PKAdminOnly
+      }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
+        type: "invalid"
+      }, this.props.errors.PKAdminOnly)), /*#__PURE__*/_react.default.createElement("br", null)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+        style: {
+          marginTop: "0.5cm",
+          width: "100px"
+        },
+        onClick: this.updateAdminOnly
+      }, "Switch"))))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form, {
+        className: "ChangeAdmins"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
+        style: {
+          fontSize: "21px"
+        },
+        bg: "light",
+        text: "dark"
+      }, "Change Admins"))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
+        controlId: "AdminAddresses",
+        className: "pollVoters",
+        style: {
+          paddingTop: "0.4cm"
+        }
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "New Admin Addresses:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        className: "text",
+        type: "text",
+        as: "textarea",
+        rows: 5,
+        placeholder: "enter admin addresses separated by ',' example: 0e3...,04e",
+        value: this.props.form.adminAddresses || "",
+        onChange: function onChange(e) {
+          return _this3.setField("adminAddresses", e.target.value);
+        },
+        isInvalid: !!this.props.errors.adminAddresses
+      }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
+        type: "invalid"
+      }, this.props.errors.adminAddresses))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
+        controlId: "PKAdminAddresses",
+        style: {
+          paddingTop: "0.4cm"
+        }
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Enter Admin Private Key:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+        className: "text",
+        inputMode: "text",
+        placeholder: "Private Key 041eb5ggfccex234....",
+        value: this.props.form.PKAdminAddresses || "",
+        onChange: function onChange(e) {
+          return _this3.setField("PKAdminAddresses", e.target.value.trim());
+        },
+        isInvalid: !!this.props.errors.PKAdminAddresses
+      }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
+        type: "invalid"
+      }, this.props.errors.PKAdminAddresses)), /*#__PURE__*/_react.default.createElement("br", null)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+        style: {
+          marginTop: "0.5cm",
+          width: "100px"
+        },
+        onClick: this.updateAdminAddresses
+      }, "Change"))))));
     }
   }]);
   return HNEC;
@@ -85592,7 +85844,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55367" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56292" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
