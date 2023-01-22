@@ -1,5 +1,5 @@
 import React, { Component, useState } from "react";
-import { FormGroup, FormControl, Button, Form, Row, Col } from "react-bootstrap";
+import { FormGroup, FormControl, Button, Form, Row, Col,Spinner } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 
 
@@ -76,14 +76,15 @@ class ConductPoll extends Component {
                 startDate: nSD || undefined,
                 endDate: nED || undefined
             }
-            console.log('data', data);
+            this.props.setLoading(true);
             fetch(`${document.location.origin}/api/poll`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ privateKey, data })
             }).then(response => response.json())
                 .then(json => {
-                    alert(json.message || json.type);//message when error
+                    alert(json.message || json.type);
+                    this.props.setLoading(false);
                     if (!json.message || json.message === 'Please mine a new new block before adding another Poll to the Pool from the same wallet') {
                         this.props.navigation('/transaction-pool');
                     }
@@ -199,12 +200,18 @@ class ConductPoll extends Component {
 
                     <br />
                     <div>
-                        <Button
+                    {this.props.loading ? (
+                            <Spinner animation="border" />
+                        ) : (
+                            <Button
                             // bsStyle="danger"
                             onClick={this.conductPoll}
                         >
                             Submit
                         </Button>
+                        )}
+
+                      
                     </div>
                 </Form>
             </div>
@@ -220,8 +227,11 @@ export default function (props) {
         voters: []
     })
     const [errors, setErrors] = useState({})
+    const [loading, setLoading] = useState(false);
 
 
     return <ConductPoll {...props}
-        navigation={navigation} form={form} setForm={setForm} errors={errors} setErrors={setErrors} />;
+        navigation={navigation} form={form} setForm={setForm} errors={errors} setErrors={setErrors}
+        loading={loading}
+        setLoading={setLoading} />;
 }

@@ -52856,14 +52856,22 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports.default = _default;
 var _react = _interopRequireWildcard(require("react"));
 var _Block = _interopRequireDefault(require("../components/Block"));
 var _reactRouterDom = require("react-router-dom");
+var _reactBootstrap = require("react-bootstrap");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
@@ -52894,12 +52902,14 @@ var Blocks = /*#__PURE__*/function (_Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
+      this.props.setLoading(true);
       fetch("".concat(document.location.origin, "/api/blocks")).then(function (response) {
         return response.json();
       }).then(function (json) {
-        return _this2.setState({
+        _this2.setState({
           blocks: json.reverse()
         });
+        _this2.props.setLoading(false);
       });
     }
   }, {
@@ -52908,7 +52918,9 @@ var Blocks = /*#__PURE__*/function (_Component) {
       var _this3 = this;
       return /*#__PURE__*/_react.default.createElement("div", {
         className: "Blocks"
-      }, /*#__PURE__*/_react.default.createElement("h3", null, "Blocks"), this.state.blocks.map(function (block) {
+      }, /*#__PURE__*/_react.default.createElement("h3", null, "Blocks"), this.props.loading ? /*#__PURE__*/_react.default.createElement(_reactBootstrap.Spinner, {
+        animation: "border"
+      }) : this.state.blocks.map(function (block) {
         return /*#__PURE__*/_react.default.createElement(_Block.default, {
           key: block.hash,
           block: block,
@@ -52919,9 +52931,17 @@ var Blocks = /*#__PURE__*/function (_Component) {
   }]);
   return Blocks;
 }(_react.Component);
-var _default = Blocks;
-exports.default = _default;
-},{"react":"../../node_modules/react/index.js","../components/Block":"components/Block.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js"}],"pages/ConductTransaction.js":[function(require,module,exports) {
+function _default(props) {
+  var _useState = (0, _react.useState)(false),
+    _useState2 = _slicedToArray(_useState, 2),
+    loading = _useState2[0],
+    setLoading = _useState2[1];
+  return /*#__PURE__*/_react.default.createElement(Blocks, _extends({}, props, {
+    loading: loading,
+    setLoading: setLoading
+  }));
+}
+},{"react":"../../node_modules/react/index.js","../components/Block":"components/Block.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js","react-bootstrap":"../../node_modules/react-bootstrap/esm/index.js"}],"pages/ConductTransaction.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -52977,18 +52997,18 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
         recipient = _this$props$form.recipient,
         privateKey = _this$props$form.privateKey;
       var newErrors = {};
-      if (!recipient || recipient.trim() === '') {
-        newErrors.recipient = 'please enter your recipient address';
+      if (!recipient || recipient.trim() === "") {
+        newErrors.recipient = "please enter your recipient address";
       } else if (recipient.length !== 130) {
-        newErrors.recipient = 'please enter valid recipient address example \n 0497f2b16ecde8cf1ce5165ce437c6c25db3860606aeed436371cec3fa35c22c378bf1c10ac4f0c53358bbb26ffaef2ad2d0dcf75982fc2b721237ab53ebcc0268 ';
+        newErrors.recipient = "please enter valid recipient address example \n 0497f2b16ecde8cf1ce5165ce437c6c25db3860606aeed436371cec3fa35c22c378bf1c10ac4f0c53358bbb26ffaef2ad2d0dcf75982fc2b721237ab53ebcc0268 ";
       }
-      if (!privateKey || privateKey.trim() === '') {
-        newErrors.privateKey = 'please enter your privateKey';
-      } else if (privateKey.length < '55685527491970eb3000f6cd279e43151cb854fb2fa2c44e23ffb985c841d850'.length) {
-        newErrors.privateKey = 'please enter valid private address example \n 55685527491970eb3000f6cd279e43151cb854fb2fa2c44e23ffb985c841d850 ';
+      if (!privateKey || privateKey.trim() === "") {
+        newErrors.privateKey = "please enter your privateKey";
+      } else if (privateKey.length < "55685527491970eb3000f6cd279e43151cb854fb2fa2c44e23ffb985c841d850".length) {
+        newErrors.privateKey = "please enter valid private address example \n 55685527491970eb3000f6cd279e43151cb854fb2fa2c44e23ffb985c841d850 ";
       }
       if (!amount || amount < 1) {
-        newErrors.amount = 'please enter valid amount > 1 ';
+        newErrors.amount = "please enter valid amount > 1 ";
       }
       return newErrors;
     });
@@ -53006,10 +53026,11 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
           recipient: recipient,
           amount: amount
         };
+        _this.props.setLoading(true);
         fetch("".concat(document.location.origin, "/api/transact"), {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json"
           },
           body: JSON.stringify({
             privateKey: privateKey,
@@ -53019,7 +53040,8 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
           return response.json();
         }).then(function (json) {
           alert(json.message || json.type); //message when error
-          _this.props.navigation('/transaction-pool');
+          _this.props.setLoading(false);
+          _this.props.navigation("/transaction-pool");
         });
       }
     });
@@ -53039,9 +53061,9 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
         className: "text",
         inputMode: "text",
         placeholder: "Private Key 041eb5ggfccex234....",
-        value: this.props.form.privateKey || '',
+        value: this.props.form.privateKey || "",
         onChange: function onChange(e) {
-          return _this2.setField('privateKey', e.target.value.trim());
+          return _this2.setField("privateKey", e.target.value.trim());
         },
         isInvalid: !!this.props.errors.privateKey
       }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
@@ -53054,9 +53076,9 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
         as: "textarea",
         rows: 2,
         placeholder: "recipient",
-        value: this.props.form.recipient || '',
+        value: this.props.form.recipient || "",
         onChange: function onChange(e) {
-          return _this2.setField('recipient', e.target.value.trim());
+          return _this2.setField("recipient", e.target.value.trim());
         },
         isInvalid: !!this.props.errors.recipient
       }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
@@ -53070,12 +53092,14 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
         placeholder: "amount",
         value: this.props.form.amount || 0,
         onChange: function onChange(e) {
-          return _this2.setField('amount', Number(e.target.value));
+          return _this2.setField("amount", Number(e.target.value));
         },
         isInvalid: !!this.props.errors.amount
       }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
         type: "invalid"
-      }, this.props.errors.amount)), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button
+      }, this.props.errors.amount)), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, this.props.loading ? /*#__PURE__*/_react.default.createElement(_reactBootstrap.Spinner, {
+        animation: "border"
+      }) : /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button
       // bsStyle="danger"
       , {
         onClick: this.conductTransaction
@@ -53084,7 +53108,6 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
   }]);
   return ConductTransaction;
 }(_react.Component);
-;
 function _default(props) {
   var navigation = (0, _reactRouterDom.useNavigate)();
   var _useState = (0, _react.useState)({}),
@@ -53095,12 +53118,18 @@ function _default(props) {
     _useState4 = _slicedToArray(_useState3, 2),
     errors = _useState4[0],
     setErrors = _useState4[1];
+  var _useState5 = (0, _react.useState)(false),
+    _useState6 = _slicedToArray(_useState5, 2),
+    loading = _useState6[0],
+    setLoading = _useState6[1];
   return /*#__PURE__*/_react.default.createElement(ConductTransaction, _extends({}, props, {
     navigation: navigation,
     form: form,
     setForm: setForm,
     errors: errors,
-    setErrors: setErrors
+    setErrors: setErrors,
+    loading: loading,
+    setLoading: setLoading
   }));
 }
 },{"react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/esm/index.js","react-bootstrap/esm/ThemeProvider":"../../node_modules/react-bootstrap/esm/ThemeProvider.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js"}],"pages/TransactionPool.js":[function(require,module,exports) {
@@ -53119,6 +53148,12 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
@@ -53145,22 +53180,26 @@ var TransactionPool = /*#__PURE__*/function (_Component) {
       transactionPoolMap: {}
     });
     _defineProperty(_assertThisInitialized(_this), "fetchTransactionPoolMap", function () {
+      _this.props.setLoading(true);
       fetch("".concat(document.location.origin, "/api/transaction-pool-map")).then(function (response) {
         return response.json();
       }).then(function (json) {
-        return _this.setState({
+        _this.setState({
           transactionPoolMap: json
         });
+        _this.props.setLoading(false);
       });
     });
     _defineProperty(_assertThisInitialized(_this), "fetchMineTransactions", function () {
+      _this.props.setLoading(true);
       fetch("".concat(document.location.origin, "/api/mine-transactions")).then(function (response) {
         if (response.status == 200) {
-          alert('success');
-          _this.props.navigation('/blocks');
+          alert("success");
+          _this.props.navigation("/blocks");
         } else {
-          alert('the mine-transaction block request did not complete');
+          alert("the mine-transaction block request did not complete");
         }
+        _this.props.setLoading(false);
       });
     });
     return _this;
@@ -53173,7 +53212,7 @@ var TransactionPool = /*#__PURE__*/function (_Component) {
       var _this2 = this;
       this.fetchTransactionPoolMap();
 
-      //this is how we set interval for js components 
+      //this is how we set interval for js components
       this.fetchPoolInterval = setInterval(function () {
         return _this2.fetchTransactionPoolMap();
       }, POLL_INTERVAL_MS);
@@ -53197,7 +53236,9 @@ var TransactionPool = /*#__PURE__*/function (_Component) {
         }, /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement(_Transaction.default, {
           transaction: transaction
         }));
-      }), /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+      }), /*#__PURE__*/_react.default.createElement("hr", null), this.props.loading ? /*#__PURE__*/_react.default.createElement(_reactBootstrap.Spinner, {
+        animation: "border"
+      }) : /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
         onClick: this.fetchMineTransactions
       }, "Mine the Transactions"));
     }
@@ -53206,8 +53247,14 @@ var TransactionPool = /*#__PURE__*/function (_Component) {
 }(_react.Component);
 function _default(props) {
   var navigation = (0, _reactRouterDom.useNavigate)();
+  var _useState = (0, _react.useState)(false),
+    _useState2 = _slicedToArray(_useState, 2),
+    loading = _useState2[0],
+    setLoading = _useState2[1];
   return /*#__PURE__*/_react.default.createElement(TransactionPool, _extends({}, props, {
-    navigation: navigation
+    navigation: navigation,
+    loading: loading,
+    setLoading: setLoading
   }));
 }
 },{"react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js","../components/Transaction":"components/Transaction.js"}],"assets/HNEC_Logo.png":[function(require,module,exports) {
@@ -53479,7 +53526,7 @@ var ConductPoll = /*#__PURE__*/function (_Component) {
           startDate: nSD || undefined,
           endDate: nED || undefined
         };
-        console.log('data', data);
+        _this.props.setLoading(true);
         fetch("".concat(document.location.origin, "/api/poll"), {
           method: 'POST',
           headers: {
@@ -53492,7 +53539,8 @@ var ConductPoll = /*#__PURE__*/function (_Component) {
         }).then(function (response) {
           return response.json();
         }).then(function (json) {
-          alert(json.message || json.type); //message when error
+          alert(json.message || json.type);
+          _this.props.setLoading(false);
           if (!json.message || json.message === 'Please mine a new new block before adding another Poll to the Pool from the same wallet') {
             _this.props.navigation('/transaction-pool');
           }
@@ -53593,7 +53641,9 @@ var ConductPoll = /*#__PURE__*/function (_Component) {
         isInvalid: !!this.props.errors.endDate
       }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
         type: "invalid"
-      }, this.props.errors.endDate)), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button
+      }, this.props.errors.endDate)), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, this.props.loading ? /*#__PURE__*/_react.default.createElement(_reactBootstrap.Spinner, {
+        animation: "border"
+      }) : /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button
       // bsStyle="danger"
       , {
         onClick: this.conductPoll
@@ -53616,12 +53666,18 @@ function _default(props) {
     _useState4 = _slicedToArray(_useState3, 2),
     errors = _useState4[0],
     setErrors = _useState4[1];
+  var _useState5 = (0, _react.useState)(false),
+    _useState6 = _slicedToArray(_useState5, 2),
+    loading = _useState6[0],
+    setLoading = _useState6[1];
   return /*#__PURE__*/_react.default.createElement(ConductPoll, _extends({}, props, {
     navigation: navigation,
     form: form,
     setForm: setForm,
     errors: errors,
-    setErrors: setErrors
+    setErrors: setErrors,
+    loading: loading,
+    setLoading: setLoading
   }));
 }
 },{"react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js"}],"../../node_modules/depd/lib/browser/index.js":[function(require,module,exports) {
@@ -85192,11 +85248,12 @@ var ConductBallot = /*#__PURE__*/function (_Component) {
               break;
             }
             _this.props.setErrors(formErrors);
-            _context.next = 11;
+            _context.next = 12;
             break;
           case 5:
             privateKey = _this.props.form.privateKey;
-            _context.next = 8;
+            _this.props.setLoading(true);
+            _context.next = 9;
             return fetch("".concat(document.location.origin, "/api/wallet-info"), {
               method: "POST",
               headers: {
@@ -85213,15 +85270,16 @@ var ConductBallot = /*#__PURE__*/function (_Component) {
                 ballots: json.data.ballots,
                 options: []
               }), tempPolls = json.data.validToVotePolls;
+              _this.props.setLoading(false);
             });
-          case 8:
+          case 9:
             Errors = {};
             _this.props.setErrors(Errors);
             if (tempPolls.length < 1) {
               Errors.privateKey = "this wallet is not been registered for any polls";
               _this.props.setErrors(Errors);
             }
-          case 11:
+          case 12:
           case "end":
             return _context.stop();
         }
@@ -85257,6 +85315,7 @@ var ConductBallot = /*#__PURE__*/function (_Component) {
           pollId: pollId,
           voteOption: voteOption
         };
+        _this.props.setLoading(true);
         fetch("".concat(document.location.origin, "/api/ballot"), {
           method: "POST",
           headers: {
@@ -85269,7 +85328,8 @@ var ConductBallot = /*#__PURE__*/function (_Component) {
         }).then(function (response) {
           return response.json();
         }).then(function (json) {
-          alert(json.message || json.type); //message when error
+          alert(json.message || json.type);
+          _this.props.setLoading(false);
           if (!json.message) {
             _this.props.navigation("/transaction-pool");
           }
@@ -85299,7 +85359,9 @@ var ConductBallot = /*#__PURE__*/function (_Component) {
         isInvalid: !!this.props.errors.privateKey
       }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
         type: "invalid"
-      }, this.props.errors.privateKey)), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+      }, this.props.errors.privateKey)), /*#__PURE__*/_react.default.createElement("br", null), this.props.loading ? /*#__PURE__*/_react.default.createElement(_reactBootstrap.Spinner, {
+        animation: "border"
+      }) : /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
         onClick: this.fetchValidToVotePolls
       }, "Get polls"), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Group, {
         controlId: "pollId",
@@ -85346,7 +85408,9 @@ var ConductBallot = /*#__PURE__*/function (_Component) {
         }, "".concat(option));
       })), /*#__PURE__*/_react.default.createElement("div", {
         className: "red"
-      }, this.props.errors.voteOption)), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button
+      }, this.props.errors.voteOption)), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, this.props.loading ? /*#__PURE__*/_react.default.createElement(_reactBootstrap.Spinner, {
+        animation: "border"
+      }) : /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button
       // bsStyle="danger"
       , {
         onClick: this.conductBallot
@@ -85365,12 +85429,18 @@ function _default(props) {
     _useState4 = _slicedToArray(_useState3, 2),
     errors = _useState4[0],
     setErrors = _useState4[1];
+  var _useState5 = (0, _react.useState)(false),
+    _useState6 = _slicedToArray(_useState5, 2),
+    loading = _useState6[0],
+    setLoading = _useState6[1];
   return /*#__PURE__*/_react.default.createElement(ConductBallot, _extends({}, props, {
     navigation: navigation,
     form: form,
     setForm: setForm,
     errors: errors,
-    setErrors: setErrors
+    setErrors: setErrors,
+    loading: loading,
+    setLoading: setLoading
   }));
 }
 },{"body-parser":"../../node_modules/body-parser/index.js","react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js"}],"pages/HNEC.js":[function(require,module,exports) {
@@ -85465,6 +85535,7 @@ var HNEC = /*#__PURE__*/function (_Component) {
           var data = {
             count: count
           };
+          _this.props.setLoading(true);
           fetch("".concat(document.location.origin, "/api/seed"), {
             method: "POST",
             headers: {
@@ -85477,7 +85548,8 @@ var HNEC = /*#__PURE__*/function (_Component) {
           }).then(function (response) {
             return response.json();
           }).then(function (json) {
-            alert(json.message || "success"); //message when error
+            alert(json.message || "success");
+            _this.props.setLoading(false);
             if (!json.message) {
               _this.props.navigation("/blocks");
             }
@@ -85495,6 +85567,7 @@ var HNEC = /*#__PURE__*/function (_Component) {
         var data = {
           adminOnly: !_this.state.adminOnly
         };
+        _this.props.setLoading(true);
         fetch("".concat(document.location.origin, "/api/authority-admin-only-mode"), {
           method: "POST",
           headers: {
@@ -85507,7 +85580,8 @@ var HNEC = /*#__PURE__*/function (_Component) {
         }).then(function (response) {
           return response.json();
         }).then(function (json) {
-          alert(json.message || json.type); //message when error
+          alert(json.message || json.type);
+          _this.props.setLoading(false);
           if (!json.message) {
             _this.props.navigation("/");
           }
@@ -85530,6 +85604,7 @@ var HNEC = /*#__PURE__*/function (_Component) {
             return s !== "";
           })
         };
+        _this.props.setLoading(true);
         fetch("".concat(document.location.origin, "/api/authority-admin-addresses"), {
           method: "POST",
           headers: {
@@ -85542,7 +85617,8 @@ var HNEC = /*#__PURE__*/function (_Component) {
         }).then(function (response) {
           return response.json();
         }).then(function (json) {
-          alert(json.message || json.type); //message when error
+          alert(json.message || json.type);
+          _this.props.setLoading(false);
           if (!json.message) {
             _this.props.navigation("/");
           }
@@ -85570,13 +85646,15 @@ var HNEC = /*#__PURE__*/function (_Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
+      this.props.setLoading(true);
       fetch("".concat(document.location.origin, "/api/info-authority")).then(function (response) {
         return response.json();
       }).then(function (json) {
-        return _this2.setState({
+        _this2.setState({
           adminOnly: json.authority.adminOnly,
           adminAddresses: json.authority.adminAddresses
         });
+        _this2.props.setLoading(false);
       });
     }
   }, {
@@ -85606,7 +85684,9 @@ var HNEC = /*#__PURE__*/function (_Component) {
         },
         bg: "light",
         text: "dark"
-      }, "E-Voting Admins"), this.state.adminAddresses.map(function (address) {
+      }, "E-Voting Admins"), this.props.loading ? /*#__PURE__*/_react.default.createElement(_reactBootstrap.Spinner, {
+        animation: "border"
+      }) : this.state.adminAddresses.map(function (address) {
         return /*#__PURE__*/_react.default.createElement("div", {
           style: {
             marginTop: "10px"
@@ -85648,17 +85728,14 @@ var HNEC = /*#__PURE__*/function (_Component) {
         isInvalid: !!this.props.errors.PKSeed
       }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
         type: "invalid"
-      }, this.props.errors.PKSeed)), /*#__PURE__*/_react.default.createElement("br", null)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+      }, this.props.errors.PKSeed)), /*#__PURE__*/_react.default.createElement("br", null)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, this.props.loading ? /*#__PURE__*/_react.default.createElement(_reactBootstrap.Spinner, {
+        animation: "border"
+      }) : /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
         style: {
           marginTop: "0.5cm"
         },
         onClick: this.seed
-      }, "Seed"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
-        style: {
-          marginTop: "0.5cm"
-        },
-        onClick: this.consoleLog
-      }, "consoleLog"))))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form, {
+      }, "Seed"))))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form, {
         className: "AdminOnly"
       }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
         style: {
@@ -85696,7 +85773,9 @@ var HNEC = /*#__PURE__*/function (_Component) {
         isInvalid: !!this.props.errors.PKAdminOnly
       }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
         type: "invalid"
-      }, this.props.errors.PKAdminOnly)), /*#__PURE__*/_react.default.createElement("br", null)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+      }, this.props.errors.PKAdminOnly)), /*#__PURE__*/_react.default.createElement("br", null)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, this.props.loading ? /*#__PURE__*/_react.default.createElement(_reactBootstrap.Spinner, {
+        animation: "border"
+      }) : /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
         style: {
           marginTop: "0.5cm",
           width: "100px"
@@ -85745,7 +85824,9 @@ var HNEC = /*#__PURE__*/function (_Component) {
         isInvalid: !!this.props.errors.PKAdminAddresses
       }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
         type: "invalid"
-      }, this.props.errors.PKAdminAddresses)), /*#__PURE__*/_react.default.createElement("br", null)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+      }, this.props.errors.PKAdminAddresses)), /*#__PURE__*/_react.default.createElement("br", null)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, this.props.loading ? /*#__PURE__*/_react.default.createElement(_reactBootstrap.Spinner, {
+        animation: "border"
+      }) : /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
         style: {
           marginTop: "0.5cm",
           width: "100px"
@@ -85766,12 +85847,18 @@ function _default(props) {
     _useState4 = _slicedToArray(_useState3, 2),
     errors = _useState4[0],
     setErrors = _useState4[1];
+  var _useState5 = (0, _react.useState)(false),
+    _useState6 = _slicedToArray(_useState5, 2),
+    loading = _useState6[0],
+    setLoading = _useState6[1];
   return /*#__PURE__*/_react.default.createElement(HNEC, _extends({}, props, {
     navigation: navigation,
     form: form,
     setForm: setForm,
     errors: errors,
-    setErrors: setErrors
+    setErrors: setErrors,
+    loading: loading,
+    setLoading: setLoading
   }));
 }
 },{"react":"../../node_modules/react/index.js","../assets/HNEC_Logo.png":"assets/HNEC_Logo.png","../../../config":"../../config.js","react-bootstrap":"../../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js"}],"pages/CreateWallet.js":[function(require,module,exports) {
@@ -86075,7 +86162,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56875" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64589" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
