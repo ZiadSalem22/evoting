@@ -58,40 +58,48 @@ class HNEC extends Component {
         return undefined;
     }
     validateForm = () => {
-        const { PKAdminOnly,PKAdminAddresses,adminAddresses } = this.props.form;
+        const { PKAdminOnly, PKAdminAddresses, adminAddresses, PKSeed } =
+            this.props.form;
         const newErrors = {};
 
+        newErrors.PKSeed = this.validatePK(PKSeed);
         newErrors.PKAdminOnly = this.validatePK(PKAdminOnly);
         newErrors.PKAdminAddresses = this.validatePK(PKAdminAddresses);
-
-        
 
         return newErrors;
     };
 
     seed = () => {
-        const formErrors = this.validateCount();
+        let formErrors = this.validateCount();
 
         if (Object.keys(formErrors).length > 0) {
             this.props.setErrors(formErrors);
         } else {
-            const { count } = this.props.form;
-            const data = {
-                count,
-            };
+            formErrors = this.validateForm();
 
-            fetch(`${document.location.origin}/api/seed`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ data }),
-            }).then((response) => {
-                if (response.status == 200) {
-                    alert("success");
-                    this.props.navigation("/blocks");
-                } else {
-                    alert("the seed request did not complete");
-                }
-            });
+            if (formErrors.PKSeed !== undefined) {
+                this.props.setErrors(formErrors);
+            } else {
+                const { count, PKSeed } = this.props.form;
+
+                const privateKey = PKSeed;
+                const data = {
+                    count,
+                };
+
+                fetch(`${document.location.origin}/api/seed`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ data, privateKey }),
+                })
+                    .then((response) => response.json())
+                    .then((json) => {
+                        alert(json.message || "success"); //message when error
+                        if (!json.message) {
+                            this.props.navigation("/blocks");
+                        }
+                    });
+            }
         }
     };
 
@@ -102,10 +110,10 @@ class HNEC extends Component {
             this.props.setErrors(formErrors);
         } else {
             const { PKAdminOnly } = this.props.form;
- 
+
             const privateKey = PKAdminOnly;
             const data = {
-              adminOnly: !this.state.adminOnly,
+                adminOnly: !this.state.adminOnly,
             };
 
             fetch(`${document.location.origin}/api/authority-admin-only-mode`, {
@@ -117,43 +125,46 @@ class HNEC extends Component {
                 .then((json) => {
                     alert(json.message || json.type); //message when error
                     if (!json.message) {
-                      this.props.navigation("/");
+                        this.props.navigation("/");
                     }
                 });
         }
     };
 
     updateAdminAddresses = () => {
-      const formErrors = this.validateForm();
+        const formErrors = this.validateForm();
 
-      if (formErrors.PKAdminAddresses !== undefined) {
-          this.props.setErrors(formErrors);
-      } else {
-          const { PKAdminAddresses , adminAddresses} = this.props.form;
+        if (formErrors.PKAdminAddresses !== undefined) {
+            this.props.setErrors(formErrors);
+        } else {
+            const { PKAdminAddresses, adminAddresses } = this.props.form;
 
-          const privateKey = PKAdminAddresses;
-          const data = {
-            adminAddresses: adminAddresses.split(',').map(s => s.trim()).filter(s => s !== '')
-          };
+            const privateKey = PKAdminAddresses;
+            const data = {
+                adminAddresses: adminAddresses
+                    .split(",")
+                    .map((s) => s.trim())
+                    .filter((s) => s !== ""),
+            };
 
-          fetch(`${document.location.origin}/api/authority-admin-addresses`, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ privateKey, data }),
-          })
-              .then((response) => response.json())
-              .then((json) => {
-                  alert(json.message || json.type); //message when error
-                  if (!json.message) {
-                    this.props.navigation("/");
-                  }
-              });
-      }
-  };
+            fetch(`${document.location.origin}/api/authority-admin-addresses`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ privateKey, data }),
+            })
+                .then((response) => response.json())
+                .then((json) => {
+                    alert(json.message || json.type); //message when error
+                    if (!json.message) {
+                        this.props.navigation("/");
+                    }
+                });
+        }
+    };
 
     consoleLog = () => {
-      const {PKAdminOnly} = this.props.form;
-        console.log("PKAdminOnly", this.props.form.PKAdminOnly);
+        const { PKSeed } = this.props.form;
+        console.log("PKSeed", this.props.form.PKSeed);
         // console.log("adminAddresses", adminAddresses);
     };
     componentDidMount() {
@@ -241,17 +252,17 @@ class HNEC extends Component {
                                     className="text"
                                     inputMode="text"
                                     placeholder="Private Key 041eb5ggfccex234...."
-                                    value={this.props.form.privateKey || ""}
+                                    value={this.props.form.PKSeed || ""}
                                     onChange={(e) =>
                                         this.setField(
-                                            "privateKey",
+                                            "PKSeed",
                                             e.target.value.trim()
                                         )
                                     }
-                                    isInvalid={!!this.props.errors.privateKey}
+                                    isInvalid={!!this.props.errors.PKSeed}
                                 />
                                 <Form.Control.Feedback type="invalid">
-                                    {this.props.errors.privateKey}
+                                    {this.props.errors.PKSeed}
                                 </Form.Control.Feedback>
                             </FormGroup>
                             <br />
@@ -416,14 +427,18 @@ class HNEC extends Component {
                                     className="text"
                                     inputMode="text"
                                     placeholder="Private Key 041eb5ggfccex234...."
-                                    value={this.props.form.PKAdminAddresses || ""}
+                                    value={
+                                        this.props.form.PKAdminAddresses || ""
+                                    }
                                     onChange={(e) =>
                                         this.setField(
                                             "PKAdminAddresses",
                                             e.target.value.trim()
                                         )
                                     }
-                                    isInvalid={!!this.props.errors.PKAdminAddresses}
+                                    isInvalid={
+                                        !!this.props.errors.PKAdminAddresses
+                                    }
                                 />
                                 <Form.Control.Feedback type="invalid">
                                     {this.props.errors.PKAdminAddresses}
