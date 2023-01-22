@@ -85434,8 +85434,10 @@ var HNEC = /*#__PURE__*/function (_Component) {
       var _this$props$form = _this.props.form,
         PKAdminOnly = _this$props$form.PKAdminOnly,
         PKAdminAddresses = _this$props$form.PKAdminAddresses,
-        adminAddresses = _this$props$form.adminAddresses;
+        adminAddresses = _this$props$form.adminAddresses,
+        PKSeed = _this$props$form.PKSeed;
       var newErrors = {};
+      newErrors.PKSeed = _this.validatePK(PKSeed);
       newErrors.PKAdminOnly = _this.validatePK(PKAdminOnly);
       newErrors.PKAdminAddresses = _this.validatePK(PKAdminAddresses);
       return newErrors;
@@ -85445,26 +85447,35 @@ var HNEC = /*#__PURE__*/function (_Component) {
       if (Object.keys(formErrors).length > 0) {
         _this.props.setErrors(formErrors);
       } else {
-        var count = _this.props.form.count;
-        var data = {
-          count: count
-        };
-        fetch("".concat(document.location.origin, "/api/seed"), {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            data: data
-          })
-        }).then(function (response) {
-          if (response.status == 200) {
-            alert("success");
-            _this.props.navigation("/blocks");
-          } else {
-            alert("the seed request did not complete");
-          }
-        });
+        formErrors = _this.validateForm();
+        if (formErrors.PKSeed !== undefined) {
+          _this.props.setErrors(formErrors);
+        } else {
+          var _this$props$form2 = _this.props.form,
+            count = _this$props$form2.count,
+            PKSeed = _this$props$form2.PKSeed;
+          var privateKey = PKSeed;
+          var data = {
+            count: count
+          };
+          fetch("".concat(document.location.origin, "/api/seed"), {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              data: data,
+              privateKey: privateKey
+            })
+          }).then(function (response) {
+            return response.json();
+          }).then(function (json) {
+            alert(json.message || "success"); //message when error
+            if (!json.message) {
+              _this.props.navigation("/blocks");
+            }
+          });
+        }
       }
     });
     _defineProperty(_assertThisInitialized(_this), "updateAdminOnly", function () {
@@ -85501,15 +85512,15 @@ var HNEC = /*#__PURE__*/function (_Component) {
       if (formErrors.PKAdminAddresses !== undefined) {
         _this.props.setErrors(formErrors);
       } else {
-        var _this$props$form2 = _this.props.form,
-          PKAdminAddresses = _this$props$form2.PKAdminAddresses,
-          adminAddresses = _this$props$form2.adminAddresses;
+        var _this$props$form3 = _this.props.form,
+          PKAdminAddresses = _this$props$form3.PKAdminAddresses,
+          adminAddresses = _this$props$form3.adminAddresses;
         var privateKey = PKAdminAddresses;
         var data = {
-          adminAddresses: adminAddresses.split(',').map(function (s) {
+          adminAddresses: adminAddresses.split(",").map(function (s) {
             return s.trim();
           }).filter(function (s) {
-            return s !== '';
+            return s !== "";
           })
         };
         fetch("".concat(document.location.origin, "/api/authority-admin-addresses"), {
@@ -85532,8 +85543,8 @@ var HNEC = /*#__PURE__*/function (_Component) {
       }
     });
     _defineProperty(_assertThisInitialized(_this), "consoleLog", function () {
-      var PKAdminOnly = _this.props.form.PKAdminOnly;
-      console.log("PKAdminOnly", _this.props.form.PKAdminOnly);
+      var PKSeed = _this.props.form.PKSeed;
+      console.log("PKSeed", _this.props.form.PKSeed);
       // console.log("adminAddresses", adminAddresses);
     });
     return _this;
@@ -85623,14 +85634,14 @@ var HNEC = /*#__PURE__*/function (_Component) {
         className: "text",
         inputMode: "text",
         placeholder: "Private Key 041eb5ggfccex234....",
-        value: this.props.form.privateKey || "",
+        value: this.props.form.PKSeed || "",
         onChange: function onChange(e) {
-          return _this3.setField("privateKey", e.target.value.trim());
+          return _this3.setField("PKSeed", e.target.value.trim());
         },
-        isInvalid: !!this.props.errors.privateKey
+        isInvalid: !!this.props.errors.PKSeed
       }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
         type: "invalid"
-      }, this.props.errors.privateKey)), /*#__PURE__*/_react.default.createElement("br", null)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+      }, this.props.errors.PKSeed)), /*#__PURE__*/_react.default.createElement("br", null)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
         style: {
           marginTop: "0.5cm"
         },
@@ -85844,7 +85855,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56292" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56144" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

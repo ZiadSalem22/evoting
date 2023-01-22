@@ -8,7 +8,11 @@ const PubSub = require("./app/pubsub");
 const TransactionPool = require("./wallet/transaction-pool");
 const Wallet = require("./wallet/index");
 const TransactionMiner = require("./app/transaction-miner");
-const { TRANSACTION_TYPE, HNEC_PUBLIC_ADDRESS } = require("./config");
+const {
+    TRANSACTION_TYPE,
+    HNEC_PUBLIC_ADDRESS,
+    STARTING_BALANCE,
+} = require("./config");
 const Ballot = require("./voting/ballot");
 const {
     createWallets,
@@ -23,7 +27,7 @@ const blockchain = new BlockChain();
 const transactionPool = new TransactionPool();
 const wallet = new Wallet();
 const authority = new Authority();
-const pubsub = new PubSub({ blockchain, transactionPool,authority });
+const pubsub = new PubSub({ blockchain, transactionPool, authority });
 const transactionMiner = new TransactionMiner({
     blockchain,
     transactionPool,
@@ -73,10 +77,8 @@ app.get("/api/voting-data", (req, res) => {
 
 //get authority ;
 app.get("/api/info-authority", (req, res) => {
-   
-
     res.json({
-        authority
+        authority,
     });
 });
 
@@ -104,9 +106,6 @@ app.post("/api/authority-admin-only-mode", (req, res) => {
     res.json({ type: "success", authority });
 });
 
-
-
-
 //create post request to set admin addresses  in authority to the app
 
 app.post("/api/authority-admin-addresses", (req, res) => {
@@ -129,7 +128,6 @@ app.post("/api/authority-admin-addresses", (req, res) => {
     pubsub.broadcastAuthority();
     res.json({ type: "success", authority });
 });
-
 
 //create post request to add new block to the chain
 
@@ -156,42 +154,54 @@ app.post("/api/poll", (req, res) => {
     } = req.body;
     let clientWallet = new Wallet(privateKey);
 
-    //if the wallet has an existing identical poll in transaction pool we cancel request
-    let poll = transactionPool.existingTransaction({
-        inputAddress: clientWallet.publicKey,
-        transactionType: TRANSACTION_TYPE.POLL,
-    });
+    if (
+        authority.adminOnly === true &&
+        authority.checkIfAdmin({ adminWallet: clientWallet }) === false
+    ) {
+        return res.status(400).json({
+            type: "error",
+            message: `Admin Only mode is on, only admins can conduct polls: wallet [${clientWallet.publicKey}] is not an admin`,
+        });
+    } else {
+        //if the wallet has an existing identical poll in transaction pool we cancel request
+        let poll = transactionPool.existingTransaction({
+            inputAddress: clientWallet.publicKey,
+            transactionType: TRANSACTION_TYPE.POLL,
+        });
 
-    //in case of an error we handle it using the try catch method
-    try {
-        //if poll already exists  we will return it
-        if (poll !== undefined) {
-            return res.status(400).json({
-                type: "error",
-                message:
-                    "Please mine a new new block before adding another Poll to the Pool from the same wallet",
-            });
-        } else {
-            poll = clientWallet.createPoll({
-                name,
-                options,
-                voters,
-                startDate,
-                endDate,
-            });
+        //in case of an error we handle it using the try catch method
+        try {
+            //if poll already exists  we will return it
+            if (poll !== undefined) {
+                return res.status(400).json({
+                    type: "error",
+                    message:
+                        "Please mine a new new block before adding another Poll to the Pool from the same wallet",
+                });
+            } else {
+                poll = clientWallet.createPoll({
+                    name,
+                    options,
+                    voters,
+                    startDate,
+                    endDate,
+                });
+            }
+        } catch (error) {
+            //if error is to be found we send an error in a proper form
+            return res
+                .status(400)
+                .json({ type: "error", message: error.message });
         }
-    } catch (error) {
-        //if error is to be found we send an error in a proper form
-        return res.status(400).json({ type: "error", message: error.message });
+
+        transactionPool.setTransaction(poll);
+
+        // console.log('transactionPool', transactionPool);
+
+        pubsub.broadcastTransaction(poll);
+
+        res.json({ type: "success", poll });
     }
-
-    transactionPool.setTransaction(poll);
-
-    // console.log('transactionPool', transactionPool);
-
-    pubsub.broadcastTransaction(poll);
-
-    res.json({ type: "success", poll });
 });
 
 //api to  a post Ballot into pool
@@ -250,42 +260,54 @@ app.post("/api/transact", (req, res) => {
 
     let clientWallet = new Wallet(privateKey);
 
-    //if the wallet has an existing tansaction in transaction pool we will update it , if not it will return undefined
-    let transaction = transactionPool.existingTransaction({
-        inputAddress: clientWallet.publicKey,
-        transactionType: TRANSACTION_TYPE.CURRENCY,
-    });
+    if (
+        authority.adminOnly === true &&
+        authority.checkIfAdmin({ adminWallet: clientWallet }) === false
+    ) {
+        return res.status(400).json({
+            type: "error",
+            message: `Admin Only mode is on, only admins can conduct transactions: wallet [${clientWallet.publicKey}] is not an admin`,
+        });
+    } else {
+        //if the wallet has an existing tansaction in transaction pool we will update it , if not it will return undefined
+        let transaction = transactionPool.existingTransaction({
+            inputAddress: clientWallet.publicKey,
+            transactionType: TRANSACTION_TYPE.CURRENCY,
+        });
 
-    //in case of an error we handle it using the try catch method
-    try {
-        //if it has an already transaction we will update
-        if (transaction !== undefined) {
-            transaction.update({
-                senderWallet: clientWallet,
-                recipient,
-                amount,
-            });
+        //in case of an error we handle it using the try catch method
+        try {
+            //if it has an already transaction we will update
+            if (transaction !== undefined) {
+                transaction.update({
+                    senderWallet: clientWallet,
+                    recipient,
+                    amount,
+                });
 
-            //else create new transaction
-        } else {
-            transaction = clientWallet.createTransaction({
-                recipient,
-                amount,
-                chain: blockchain.chain,
-            });
+                //else create new transaction
+            } else {
+                transaction = clientWallet.createTransaction({
+                    recipient,
+                    amount,
+                    chain: blockchain.chain,
+                });
+            }
+        } catch (error) {
+            //if error is to be found we send an error in a proper form
+            return res
+                .status(400)
+                .json({ type: "error", message: error.message });
         }
-    } catch (error) {
-        //if error is to be found we send an error in a proper form
-        return res.status(400).json({ type: "error", message: error.message });
+
+        transactionPool.setTransaction(transaction);
+
+        // console.log('transactionPool', transactionPool);
+
+        pubsub.broadcastTransaction(transaction);
+
+        res.json({ type: "success", transaction });
     }
-
-    transactionPool.setTransaction(transaction);
-
-    // console.log('transactionPool', transactionPool);
-
-    pubsub.broadcastTransaction(transaction);
-
-    res.json({ type: "success", transaction });
 });
 
 //api to get transactions in  pool
@@ -357,119 +379,145 @@ app.get("/api/create-wallets", (req, res) => {
     //number of wallets
     const {
         data: { count },
+        privateKey,
     } = req.body;
+
+
 
     if (count === undefined) {
         count = 1;
     }
 
-    if (count > 2000000 || count <= 0) {
+
+    let requestWallet = new Wallet(privateKey);
+
+    if (
+        count > 1000 &&
+        authority.checkIfAdmin({ adminWallet: requestWallet }) === false
+    ) {
         return res.status(400).json({
             type: "error",
-            message: "please enter a valid count from 1 to 2000000 ",
+            message: `Only admins, can create more than 1000 wallets per request: wallet [${requestWallet.publicKey}] is not an admin`,
+        });
+    } else {
+        if (count > 2000000 || count <= 0) {
+            return res.status(400).json({
+                type: "error",
+                message: "please enter a valid count from 1 to 2000000 ",
+            });
+        }
+
+        let wallets = [];
+
+        for (let i = 0; i < count; i++) {
+            let clientWallet = new Wallet();
+            wallets[i] = {
+                address: clientWallet.publicKey,
+                privateKey: clientWallet.privateKey,
+                balance: STARTING_BALANCE,
+                count: i + 1,
+            };
+        }
+
+        //comment
+        res.json({
+            wallets,
         });
     }
-
-    let wallets = [];
-
-    for (let i = 0; i < count; i++) {
-        let clientWallet = new Wallet();
-        wallets[i] = {
-            address: clientWallet.publicKey,
-            privateKey: clientWallet.privateKey,
-
-            balance: Wallet.calculateBalance({
-                chain: blockchain.chain,
-                address: clientWallet.publicKey,
-            }),
-            count: i + 1,
-        };
-    }
-
-    //comment
-    res.json({
-        wallets,
-    });
 });
 
 app.post("/api/seed", (req, res) => {
     //number of wallets
     const {
         data: { count },
+        privateKey,
     } = req.body;
 
-    if (count === undefined) {
-        count = 100;
-    }
+    const requestWallet = new Wallet(privateKey);
 
-    //first we create our wallets
-
-    let wallets = createWallets(count);
-    let voters = [];
-
-    for (let wallet of wallets) {
-        voters.push(wallet.publicKey);
-    }
-
-    let poll1 = wallet.createPoll({
-        name: "الانتخابات الرئاسية الليبية 2023",
-        options: ["سيف الاسلام القذافي ", "عبدالحميد الدبيبة", "فتحي باشاغا"],
-        voters: voters,
-        endDate: "2023-12-27T09:00:00",
-    });
-
-    let poll2 = new Wallet().createPoll({
-        name: "استفتاء علي المسودة الدستورية رقم 1 2023",
-        options: ["نعم", "لا"],
-        voters: voters,
-        endDate: "2023-12-27T09:00:00",
-    });
-
-    transactionPool.setTransaction(poll1);
-    pubsub.broadcastTransaction(poll1);
-
-    transactionPool.setTransaction(poll2);
-    pubsub.broadcastTransaction(poll2);
-
-    transactionMiner.mineTransactions();
-
-    let ballot1, ballot2;
-
-    for (let wallet of wallets) {
-        ballot1 = new Ballot({
-            createrWallet: wallet,
-            pollId: poll1.id,
-            voteOption:
-                poll1.output.options[
-                    Math.floor(Math.random() * poll1.output.options.length)
-                ],
-            chain: blockchain.chain,
+    if (authority.checkIfAdmin({ adminWallet: requestWallet }) === false) {
+        return res.status(400).json({
+            type: "error",
+            message: `only admin can seed: wallet [${requestWallet.publicKey}] is not an admin`,
         });
-
-        ballot2 = new Ballot({
-            createrWallet: wallet,
-            pollId: poll2.id,
-            voteOption:
-                poll2.output.options[
-                    Math.floor(Math.random() * poll2.output.options.length)
-                ],
-            chain: blockchain.chain,
-        });
-
-        transactionPool.setTransaction(ballot1);
-        pubsub.broadcastTransaction(ballot1);
-
-        transactionPool.setTransaction(ballot2);
-        pubsub.broadcastTransaction(ballot2);
-
-        if (wallets.indexOf(wallet) % 10000 === 0) {
-            transactionMiner.mineTransactions();
+    } else {
+        if (count === undefined) {
+            count = 100;
         }
+
+        //first we create our wallets
+
+        let wallets = createWallets(count);
+        let voters = [];
+
+        for (let wallet of wallets) {
+            voters.push(wallet.publicKey);
+        }
+
+        let poll1 = wallet.createPoll({
+            name: "الانتخابات الرئاسية الليبية 2023",
+            options: [
+                "سيف الاسلام القذافي ",
+                "عبدالحميد الدبيبة",
+                "فتحي باشاغا",
+            ],
+            voters: voters,
+            endDate: "2023-12-27T09:00:00",
+        });
+
+        let poll2 = new Wallet().createPoll({
+            name: "استفتاء علي المسودة الدستورية رقم 1 2023",
+            options: ["نعم", "لا"],
+            voters: voters,
+            endDate: "2023-12-27T09:00:00",
+        });
+
+        transactionPool.setTransaction(poll1);
+        pubsub.broadcastTransaction(poll1);
+
+        transactionPool.setTransaction(poll2);
+        pubsub.broadcastTransaction(poll2);
+
+        transactionMiner.mineTransactions();
+
+        let ballot1, ballot2;
+
+        for (let wallet of wallets) {
+            ballot1 = new Ballot({
+                createrWallet: wallet,
+                pollId: poll1.id,
+                voteOption:
+                    poll1.output.options[
+                        Math.floor(Math.random() * poll1.output.options.length)
+                    ],
+                chain: blockchain.chain,
+            });
+
+            ballot2 = new Ballot({
+                createrWallet: wallet,
+                pollId: poll2.id,
+                voteOption:
+                    poll2.output.options[
+                        Math.floor(Math.random() * poll2.output.options.length)
+                    ],
+                chain: blockchain.chain,
+            });
+
+            transactionPool.setTransaction(ballot1);
+            pubsub.broadcastTransaction(ballot1);
+
+            transactionPool.setTransaction(ballot2);
+            pubsub.broadcastTransaction(ballot2);
+
+            if (wallets.indexOf(wallet) % 10000 === 0) {
+                transactionMiner.mineTransactions();
+            }
+        }
+
+        transactionMiner.mineTransactions();
+
+        res.redirect("/api/blocks");
     }
-
-    transactionMiner.mineTransactions();
-
-    res.redirect("/api/blocks");
 });
 
 app.get("*", (req, res) => {
@@ -507,7 +555,6 @@ const syncWithRootState = () => {
         }
     );
 
-
     request(
         { url: `${ROOT_NODE_ADDRESS}/api/info-authority` },
         (error, response, body) => {
@@ -516,10 +563,7 @@ const syncWithRootState = () => {
 
                 authority.setAuthority(rootAuthority);
 
-                console.log(
-                    "replace authority on a sync with",
-                    rootAuthority
-                );
+                console.log("replace authority on a sync with", rootAuthority);
             }
         }
     );
