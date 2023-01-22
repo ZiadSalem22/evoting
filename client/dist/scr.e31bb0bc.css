@@ -220,6 +220,42 @@ body {
     word-spacing: 110%;
 }
 
+.WalletInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.WalletInfoForm {
+    border: 3px solid #1c99bc;
+    border-radius: 25px;
+    padding: 3%;
+    margin: 2%;
+    width: 600px;
+    max-width: 1000px;
+    word-spacing: 110%;
+}
+.WalletInfoTable {
+    border: 1px solid #c2df07;
+    border-radius: 25px;
+    padding: 2%;
+    margin: 2%;
+    width: 900;
+    max-width: 1200px;
+    word-break: break-all;
+    word-spacing: 110%;
+}
+.WalletInfoBallotTable {
+    border: 1px solid #1c99bc;
+    border-radius: 25px;
+    padding: 2%;
+    margin: 2%;
+    width: 900;
+    max-width: 1200px;
+    word-break: break-all;
+    word-spacing: 110%;
+}
+
 .text{
     font-weight:900;
     font-size: 16px;
@@ -269,6 +305,10 @@ button:hover {
 
 .red-border{
     border: 1px solid #dc3545;
+}
+
+.longTextTable{
+    font-size: 14px;
 }
 
 /*# sourceMappingURL=/scr.e31bb0bc.css.map */
