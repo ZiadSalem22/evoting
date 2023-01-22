@@ -85228,11 +85228,12 @@ var ConductBallot = /*#__PURE__*/function (_Component) {
               break;
             }
             _this.props.setErrors(formErrors);
-            _context.next = 11;
+            _context.next = 12;
             break;
           case 5:
             privateKey = _this.props.form.privateKey;
-            _context.next = 8;
+            _this.props.setLoading(true);
+            _context.next = 9;
             return fetch("".concat(document.location.origin, "/api/wallet-info"), {
               method: "POST",
               headers: {
@@ -85249,15 +85250,16 @@ var ConductBallot = /*#__PURE__*/function (_Component) {
                 ballots: json.data.ballots,
                 options: []
               }), tempPolls = json.data.validToVotePolls;
+              _this.props.setLoading(false);
             });
-          case 8:
+          case 9:
             Errors = {};
             _this.props.setErrors(Errors);
             if (tempPolls.length < 1) {
               Errors.privateKey = "this wallet is not been registered for any polls";
               _this.props.setErrors(Errors);
             }
-          case 11:
+          case 12:
           case "end":
             return _context.stop();
         }
@@ -85293,6 +85295,7 @@ var ConductBallot = /*#__PURE__*/function (_Component) {
           pollId: pollId,
           voteOption: voteOption
         };
+        _this.props.setLoading(true);
         fetch("".concat(document.location.origin, "/api/ballot"), {
           method: "POST",
           headers: {
@@ -85305,7 +85308,8 @@ var ConductBallot = /*#__PURE__*/function (_Component) {
         }).then(function (response) {
           return response.json();
         }).then(function (json) {
-          alert(json.message || json.type); //message when error
+          alert(json.message || json.type);
+          _this.props.setLoading(false);
           if (!json.message) {
             _this.props.navigation("/transaction-pool");
           }
@@ -85335,7 +85339,9 @@ var ConductBallot = /*#__PURE__*/function (_Component) {
         isInvalid: !!this.props.errors.privateKey
       }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
         type: "invalid"
-      }, this.props.errors.privateKey)), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+      }, this.props.errors.privateKey)), /*#__PURE__*/_react.default.createElement("br", null), this.props.loading ? /*#__PURE__*/_react.default.createElement(_reactBootstrap.Spinner, {
+        animation: "border"
+      }) : /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
         onClick: this.fetchValidToVotePolls
       }, "Get polls"), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Group, {
         controlId: "pollId",
@@ -85382,7 +85388,9 @@ var ConductBallot = /*#__PURE__*/function (_Component) {
         }, "".concat(option));
       })), /*#__PURE__*/_react.default.createElement("div", {
         className: "red"
-      }, this.props.errors.voteOption)), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button
+      }, this.props.errors.voteOption)), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, this.props.loading ? /*#__PURE__*/_react.default.createElement(_reactBootstrap.Spinner, {
+        animation: "border"
+      }) : /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button
       // bsStyle="danger"
       , {
         onClick: this.conductBallot
@@ -85401,12 +85409,18 @@ function _default(props) {
     _useState4 = _slicedToArray(_useState3, 2),
     errors = _useState4[0],
     setErrors = _useState4[1];
+  var _useState5 = (0, _react.useState)(false),
+    _useState6 = _slicedToArray(_useState5, 2),
+    loading = _useState6[0],
+    setLoading = _useState6[1];
   return /*#__PURE__*/_react.default.createElement(ConductBallot, _extends({}, props, {
     navigation: navigation,
     form: form,
     setForm: setForm,
     errors: errors,
-    setErrors: setErrors
+    setErrors: setErrors,
+    loading: loading,
+    setLoading: setLoading
   }));
 }
 },{"body-parser":"../../node_modules/body-parser/index.js","react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js"}],"pages/HNEC.js":[function(require,module,exports) {
