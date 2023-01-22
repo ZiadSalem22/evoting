@@ -6,7 +6,7 @@ import {
     FormControl,
     Button,
     Form,
-    Container,
+    Spinner,
     Row,
     Col,
     Badge,
@@ -86,7 +86,7 @@ class HNEC extends Component {
                 const data = {
                     count,
                 };
-
+                this.props.setLoading(true);
                 fetch(`${document.location.origin}/api/seed`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -94,7 +94,8 @@ class HNEC extends Component {
                 })
                     .then((response) => response.json())
                     .then((json) => {
-                        alert(json.message || "success"); //message when error
+                        alert(json.message || "success"); 
+                        this.props.setLoading(false);
                         if (!json.message) {
                             this.props.navigation("/blocks");
                         }
@@ -116,6 +117,7 @@ class HNEC extends Component {
                 adminOnly: !this.state.adminOnly,
             };
 
+            this.props.setLoading(true);
             fetch(`${document.location.origin}/api/authority-admin-only-mode`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -123,7 +125,8 @@ class HNEC extends Component {
             })
                 .then((response) => response.json())
                 .then((json) => {
-                    alert(json.message || json.type); //message when error
+                    alert(json.message || json.type);
+                    this.props.setLoading(false);
                     if (!json.message) {
                         this.props.navigation("/");
                     }
@@ -147,6 +150,7 @@ class HNEC extends Component {
                     .filter((s) => s !== ""),
             };
 
+            this.props.setLoading(true);
             fetch(`${document.location.origin}/api/authority-admin-addresses`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -154,7 +158,8 @@ class HNEC extends Component {
             })
                 .then((response) => response.json())
                 .then((json) => {
-                    alert(json.message || json.type); //message when error
+                    alert(json.message || json.type);
+                    this.props.setLoading(false);
                     if (!json.message) {
                         this.props.navigation("/");
                     }
@@ -269,18 +274,16 @@ class HNEC extends Component {
                         </Row>
                         <Row>
                             <Col>
-                                <Button
-                                    style={{ marginTop: "0.5cm" }}
-                                    onClick={this.seed}
-                                >
-                                    Seed
-                                </Button>
-                                <Button
-                                    style={{ marginTop: "0.5cm" }}
-                                    onClick={this.consoleLog}
-                                >
-                                    consoleLog
-                                </Button>
+                                {this.props.loading ? (
+                                    <Spinner animation="border" />
+                                ) : (
+                                    <Button
+                                        style={{ marginTop: "0.5cm" }}
+                                        onClick={this.seed}
+                                    >
+                                        Seed
+                                    </Button>
+                                )}
                             </Col>
                         </Row>
                     </Row>
@@ -359,15 +362,19 @@ class HNEC extends Component {
                         </Row>
                         <Row>
                             <Col>
-                                <Button
-                                    style={{
-                                        marginTop: "0.5cm",
-                                        width: "100px",
-                                    }}
-                                    onClick={this.updateAdminOnly}
-                                >
-                                    Switch
-                                </Button>
+                                {this.props.loading ? (
+                                    <Spinner animation="border" />
+                                ) : (
+                                    <Button
+                                        style={{
+                                            marginTop: "0.5cm",
+                                            width: "100px",
+                                        }}
+                                        onClick={this.updateAdminOnly}
+                                    >
+                                        Switch
+                                    </Button>
+                                )}
                             </Col>
                         </Row>
                     </Row>
@@ -448,15 +455,20 @@ class HNEC extends Component {
                         </Row>
                         <Row>
                             <Col>
-                                <Button
-                                    style={{
-                                        marginTop: "0.5cm",
-                                        width: "100px",
-                                    }}
-                                    onClick={this.updateAdminAddresses}
-                                >
-                                    Change
-                                </Button>
+                            {this.props.loading ? (
+                            <Spinner animation="border" />
+                        ) : (
+                          <Button
+                          style={{
+                              marginTop: "0.5cm",
+                              width: "100px",
+                          }}
+                          onClick={this.updateAdminAddresses}
+                      >
+                          Change
+                      </Button>
+                        )}
+                              
                             </Col>
                         </Row>
                     </Row>
@@ -471,6 +483,7 @@ export default function (props) {
 
     const [form, setForm] = useState({});
     const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false);
 
     return (
         <HNEC
@@ -480,6 +493,8 @@ export default function (props) {
             setForm={setForm}
             errors={errors}
             setErrors={setErrors}
+            loading={loading}
+            setLoading={setLoading}
         />
     );
 }

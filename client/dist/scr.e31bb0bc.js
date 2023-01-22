@@ -85465,6 +85465,7 @@ var HNEC = /*#__PURE__*/function (_Component) {
           var data = {
             count: count
           };
+          _this.props.setLoading(true);
           fetch("".concat(document.location.origin, "/api/seed"), {
             method: "POST",
             headers: {
@@ -85477,7 +85478,8 @@ var HNEC = /*#__PURE__*/function (_Component) {
           }).then(function (response) {
             return response.json();
           }).then(function (json) {
-            alert(json.message || "success"); //message when error
+            alert(json.message || "success");
+            _this.props.setLoading(false);
             if (!json.message) {
               _this.props.navigation("/blocks");
             }
@@ -85495,6 +85497,7 @@ var HNEC = /*#__PURE__*/function (_Component) {
         var data = {
           adminOnly: !_this.state.adminOnly
         };
+        _this.props.setLoading(true);
         fetch("".concat(document.location.origin, "/api/authority-admin-only-mode"), {
           method: "POST",
           headers: {
@@ -85507,7 +85510,8 @@ var HNEC = /*#__PURE__*/function (_Component) {
         }).then(function (response) {
           return response.json();
         }).then(function (json) {
-          alert(json.message || json.type); //message when error
+          alert(json.message || json.type);
+          _this.props.setLoading(false);
           if (!json.message) {
             _this.props.navigation("/");
           }
@@ -85530,6 +85534,7 @@ var HNEC = /*#__PURE__*/function (_Component) {
             return s !== "";
           })
         };
+        _this.props.setLoading(true);
         fetch("".concat(document.location.origin, "/api/authority-admin-addresses"), {
           method: "POST",
           headers: {
@@ -85542,7 +85547,8 @@ var HNEC = /*#__PURE__*/function (_Component) {
         }).then(function (response) {
           return response.json();
         }).then(function (json) {
-          alert(json.message || json.type); //message when error
+          alert(json.message || json.type);
+          _this.props.setLoading(false);
           if (!json.message) {
             _this.props.navigation("/");
           }
@@ -85648,17 +85654,14 @@ var HNEC = /*#__PURE__*/function (_Component) {
         isInvalid: !!this.props.errors.PKSeed
       }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
         type: "invalid"
-      }, this.props.errors.PKSeed)), /*#__PURE__*/_react.default.createElement("br", null)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+      }, this.props.errors.PKSeed)), /*#__PURE__*/_react.default.createElement("br", null)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, this.props.loading ? /*#__PURE__*/_react.default.createElement(_reactBootstrap.Spinner, {
+        animation: "border"
+      }) : /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
         style: {
           marginTop: "0.5cm"
         },
         onClick: this.seed
-      }, "Seed"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
-        style: {
-          marginTop: "0.5cm"
-        },
-        onClick: this.consoleLog
-      }, "consoleLog"))))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form, {
+      }, "Seed"))))), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form, {
         className: "AdminOnly"
       }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Badge, {
         style: {
@@ -85696,7 +85699,9 @@ var HNEC = /*#__PURE__*/function (_Component) {
         isInvalid: !!this.props.errors.PKAdminOnly
       }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
         type: "invalid"
-      }, this.props.errors.PKAdminOnly)), /*#__PURE__*/_react.default.createElement("br", null)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+      }, this.props.errors.PKAdminOnly)), /*#__PURE__*/_react.default.createElement("br", null)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, this.props.loading ? /*#__PURE__*/_react.default.createElement(_reactBootstrap.Spinner, {
+        animation: "border"
+      }) : /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
         style: {
           marginTop: "0.5cm",
           width: "100px"
@@ -85745,7 +85750,9 @@ var HNEC = /*#__PURE__*/function (_Component) {
         isInvalid: !!this.props.errors.PKAdminAddresses
       }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
         type: "invalid"
-      }, this.props.errors.PKAdminAddresses)), /*#__PURE__*/_react.default.createElement("br", null)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
+      }, this.props.errors.PKAdminAddresses)), /*#__PURE__*/_react.default.createElement("br", null)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Row, null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Col, null, this.props.loading ? /*#__PURE__*/_react.default.createElement(_reactBootstrap.Spinner, {
+        animation: "border"
+      }) : /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button, {
         style: {
           marginTop: "0.5cm",
           width: "100px"
@@ -85766,12 +85773,18 @@ function _default(props) {
     _useState4 = _slicedToArray(_useState3, 2),
     errors = _useState4[0],
     setErrors = _useState4[1];
+  var _useState5 = (0, _react.useState)(false),
+    _useState6 = _slicedToArray(_useState5, 2),
+    loading = _useState6[0],
+    setLoading = _useState6[1];
   return /*#__PURE__*/_react.default.createElement(HNEC, _extends({}, props, {
     navigation: navigation,
     form: form,
     setForm: setForm,
     errors: errors,
-    setErrors: setErrors
+    setErrors: setErrors,
+    loading: loading,
+    setLoading: setLoading
   }));
 }
 },{"react":"../../node_modules/react/index.js","../assets/HNEC_Logo.png":"assets/HNEC_Logo.png","../../../config":"../../config.js","react-bootstrap":"../../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js"}],"pages/CreateWallet.js":[function(require,module,exports) {
@@ -86075,7 +86088,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56875" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64589" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
