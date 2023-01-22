@@ -53506,7 +53506,7 @@ var ConductPoll = /*#__PURE__*/function (_Component) {
           startDate: nSD || undefined,
           endDate: nED || undefined
         };
-        console.log('data', data);
+        _this.props.setLoading(true);
         fetch("".concat(document.location.origin, "/api/poll"), {
           method: 'POST',
           headers: {
@@ -53519,7 +53519,8 @@ var ConductPoll = /*#__PURE__*/function (_Component) {
         }).then(function (response) {
           return response.json();
         }).then(function (json) {
-          alert(json.message || json.type); //message when error
+          alert(json.message || json.type);
+          _this.props.setLoading(false);
           if (!json.message || json.message === 'Please mine a new new block before adding another Poll to the Pool from the same wallet') {
             _this.props.navigation('/transaction-pool');
           }
@@ -53620,7 +53621,9 @@ var ConductPoll = /*#__PURE__*/function (_Component) {
         isInvalid: !!this.props.errors.endDate
       }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
         type: "invalid"
-      }, this.props.errors.endDate)), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button
+      }, this.props.errors.endDate)), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, this.props.loading ? /*#__PURE__*/_react.default.createElement(_reactBootstrap.Spinner, {
+        animation: "border"
+      }) : /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button
       // bsStyle="danger"
       , {
         onClick: this.conductPoll
@@ -53643,12 +53646,18 @@ function _default(props) {
     _useState4 = _slicedToArray(_useState3, 2),
     errors = _useState4[0],
     setErrors = _useState4[1];
+  var _useState5 = (0, _react.useState)(false),
+    _useState6 = _slicedToArray(_useState5, 2),
+    loading = _useState6[0],
+    setLoading = _useState6[1];
   return /*#__PURE__*/_react.default.createElement(ConductPoll, _extends({}, props, {
     navigation: navigation,
     form: form,
     setForm: setForm,
     errors: errors,
-    setErrors: setErrors
+    setErrors: setErrors,
+    loading: loading,
+    setLoading: setLoading
   }));
 }
 },{"react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js"}],"../../node_modules/depd/lib/browser/index.js":[function(require,module,exports) {
