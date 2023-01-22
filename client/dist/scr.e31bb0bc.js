@@ -52977,18 +52977,18 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
         recipient = _this$props$form.recipient,
         privateKey = _this$props$form.privateKey;
       var newErrors = {};
-      if (!recipient || recipient.trim() === '') {
-        newErrors.recipient = 'please enter your recipient address';
+      if (!recipient || recipient.trim() === "") {
+        newErrors.recipient = "please enter your recipient address";
       } else if (recipient.length !== 130) {
-        newErrors.recipient = 'please enter valid recipient address example \n 0497f2b16ecde8cf1ce5165ce437c6c25db3860606aeed436371cec3fa35c22c378bf1c10ac4f0c53358bbb26ffaef2ad2d0dcf75982fc2b721237ab53ebcc0268 ';
+        newErrors.recipient = "please enter valid recipient address example \n 0497f2b16ecde8cf1ce5165ce437c6c25db3860606aeed436371cec3fa35c22c378bf1c10ac4f0c53358bbb26ffaef2ad2d0dcf75982fc2b721237ab53ebcc0268 ";
       }
-      if (!privateKey || privateKey.trim() === '') {
-        newErrors.privateKey = 'please enter your privateKey';
-      } else if (privateKey.length < '55685527491970eb3000f6cd279e43151cb854fb2fa2c44e23ffb985c841d850'.length) {
-        newErrors.privateKey = 'please enter valid private address example \n 55685527491970eb3000f6cd279e43151cb854fb2fa2c44e23ffb985c841d850 ';
+      if (!privateKey || privateKey.trim() === "") {
+        newErrors.privateKey = "please enter your privateKey";
+      } else if (privateKey.length < "55685527491970eb3000f6cd279e43151cb854fb2fa2c44e23ffb985c841d850".length) {
+        newErrors.privateKey = "please enter valid private address example \n 55685527491970eb3000f6cd279e43151cb854fb2fa2c44e23ffb985c841d850 ";
       }
       if (!amount || amount < 1) {
-        newErrors.amount = 'please enter valid amount > 1 ';
+        newErrors.amount = "please enter valid amount > 1 ";
       }
       return newErrors;
     });
@@ -53006,10 +53006,11 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
           recipient: recipient,
           amount: amount
         };
+        _this.props.setLoading(true);
         fetch("".concat(document.location.origin, "/api/transact"), {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json"
           },
           body: JSON.stringify({
             privateKey: privateKey,
@@ -53019,7 +53020,8 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
           return response.json();
         }).then(function (json) {
           alert(json.message || json.type); //message when error
-          _this.props.navigation('/transaction-pool');
+          _this.props.setLoading(false);
+          _this.props.navigation("/transaction-pool");
         });
       }
     });
@@ -53039,9 +53041,9 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
         className: "text",
         inputMode: "text",
         placeholder: "Private Key 041eb5ggfccex234....",
-        value: this.props.form.privateKey || '',
+        value: this.props.form.privateKey || "",
         onChange: function onChange(e) {
-          return _this2.setField('privateKey', e.target.value.trim());
+          return _this2.setField("privateKey", e.target.value.trim());
         },
         isInvalid: !!this.props.errors.privateKey
       }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
@@ -53054,9 +53056,9 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
         as: "textarea",
         rows: 2,
         placeholder: "recipient",
-        value: this.props.form.recipient || '',
+        value: this.props.form.recipient || "",
         onChange: function onChange(e) {
-          return _this2.setField('recipient', e.target.value.trim());
+          return _this2.setField("recipient", e.target.value.trim());
         },
         isInvalid: !!this.props.errors.recipient
       }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
@@ -53070,12 +53072,14 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
         placeholder: "amount",
         value: this.props.form.amount || 0,
         onChange: function onChange(e) {
-          return _this2.setField('amount', Number(e.target.value));
+          return _this2.setField("amount", Number(e.target.value));
         },
         isInvalid: !!this.props.errors.amount
       }), /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Control.Feedback, {
         type: "invalid"
-      }, this.props.errors.amount)), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button
+      }, this.props.errors.amount)), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, this.props.loading ? /*#__PURE__*/_react.default.createElement(_reactBootstrap.Spinner, {
+        animation: "border"
+      }) : /*#__PURE__*/_react.default.createElement(_reactBootstrap.Button
       // bsStyle="danger"
       , {
         onClick: this.conductTransaction
@@ -53084,7 +53088,6 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
   }]);
   return ConductTransaction;
 }(_react.Component);
-;
 function _default(props) {
   var navigation = (0, _reactRouterDom.useNavigate)();
   var _useState = (0, _react.useState)({}),
@@ -53095,12 +53098,18 @@ function _default(props) {
     _useState4 = _slicedToArray(_useState3, 2),
     errors = _useState4[0],
     setErrors = _useState4[1];
+  var _useState5 = (0, _react.useState)(false),
+    _useState6 = _slicedToArray(_useState5, 2),
+    loading = _useState6[0],
+    setLoading = _useState6[1];
   return /*#__PURE__*/_react.default.createElement(ConductTransaction, _extends({}, props, {
     navigation: navigation,
     form: form,
     setForm: setForm,
     errors: errors,
-    setErrors: setErrors
+    setErrors: setErrors,
+    loading: loading,
+    setLoading: setLoading
   }));
 }
 },{"react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/esm/index.js","react-bootstrap/esm/ThemeProvider":"../../node_modules/react-bootstrap/esm/ThemeProvider.js","react-router-dom":"../../node_modules/react-router-dom/dist/index.js"}],"pages/TransactionPool.js":[function(require,module,exports) {
