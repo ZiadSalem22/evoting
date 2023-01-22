@@ -94,7 +94,7 @@ class HNEC extends Component {
                 })
                     .then((response) => response.json())
                     .then((json) => {
-                        alert(json.message || "success"); 
+                        alert(json.message || "success");
                         this.props.setLoading(false);
                         if (!json.message) {
                             this.props.navigation("/blocks");
@@ -173,14 +173,16 @@ class HNEC extends Component {
         // console.log("adminAddresses", adminAddresses);
     };
     componentDidMount() {
+        this.props.setLoading(true);
         fetch(`${document.location.origin}/api/info-authority`)
             .then((response) => response.json())
-            .then((json) =>
+            .then((json) => {
                 this.setState({
                     adminOnly: json.authority.adminOnly,
                     adminAddresses: json.authority.adminAddresses,
-                })
-            );
+                });
+                this.props.setLoading(false);
+            });
     }
 
     render() {
@@ -201,14 +203,18 @@ class HNEC extends Component {
                     <Badge style={{ fontSize: "23px" }} bg="light" text="dark">
                         E-Voting Admins
                     </Badge>
-                    {this.state.adminAddresses.map((address) => {
-                        return (
-                            <div
-                                style={{ marginTop: "10px" }}
-                                key={address}
-                            >{`${address}`}</div>
-                        );
-                    })}
+                    {this.props.loading ? (
+                        <Spinner animation="border" />
+                    ) : (
+                        this.state.adminAddresses.map((address) => {
+                            return (
+                                <div
+                                    style={{ marginTop: "10px" }}
+                                    key={address}
+                                >{`${address}`}</div>
+                            );
+                        })
+                    )}
                 </div>
 
                 <Form className="Seed">
@@ -455,20 +461,19 @@ class HNEC extends Component {
                         </Row>
                         <Row>
                             <Col>
-                            {this.props.loading ? (
-                            <Spinner animation="border" />
-                        ) : (
-                          <Button
-                          style={{
-                              marginTop: "0.5cm",
-                              width: "100px",
-                          }}
-                          onClick={this.updateAdminAddresses}
-                      >
-                          Change
-                      </Button>
-                        )}
-                              
+                                {this.props.loading ? (
+                                    <Spinner animation="border" />
+                                ) : (
+                                    <Button
+                                        style={{
+                                            marginTop: "0.5cm",
+                                            width: "100px",
+                                        }}
+                                        onClick={this.updateAdminAddresses}
+                                    >
+                                        Change
+                                    </Button>
+                                )}
                             </Col>
                         </Row>
                     </Row>

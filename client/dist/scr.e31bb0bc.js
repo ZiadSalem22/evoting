@@ -85576,13 +85576,15 @@ var HNEC = /*#__PURE__*/function (_Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
+      this.props.setLoading(true);
       fetch("".concat(document.location.origin, "/api/info-authority")).then(function (response) {
         return response.json();
       }).then(function (json) {
-        return _this2.setState({
+        _this2.setState({
           adminOnly: json.authority.adminOnly,
           adminAddresses: json.authority.adminAddresses
         });
+        _this2.props.setLoading(false);
       });
     }
   }, {
@@ -85612,7 +85614,9 @@ var HNEC = /*#__PURE__*/function (_Component) {
         },
         bg: "light",
         text: "dark"
-      }, "E-Voting Admins"), this.state.adminAddresses.map(function (address) {
+      }, "E-Voting Admins"), this.props.loading ? /*#__PURE__*/_react.default.createElement(_reactBootstrap.Spinner, {
+        animation: "border"
+      }) : this.state.adminAddresses.map(function (address) {
         return /*#__PURE__*/_react.default.createElement("div", {
           style: {
             marginTop: "10px"
