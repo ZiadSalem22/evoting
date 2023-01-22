@@ -40,7 +40,17 @@ function NavBar() {
                 <NavDropdown.Item href="/conduct-transaction">Currency</NavDropdown.Item>
 
               </NavDropdown>
+              <NavDropdown
+                title="Wallets"
+                id={`offcanvasNavbarDropdown-expand-${'xl'}`}
+              >
+                <NavDropdown.Item href="/">My Wallet Info</NavDropdown.Item>
+                <NavDropdown.Item href="/create-wallet">Create Wallets</NavDropdown.Item>
+
+
+              </NavDropdown>
               <Nav.Link  href="/hnec">HNEC</Nav.Link>
+
             </Nav>
             {/* <Form className="d-flex">
               <Form.Control

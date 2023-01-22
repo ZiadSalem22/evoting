@@ -375,7 +375,7 @@ app.post("/api/wallet-info", (req, res) => {
 });
 
 //get create wallets
-app.get("/api/create-wallets", (req, res) => {
+app.post("/api/create-wallets", (req, res) => {
     //number of wallets
     const {
         data: { count },
@@ -419,10 +419,7 @@ app.get("/api/create-wallets", (req, res) => {
             };
         }
 
-        //comment
-        res.json({
-            wallets,
-        });
+        res.json({ type: "success", wallets });
     }
 });
 

@@ -8,6 +8,7 @@ import NavBar  from './components/NavBar';
 import ConductPoll from './pages/ConductPoll';
 import ConductBallot from './pages/ConductBallot';
 import HNEC from './pages/HNEC';
+import CreateWallet from './pages/CreateWallet';
 
 
 function App() {
@@ -21,7 +22,8 @@ function App() {
                 <Route path='/conduct-ballot' element={<ConductBallot />} />
                 <Route path='/conduct-transaction' element={<ConductTransaction />} />
                 <Route path='/transaction-pool' element={<TransactionPool />}  />
-                <Route path='/HNEC' element={<HNEC />}  />
+                <Route path='/hnec' element={<HNEC />}  />
+                <Route path='/create-wallet' element={<CreateWallet />}  />
             </Routes>
         </Router>
     );
