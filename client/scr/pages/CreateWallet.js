@@ -176,7 +176,7 @@ class CreateWallet extends Component {
                         return (
                             <tr key={wallet.address || 1}>
                                 <td style={{whiteSpace: "nowrap"}}>{`${wallet.count}`}</td>
-                                <td>{`${wallet.address}`}</td>
+                                <td className="longTextTable"> {`${wallet.address}`}</td>
                                 <td>{`${wallet.privateKey}`}</td>
                                 <td style={{whiteSpace: "nowrap"}}> {`${wallet.balance}`}</td>
                             </tr>

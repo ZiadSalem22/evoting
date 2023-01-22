@@ -44,7 +44,7 @@ function NavBar() {
                 title="Wallets"
                 id={`offcanvasNavbarDropdown-expand-${'xl'}`}
               >
-                <NavDropdown.Item href="/">My Wallet Info</NavDropdown.Item>
+                <NavDropdown.Item href="/wallet-info">My Wallet Info</NavDropdown.Item>
                 <NavDropdown.Item href="/create-wallet">Create Wallets</NavDropdown.Item>
 
 

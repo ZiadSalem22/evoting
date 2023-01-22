@@ -354,6 +354,7 @@ app.post("/api/wallet-info", (req, res) => {
 
     //comment
     res.json({
+        type: "success",
         address: clientWallet.publicKey,
         privateKey: clientWallet.privateKey,
         data: {

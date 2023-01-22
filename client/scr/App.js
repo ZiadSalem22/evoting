@@ -9,6 +9,7 @@ import ConductPoll from './pages/ConductPoll';
 import ConductBallot from './pages/ConductBallot';
 import HNEC from './pages/HNEC';
 import CreateWallet from './pages/CreateWallet';
+import WalletInfo from './pages/WalletInfo';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
                 <Route path='/transaction-pool' element={<TransactionPool />}  />
                 <Route path='/hnec' element={<HNEC />}  />
                 <Route path='/create-wallet' element={<CreateWallet />}  />
+                <Route path='/wallet-info' element={<WalletInfo />}  />
             </Routes>
         </Router>
     );
