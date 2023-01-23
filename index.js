@@ -29,7 +29,9 @@ const REDIS_URL =  isDevelopment?
 'rediss://:p436b428457d51fe771ef39dcf3146bd722c444817788a159396b7ece984a7a05@ec2-54-144-232-69.compute-1.amazonaws.com:18029'
 const DEFAULT_PORT = 3000;
 //the address for where we connect to;
-const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
+const ROOT_NODE_ADDRESS =  isDevelopment?
+`http://localhost:${DEFAULT_PORT}`:
+'https://evotingbc.herokuapp.com';
 
 //we create our application  using the express function
 const app = express();
