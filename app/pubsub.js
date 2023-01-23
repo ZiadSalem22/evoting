@@ -10,7 +10,7 @@ const CHANNELS = {
 }
 
 class PubSub {
-    constructor({ blockchain, transactionPool, authority }) {
+    constructor({ blockchain, transactionPool, authority, redisUrl }) {
 
 
         this.blockchain = blockchain;
@@ -18,10 +18,10 @@ class PubSub {
         this.authority = authority;
 
         //the roll to broadcast a message
-        this.publisher = redis.createClient();
+        this.publisher = redis.createClient(redisUrl);
 
         //the roll to read a message
-        this.subscriber = redis.createClient();
+        this.subscriber = redis.createClient(redisUrl);
 
         //subscribe to a channel  
         // this.subscriber.subscribe(CHANNELS.TEST);

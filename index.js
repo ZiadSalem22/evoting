@@ -21,13 +21,24 @@ const {
 } = require("./util/helpers");
 const Authority = require("./app/Authority");
 
+//we check when the process started if it set ENV variable to development mode 
+const isDevelopment = process.env.ENV === 'development';
+//our redis url address [here we are using heroku]
+const REDIS_URL =  isDevelopment?
+'redis://127.0.0.1:6379':
+'rediss://:p436b428457d51fe771ef39dcf3146bd722c444817788a159396b7ece984a7a05@ec2-54-144-232-69.compute-1.amazonaws.com:18029'
+
+const DEFAULT_PORT = 3000;
+//the address for where we connect to;
+const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
+
 //we create our application  using the express function
 const app = express();
 const blockchain = new BlockChain();
 const transactionPool = new TransactionPool();
 const wallet = new Wallet();
 const authority = new Authority();
-const pubsub = new PubSub({ blockchain, transactionPool, authority });
+const pubsub = new PubSub({ blockchain, transactionPool, authority, redisUrl: REDIS_URL });
 const transactionMiner = new TransactionMiner({
     blockchain,
     transactionPool,
@@ -35,7 +46,6 @@ const transactionMiner = new TransactionMiner({
     pubsub,
 });
 
-const DEFAULT_PORT = 3000;
 let PEER_PORT;
 
 // if the enve generate peer port is true we can generate a new instance with a new port
@@ -45,9 +55,11 @@ if (process.env.GENERATE_PEER_PORT === "true") {
 }
 
 //if peer port is not defined it will take default port
-const PORT = PEER_PORT || DEFAULT_PORT;
+const PORT = process.env.PORT|| PEER_PORT || DEFAULT_PORT;
 
-const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
+
+
+
 
 //we use the use method to inject the middleware to express
 
