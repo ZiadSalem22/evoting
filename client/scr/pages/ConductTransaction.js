@@ -103,7 +103,7 @@ class ConductTransaction extends Component {
                 <Form className="ConductTransactionForm">
                     <h3>Conduct a Currency Transaction</h3>
                     <FormGroup controlId="privateKey">
-                        <Form.Label>Your Private Key:</Form.Label>
+                        <Form.Label>Your Private Key: *</Form.Label>
                         <FormControl
                             className="text"
                             inputMode="text"
@@ -123,7 +123,7 @@ class ConductTransaction extends Component {
                     </FormGroup>
                     <br />
                     <FormGroup controlId="recipient">
-                        <Form.Label>Recipient Wallet Address:</Form.Label>
+                        <Form.Label>Recipient Wallet Address: *</Form.Label>
                         <FormControl
                             type="text"
                             className="text"
@@ -145,7 +145,7 @@ class ConductTransaction extends Component {
                     </FormGroup>
 
                     <FormGroup controlId="amount" className="amount">
-                        <Form.Label>Currency Amount:</Form.Label>
+                        <Form.Label>Currency Amount: *</Form.Label>
                         <FormControl
                             type="number"
                             className="text"
@@ -170,7 +170,7 @@ class ConductTransaction extends Component {
                             // bsStyle="danger"
                             onClick={this.conductTransaction}
                         >
-                            Submit
+                            Transact
                         </Button>
                         )}
 

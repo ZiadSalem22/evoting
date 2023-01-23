@@ -38,7 +38,7 @@ const transactionMiner = new TransactionMiner({
 const DEFAULT_PORT = 3000;
 let PEER_PORT;
 
-// if the enve genrate peer port is true we can genrate a new instence with a new port
+// if the enve generate peer port is true we can generate a new instance with a new port
 if (process.env.GENERATE_PEER_PORT === "true") {
     //gives 3000 + random number from 1 to 1000 = [3000 <-> 4000]
     PEER_PORT = DEFAULT_PORT + Math.ceil(Math.random() * 1000);
@@ -54,7 +54,7 @@ const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
 //this is body parser
 app.use(bodyParser.json());
 
-// express static will allow us to surve static vibes from a dir
+// express static will allow us to serve static vibes from a dir
 app.use(express.static(path.join(__dirname, "client/dist")));
 
 //using the get method , first
@@ -205,7 +205,7 @@ app.post("/api/poll", (req, res) => {
 });
 
 //api to  a post Ballot into pool
-//this will be a post request to allow the requester to offially conduct a Ballot to an existing Poll using their application wallet
+//this will be a post request to allow the requester to officially conduct a Ballot to an existing Poll using their application wallet
 app.post("/api/ballot", (req, res) => {
     const {
         data: { pollId, voteOption },
@@ -251,7 +251,7 @@ app.post("/api/ballot", (req, res) => {
 });
 
 //api to  post Transactions into pool
-//this will be a post request to allow the requester to offially conduct a transaction  using their application wallet
+//this will be a post request to allow the requester to officially conduct a transaction  using their application wallet
 app.post("/api/transact", (req, res) => {
     const {
         data: { recipient, amount },
@@ -507,7 +507,7 @@ app.post("/api/seed", (req, res) => {
             transactionPool.setTransaction(ballot2);
             pubsub.broadcastTransaction(ballot2);
 
-            if (wallets.indexOf(wallet) % 10000 === 0) {
+            if (wallets.indexOf(wallet) % 100 === 0) {
                 transactionMiner.mineTransactions();
             }
         }
