@@ -26,7 +26,7 @@ const isDevelopment = process.env.ENV === 'development';
 //our redis url address [here we are using heroku]
 const REDIS_URL =  isDevelopment?
 'redis://127.0.0.1:6379':
-'rediss://:p436b428457d51fe771ef39dcf3146bd722c444817788a159396b7ece984a7a05@ec2-54-144-232-69.compute-1.amazonaws.com:18029'
+'redis://:p436b428457d51fe771ef39dcf3146bd722c444817788a159396b7ece984a7a05@ec2-54-144-232-69.compute-1.amazonaws.com:18029'
 
 const DEFAULT_PORT = 3000;
 //the address for where we connect to;
