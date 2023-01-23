@@ -53057,7 +53057,7 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
         className: "ConductTransactionForm"
       }, /*#__PURE__*/_react.default.createElement("h3", null, "Conduct a Currency Transaction"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
         controlId: "privateKey"
-      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Your Private Key:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Your Private Key: *"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
         className: "text",
         inputMode: "text",
         placeholder: "Private Key 041eb5ggfccex234....",
@@ -53070,7 +53070,7 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
         type: "invalid"
       }, this.props.errors.privateKey)), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
         controlId: "recipient"
-      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Recipient Wallet Address:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Recipient Wallet Address: *"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
         type: "text",
         className: "text",
         as: "textarea",
@@ -53086,7 +53086,7 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
       }, this.props.errors.recipient)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
         controlId: "amount",
         className: "amount"
-      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Currency Amount:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Currency Amount: *"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
         type: "number",
         className: "text",
         placeholder: "amount",
@@ -53103,7 +53103,7 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
       // bsStyle="danger"
       , {
         onClick: this.conductTransaction
-      }, "Submit"))));
+      }, "Transact"))));
     }
   }]);
   return ConductTransaction;
@@ -53265,14 +53265,22 @@ module.exports = "/HNEC_Logo.80fdff35.png";
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports.default = _default;
 var _react = _interopRequireWildcard(require("react"));
 var _HNEC_Logo = _interopRequireDefault(require("../assets/HNEC_Logo.png"));
 var _reactRouterDom = require("react-router-dom");
+var _reactBootstrap = require("react-bootstrap");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
@@ -53295,7 +53303,9 @@ var Home = /*#__PURE__*/function (_Component) {
     }
     _this = _super.call.apply(_super, [this].concat(args));
     _defineProperty(_assertThisInitialized(_this), "state", {
-      minerWalletInfo: {}
+      blocks: [],
+      votes: {},
+      polls: []
     });
     return _this;
   }
@@ -53303,36 +53313,111 @@ var Home = /*#__PURE__*/function (_Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
-      fetch("".concat(document.location.origin, "/api/miner-wallet-info")).then(function (response) {
+      this.props.setLoading(true);
+      fetch("".concat(document.location.origin, "/api/blocks")).then(function (response) {
         return response.json();
       }).then(function (json) {
-        return _this2.setState({
-          minerWalletInfo: json
+        _this2.setState({
+          blocks: json.reverse()
         });
       });
+      fetch("".concat(document.location.origin, "/api/voting-data")).then(function (response) {
+        return response.json();
+      }).then(function (json) {
+        _this2.setState({
+          votes: json.data.votedOptions,
+          polls: json.data.rawVotingData.polls
+        });
+      });
+      this.props.setLoading(false);
     }
   }, {
     key: "render",
     value: function render() {
-      var _this$state$minerWall = this.state.minerWalletInfo,
-        address = _this$state$minerWall.address,
-        privateKey = _this$state$minerWall.privateKey,
-        balance = _this$state$minerWall.balance;
+      var _this3 = this;
       return /*#__PURE__*/_react.default.createElement("div", {
         className: "Home"
       }, /*#__PURE__*/_react.default.createElement("img", {
         className: "logo",
         src: _HNEC_Logo.default
-      }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, "Welcome to the Libyan E-Voting Platform Blockchain"), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", {
-        className: "WalletInfo"
-      }, /*#__PURE__*/_react.default.createElement("div", null, "Address: ", address), /*#__PURE__*/_react.default.createElement("div", null, "PrivateKey: ", privateKey), /*#__PURE__*/_react.default.createElement("div", null, "Balance: ", balance)));
+      }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h1", null, "Welcome to the Libyan E-Voting Blockchain Platform ")), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("h2", null, "Votes"), this.props.loading ? /*#__PURE__*/_react.default.createElement(_reactBootstrap.Spinner, {
+        animation: "border"
+      }) : /*#__PURE__*/_react.default.createElement("div", {
+        className: "HomeTable"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Table, {
+        striped: true,
+        bordered: true,
+        hover: true,
+        variant: "dark"
+      }, /*#__PURE__*/_react.default.createElement("thead", null, /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("th", null, "#"), /*#__PURE__*/_react.default.createElement("th", null, "Poll Id"), /*#__PURE__*/_react.default.createElement("th", null, "Poll name"), /*#__PURE__*/_react.default.createElement("th", null, "Votes"), /*#__PURE__*/_react.default.createElement("th", null, "Status"))), /*#__PURE__*/_react.default.createElement("tbody", null, Object.entries(this.state.votes).map(function (poll, index) {
+        return /*#__PURE__*/_react.default.createElement("tr", {
+          key: poll[0],
+          className: "longTextTable"
+        }, /*#__PURE__*/_react.default.createElement("td", null, "".concat(index, " ")), /*#__PURE__*/_react.default.createElement("td", null, "".concat(poll[0])), /*#__PURE__*/_react.default.createElement("td", {
+          className: "longTextTable",
+          style: {
+            whiteSpace: "nowrap"
+          }
+        }, "".concat(_this3.state.polls.find(function (p) {
+          return p.id === poll[0];
+        }).output.name)), /*#__PURE__*/_react.default.createElement("td", {
+          className: "longTextTable"
+        }, poll[1].sort(function (a, b) {
+          return b[1] - a[1];
+        }).map(function (option, index) {
+          return /*#__PURE__*/_react.default.createElement("div", {
+            key: option,
+            dir: "rtl"
+          }, "[ " + "".concat(option[1], " ") + '-' + " ".concat(option[0], " ] ") + ':' + "".concat(index + 1));
+        })), new Date(_this3.state.polls.find(function (p) {
+          return p.id === poll[0];
+        }).output.endDate) < new Date(Date.now()) ? /*#__PURE__*/_react.default.createElement("td", null, "Ended") : /*#__PURE__*/_react.default.createElement("td", null, /*#__PURE__*/_react.default.createElement("div", null, "Live"), /*#__PURE__*/_react.default.createElement("div", null, "End Date: "), /*#__PURE__*/_react.default.createElement("div", null, "".concat(new Date(_this3.state.polls.find(function (p) {
+          return p.id === poll[0];
+        }).output.endDate).toLocaleString()), "  ")));
+      })))), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("h3", null, "Blocks"), this.props.loading ? /*#__PURE__*/_react.default.createElement(_reactBootstrap.Spinner, {
+        animation: "border"
+      }) : /*#__PURE__*/_react.default.createElement("div", {
+        className: "HomeTable"
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Table, {
+        striped: true,
+        bordered: true,
+        hover: true,
+        variant: "dark"
+      }, /*#__PURE__*/_react.default.createElement("thead", null, /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("th", null, "#"), /*#__PURE__*/_react.default.createElement("th", null, "Time Stamp"), /*#__PURE__*/_react.default.createElement("th", null, "Hash"), /*#__PURE__*/_react.default.createElement("th", null, "Last Hash"), /*#__PURE__*/_react.default.createElement("th", null, "Transactions"), /*#__PURE__*/_react.default.createElement("th", null, "Difficulty"), /*#__PURE__*/_react.default.createElement("th", null, "nonce"))), /*#__PURE__*/_react.default.createElement("tbody", null, this.state.blocks.map(function (block, index) {
+        return /*#__PURE__*/_react.default.createElement("tr", {
+          key: block.hash,
+          className: "longTextTable"
+        }, /*#__PURE__*/_react.default.createElement("td", {
+          style: {
+            whiteSpace: "nowrap"
+          }
+        }, "".concat(_this3.state.blocks.length - 1 - _this3.state.blocks.indexOf(block))), /*#__PURE__*/_react.default.createElement("td", {
+          className: "longTextTable"
+        }, "".concat(new Date(block.timeStamp).toLocaleString())), /*#__PURE__*/_react.default.createElement("td", null, "".concat(block.hash, " ")), /*#__PURE__*/_react.default.createElement("td", {
+          className: "longTextTable"
+        }, " ", "".concat(block.lastHash)), /*#__PURE__*/_react.default.createElement("td", {
+          className: "longTextTable"
+        }, " ", "".concat(Object.keys(block.data).length + 1)), /*#__PURE__*/_react.default.createElement("td", {
+          className: "longTextTable"
+        }, " ", "".concat(block.difficulty)), /*#__PURE__*/_react.default.createElement("td", {
+          className: "longTextTable"
+        }, " ", "".concat(block.nonce)));
+      })))));
     }
   }]);
   return Home;
 }(_react.Component);
-var _default = Home;
-exports.default = _default;
-},{"react":"../../node_modules/react/index.js","../assets/HNEC_Logo.png":"assets/HNEC_Logo.png","react-router-dom":"../../node_modules/react-router-dom/dist/index.js"}],"components/NavBar.js":[function(require,module,exports) {
+function _default(props) {
+  var _useState = (0, _react.useState)(false),
+    _useState2 = _slicedToArray(_useState, 2),
+    loading = _useState2[0],
+    setLoading = _useState2[1];
+  return /*#__PURE__*/_react.default.createElement(Home, _extends({}, props, {
+    loading: loading,
+    setLoading: setLoading
+  }));
+}
+},{"react":"../../node_modules/react/index.js","../assets/HNEC_Logo.png":"assets/HNEC_Logo.png","react-router-dom":"../../node_modules/react-router-dom/dist/index.js","react-bootstrap":"../../node_modules/react-bootstrap/esm/index.js"}],"components/NavBar.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -53483,12 +53568,25 @@ var ConductPoll = /*#__PURE__*/function (_Component) {
     });
     _defineProperty(_assertThisInitialized(_this), "setOptions", void 0);
     _defineProperty(_assertThisInitialized(_this), "validateForm", function () {
-      var privateKey = _this.props.form.privateKey;
+      var _this$props$form = _this.props.form,
+        privateKey = _this$props$form.privateKey,
+        name = _this$props$form.name,
+        voters = _this$props$form.voters,
+        options = _this$props$form.options;
       var newErrors = {};
       if (!privateKey || privateKey.trim() === '') {
         newErrors.privateKey = 'please enter your privateKey';
       } else if (privateKey.length < '55685527491970eb3000f6cd279e43151cb854fb2fa2c44e23ffb985c841d850'.length) {
-        newErrors.privateKey = 'please enter valid private address example \n 55685527491970eb3000f6cd279e43151cb854fb2fa2c44e23ffb985c841d850 ';
+        newErrors.privateKey = 'please enter valid private address example: \n 55685527491970eb3000f6cd279e43151cb854fb2fa2c44e23ffb985c841d850 ';
+      }
+      if (!name || name.trim() === '') {
+        newErrors.name = 'please enter  Poll name';
+      }
+      if (!voters || voters.trim() === '') {
+        newErrors.voters = 'please enter  voters  example: \n  041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512, 0488da83e234c789f84f1a2f9181f71b3b8b4d413031a902cb377431a30ebaf783e4f33b798a6895ab4fff56afa60b18dd2ff5ba347f12207e0cd1064d1a56eb28,    04e9a612720f08aa9f423e5016919fa9f2f40031c0e1505789ac8f930d60dcea117b1f4416bbf8a1135409efdc022d9028cf61a7b7e7955fc5d61aac5b834e410e';
+      }
+      if (!options || options.trim() === '') {
+        newErrors.options = 'please enter options example: \n option 1, option 2 , option 3';
       }
       return newErrors;
     });
@@ -53497,13 +53595,13 @@ var ConductPoll = /*#__PURE__*/function (_Component) {
       if (Object.keys(formErrors).length > 0) {
         _this.props.setErrors(formErrors);
       } else {
-        var _this$props$form = _this.props.form,
-          name = _this$props$form.name,
-          options = _this$props$form.options,
-          voters = _this$props$form.voters,
-          startDate = _this$props$form.startDate,
-          endDate = _this$props$form.endDate,
-          privateKey = _this$props$form.privateKey;
+        var _this$props$form2 = _this.props.form,
+          name = _this$props$form2.name,
+          options = _this$props$form2.options,
+          voters = _this$props$form2.voters,
+          startDate = _this$props$form2.startDate,
+          endDate = _this$props$form2.endDate,
+          privateKey = _this$props$form2.privateKey;
         var nSD, nED;
         if (startDate) {
           nSD = startDate + ':00';
@@ -53559,7 +53657,7 @@ var ConductPoll = /*#__PURE__*/function (_Component) {
         className: "ConductPollForm"
       }, /*#__PURE__*/_react.default.createElement("h3", null, "Conduct a New Poll"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
         controlId: "privateKey"
-      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Your Private Key:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Your Private Key: *"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
         type: "text",
         className: "text",
         placeholder: "Private Key 041eb5ggfccex234....",
@@ -53572,7 +53670,7 @@ var ConductPoll = /*#__PURE__*/function (_Component) {
         type: "invalid"
       }, this.props.errors.privateKey)), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
         controlId: "pollName"
-      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Name:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Name:  *"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
         type: "text",
         className: "text",
         placeholder: "enter poll name",
@@ -53586,7 +53684,7 @@ var ConductPoll = /*#__PURE__*/function (_Component) {
       }, this.props.errors.name)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
         controlId: "pollOptions",
         className: "pollOptions"
-      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Poll Options:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Poll Options: *"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
         className: "text",
         type: "text",
         as: "textarea",
@@ -53602,7 +53700,7 @@ var ConductPoll = /*#__PURE__*/function (_Component) {
       }, this.props.errors.options)), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormGroup, {
         controlId: "pollVoters",
         className: "pollVoters"
-      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Poll Voters:"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
+      }, /*#__PURE__*/_react.default.createElement(_reactBootstrap.Form.Label, null, "Poll Voters: *"), /*#__PURE__*/_react.default.createElement(_reactBootstrap.FormControl, {
         className: "text",
         type: "text",
         as: "textarea",
@@ -53656,8 +53754,9 @@ var ConductPoll = /*#__PURE__*/function (_Component) {
 function _default(props) {
   var navigation = (0, _reactRouterDom.useNavigate)();
   var _useState = (0, _react.useState)({
-      options: [],
-      voters: []
+      name: "",
+      options: "",
+      voters: ""
     }),
     _useState2 = _slicedToArray(_useState, 2),
     form = _useState2[0],
@@ -85491,7 +85590,8 @@ var HNEC = /*#__PURE__*/function (_Component) {
     _this = _super.call.apply(_super, [this].concat(args));
     _defineProperty(_assertThisInitialized(_this), "state", {
       adminOnly: false,
-      adminAddresses: []
+      adminAddresses: [],
+      minerWalletInfo: {}
     });
     _defineProperty(_assertThisInitialized(_this), "setField", function (field, value) {
       _this.props.setForm(_objectSpread(_objectSpread({}, _this.props.form), {}, _defineProperty({}, field, value)));
@@ -85654,8 +85754,15 @@ var HNEC = /*#__PURE__*/function (_Component) {
           adminOnly: json.authority.adminOnly,
           adminAddresses: json.authority.adminAddresses
         });
-        _this2.props.setLoading(false);
       });
+      fetch("".concat(document.location.origin, "/api/miner-wallet-info")).then(function (response) {
+        return response.json();
+      }).then(function (json) {
+        return _this2.setState({
+          minerWalletInfo: json
+        });
+      });
+      this.props.setLoading(false);
     }
   }, {
     key: "render",
@@ -85832,7 +85939,11 @@ var HNEC = /*#__PURE__*/function (_Component) {
           width: "100px"
         },
         onClick: this.updateAdminAddresses
-      }, "Change"))))));
+      }, "Change"))))), /*#__PURE__*/_react.default.createElement("br", null), this.props.loading ? /*#__PURE__*/_react.default.createElement(_reactBootstrap.Spinner, {
+        animation: "border"
+      }) : /*#__PURE__*/_react.default.createElement("div", {
+        className: "MinerWalletInfo"
+      }, /*#__PURE__*/_react.default.createElement("div", null, "This Miner Address: ", this.state.minerWalletInfo.address), /*#__PURE__*/_react.default.createElement("div", null, "PrivateKey: ", this.state.minerWalletInfo.privateKey), /*#__PURE__*/_react.default.createElement("div", null, "Balance: ", this.state.minerWalletInfo.balance)));
     }
   }]);
   return HNEC;

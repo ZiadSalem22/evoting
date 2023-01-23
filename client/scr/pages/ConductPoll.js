@@ -1,5 +1,5 @@
 import React, { Component, useState } from "react";
-import { FormGroup, FormControl, Button, Form, Row, Col,Spinner } from "react-bootstrap";
+import { FormGroup, FormControl, Button, Form, Row, Col,Spinner, InputGroup } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 
 
@@ -26,16 +26,27 @@ class ConductPoll extends Component {
     setOptions
 
     validateForm = () => {
-        const { privateKey } = this.props.form
+        const { privateKey,name,voters,options } = this.props.form
         const newErrors = {}
 
 
         if (!privateKey || privateKey.trim() === '') {
             newErrors.privateKey = 'please enter your privateKey';
         } else if (privateKey.length < '55685527491970eb3000f6cd279e43151cb854fb2fa2c44e23ffb985c841d850'.length) {
-            newErrors.privateKey = 'please enter valid private address example \n 55685527491970eb3000f6cd279e43151cb854fb2fa2c44e23ffb985c841d850 ';
+            newErrors.privateKey = 'please enter valid private address example: \n 55685527491970eb3000f6cd279e43151cb854fb2fa2c44e23ffb985c841d850 ';
         }
 
+        if (!name || name.trim() === '') {
+            newErrors.name = 'please enter  Poll name';
+        }
+
+        if (!voters || voters.trim() === '') {
+            newErrors.voters = 'please enter  voters  example: \n  041edb189e622ad16be5342e58b62ad4b792238db92470518234733a4bc8e043517896747117fa3cde0173b87edd671e41c220fad9c00640111d5f2ea67d8a7512, 0488da83e234c789f84f1a2f9181f71b3b8b4d413031a902cb377431a30ebaf783e4f33b798a6895ab4fff56afa60b18dd2ff5ba347f12207e0cd1064d1a56eb28,    04e9a612720f08aa9f423e5016919fa9f2f40031c0e1505789ac8f930d60dcea117b1f4416bbf8a1135409efdc022d9028cf61a7b7e7955fc5d61aac5b834e410e';
+        }
+
+        if (!options || options.trim() === '') {
+            newErrors.options = 'please enter options example: \n option 1, option 2 , option 3';
+        }
 
 
 
@@ -102,7 +113,7 @@ class ConductPoll extends Component {
 
                     <h3>Conduct a New Poll</h3>
                     <FormGroup controlId="privateKey">
-                        <Form.Label>Your Private Key:</Form.Label>
+                        <Form.Label>Your Private Key: *</Form.Label>
                         <FormControl
                             type='text'
                             className="text"
@@ -117,7 +128,7 @@ class ConductPoll extends Component {
                     </FormGroup>
                     <br />
                     <FormGroup controlId="pollName" >
-                        <Form.Label>Name:</Form.Label>
+                        <Form.Label>Name:  *</Form.Label>
                         <FormControl
                             type='text'
                             className="text"
@@ -132,7 +143,7 @@ class ConductPoll extends Component {
                     </FormGroup>
 
                     <FormGroup controlId="pollOptions" className="pollOptions">
-                        <Form.Label>Poll Options:</Form.Label>
+                        <Form.Label>Poll Options: *</Form.Label>
                         <FormControl
                             className="text"
                             type='text'
@@ -149,7 +160,7 @@ class ConductPoll extends Component {
                     </FormGroup>
 
                     <FormGroup controlId="pollVoters" className="pollVoters">
-                        <Form.Label>Poll Voters:</Form.Label>
+                        <Form.Label>Poll Voters: *</Form.Label>
                         <FormControl
                             className="text"
                             type='text'
@@ -223,8 +234,9 @@ export default function (props) {
     const navigation = useNavigate();
 
     const [form, setForm] = useState({
-        options: [],
-        voters: []
+        name:"",
+        options: "",
+        voters: ""
     })
     const [errors, setErrors] = useState({})
     const [loading, setLoading] = useState(false);

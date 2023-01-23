@@ -17,6 +17,7 @@ class HNEC extends Component {
     state = {
         adminOnly: false,
         adminAddresses: [],
+        minerWalletInfo: {}
     };
 
     setField = (field, value) => {
@@ -174,6 +175,7 @@ class HNEC extends Component {
     };
     componentDidMount() {
         this.props.setLoading(true);
+
         fetch(`${document.location.origin}/api/info-authority`)
             .then((response) => response.json())
             .then((json) => {
@@ -181,8 +183,13 @@ class HNEC extends Component {
                     adminOnly: json.authority.adminOnly,
                     adminAddresses: json.authority.adminAddresses,
                 });
-                this.props.setLoading(false);
             });
+
+        fetch(`${document.location.origin}/api/miner-wallet-info`)
+            .then((response) => response.json())
+            .then((json) => this.setState({ minerWalletInfo: json }));
+
+        this.props.setLoading(false);
     }
 
     render() {
@@ -478,6 +485,17 @@ class HNEC extends Component {
                         </Row>
                     </Row>
                 </Form>
+                <br />
+                {this.props.loading ? (
+                                    <Spinner animation="border" />
+                                ) : (
+                                    <div className="MinerWalletInfo">
+                                    <div>This Miner Address: {this.state.minerWalletInfo.address}</div>
+                                    <div>PrivateKey: {this.state.minerWalletInfo.privateKey}</div>
+                                    <div>Balance: {this.state.minerWalletInfo.balance}</div>
+                                </div>
+                                )}
+             
             </div>
         );
     }

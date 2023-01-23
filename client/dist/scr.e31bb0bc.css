@@ -62,8 +62,12 @@ body {
 
 }
 
-.WalletInfo {
-    width: 500px;
+.MinerWalletInfo {
+    border: 1px solid #5cb4fd;
+    border-radius: 25px;
+    padding: 3%;
+    width: 900px;
+    font-size: medium;
 }
 
 .Block {
@@ -248,6 +252,15 @@ body {
 .WalletInfoBallotTable {
     border: 1px solid #1c99bc;
     border-radius: 25px;
+    padding: 2%;
+    margin: 2%;
+    width: 900;
+    max-width: 1200px;
+    word-break: break-all;
+    word-spacing: 110%;
+}
+
+.HomeTable {
     padding: 2%;
     margin: 2%;
     width: 900;
