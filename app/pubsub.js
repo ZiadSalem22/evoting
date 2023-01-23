@@ -5,21 +5,23 @@ const redis = require('redis');
 const CHANNELS = {
     TEST: 'TEST',
     BLOCKCHAIN: 'BLOCKCHAIN',
-    TRANSACTION: 'TRANSACTION'
+    TRANSACTION: 'TRANSACTION',
+    AUTHORITY: 'AUTHORITY'
 }
 
 class PubSub {
-    constructor({ blockchain, transactionPool }) {
+    constructor({ blockchain, transactionPool, authority, redisUrl }) {
 
 
         this.blockchain = blockchain;
         this.transactionPool = transactionPool;
+        this.authority = authority;
 
-        //the roll to brodcast a message
-        this.publisher = redis.createClient();
+        //the roll to broadcast a message
+        this.publisher = redis.createClient(redisUrl);
 
         //the roll to read a message
-        this.subscriber = redis.createClient();
+        this.subscriber = redis.createClient(redisUrl);
 
         //subscribe to a channel  
         // this.subscriber.subscribe(CHANNELS.TEST);
@@ -35,7 +37,7 @@ class PubSub {
     //the method that will handle the message 
     handleMessage(channel, message) {
 
-        //loging the message on console log
+        //logging the message on console log
         console.log(`Message received. Channel: ${channel}. Message: ${message}`);
 
         //parse the json object 
@@ -54,6 +56,9 @@ class PubSub {
                 this.transactionPool.setTransaction(parsedMessage);
                 break;
 
+            case CHANNELS.AUTHORITY:
+                this.authority.replaceAuthority(parsedMessage);
+
             default:
                 return;
         }
@@ -69,7 +74,7 @@ class PubSub {
 
     //the  publish method
     publish({ channel, message }) {
-        //unsubscirbe to the channel so it doesn't get redundent data
+        //unsubscribe to the channel so it doesn't get redundant data
         this.subscriber.unsubscribe(channel, () => {
 
             //publish th message
@@ -96,6 +101,14 @@ class PubSub {
 
     }
 
+    broadcastAuthority() {
+        this.publish({
+            channel: CHANNELS.AUTHORITY,
+            message: JSON.stringify(this.authority)
+        });
+
+    }
+
 
 }
 
@@ -104,5 +117,5 @@ module.exports = PubSub;
 
 // const testPubSub = new PubSub();
 
-// //we will have to wait for the clinet to be created before we can publish anything
+// //we will have to wait for the client to be created before we can publish anything
 // setTimeout(() => testPubSub.publisher.publish(CHANNELS.TEST,'foo'),1000);
