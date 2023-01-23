@@ -1,0 +1,327 @@
+body {
+    /* background color*/
+    background-color: #121212;
+    /* text color*/
+    color: #ffffff;
+    /* position of text*/
+    text-align: center;
+    font-size: 20px;
+    font-family: 'Quicksand';
+    padding-bottom: 5%;
+    word-wrap: break-word;
+}
+
+.Home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+.Seed{
+    max-width: 400;
+    border: 1px solid #fafafa;
+    border-radius: 20px;
+    padding: 3%;
+    margin: 2%;
+    word-wrap: break-word;
+    word-spacing: 110%;
+}
+
+.AdminOnly{
+    max-width: 600px;
+    border: 1px solid #fafafa;
+    border-radius: 20px;
+    padding: 3%;
+    margin: 2%;
+    word-wrap: break-word;
+    word-spacing: 110%;
+}
+
+.ChangeAdmins{
+    width: 700px;
+    border: 1px solid #fafafa;
+    border-radius: 20px;
+    padding: 3%;
+    margin: 2%;
+    word-wrap: break-word;
+    word-spacing: 110%;
+}
+
+.Blocks {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo {
+    width: 250px;
+    height: 250px;
+    border-radius: 20px;
+    margin-top: 60px;
+
+
+}
+
+.MinerWalletInfo {
+    border: 1px solid #5cb4fd;
+    border-radius: 25px;
+    padding: 3%;
+    width: 900px;
+    font-size: medium;
+}
+
+.Block {
+    border: 5px solid #5cb4fd;
+    border-radius: 25px;
+    padding: 3%;
+    margin: 2%;
+    max-width: 800px;
+    font-size: medium;
+    word-wrap: break-word;
+    word-spacing: 110%;
+}
+
+.BlockInfo{
+    margin-bottom: 3px;
+}
+
+.Poll {
+    padding: 4%;
+    font-size: medium;
+    background-image: linear-gradient(55deg,
+            hsl(55deg 100% 50%) 0%,
+            hsl(54deg 78% 41%) -1%,
+            hsl(53deg 65% 29%) -1%,
+            hsl(52deg 51% 16%) 3%,
+            hsl(0deg 0% 0%) 100%);
+
+    border: 0.5px solid #8e8e1b;
+    border-radius: 25px;
+}
+
+.Ballot {
+    padding: 4%;
+    font-size: medium;
+    background-image: linear-gradient(55deg,
+            hsl(210deg 89% 60%) 0%,
+            hsl(211deg 53% 45%) -1%,
+            hsl(213deg 46% 31%) -1%,
+            hsl(216deg 36% 17%) 3%,
+            hsl(0deg 0% 0%) 100%);
+    border: 0.5px solid #5cb4fd;
+    border-radius: 25px;
+}
+
+.Transaction {
+    padding: 4%;
+    font-size: medium;
+    background-image: linear-gradient(55deg,
+            hsl(131deg 83% 27%) 0%,
+            hsl(126deg 63% 23%) -1%,
+            hsl(121deg 48% 17%) -1%,
+            hsl(113deg 38% 10%) 3%,
+            hsl(0deg 0% 0%) 100%);
+    border: 0.5px solid #007222;
+    border-radius: 25px;
+}
+
+
+
+
+.Hnec{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.HnecForm {
+    border: 1px solid #fafafa;
+    border-radius: 20px;
+    padding: 3%;
+    margin: 2%;
+    width: 900px;
+    max-width: 1000px;
+    word-wrap: break-word;
+    word-spacing: 110%;
+}
+
+.ConductPoll {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ConductPollForm {
+    border: 5px solid #8e8e1b;
+    border-radius: 25px;
+    padding: 3%;
+    margin: 2%;
+    width: 600px;
+    max-width: 1000px;
+    word-wrap: break-word;
+    word-spacing: 110%;
+}
+
+.ConductBallot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ConductBallotForm {
+    border: 5px solid #5cb4fd;
+    border-radius: 25px;
+    padding: 3%;
+    margin: 2%;
+    width: 900px;
+    max-width: 1000px;
+    word-wrap: break-word;
+    word-spacing: 110%;
+}
+
+
+.ConductTransaction {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ConductTransactionForm {
+    border: 5px solid #007222;
+    border-radius: 25px;
+    padding: 3%;
+    margin: 2%;
+    width: 600px;
+    max-width: 1000px;
+    word-wrap: break-word;
+    word-spacing: 110%;
+}
+
+
+.CreateWallet {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.CreateWalletForm {
+    border: 3px solid #a11515;
+    border-radius: 25px;
+    padding: 3%;
+    margin: 2%;
+    width: 600px;
+    max-width: 1000px;
+    word-spacing: 110%;
+}
+.CreateWalletTable {
+    border: 1px solid #a11515;
+    border-radius: 25px;
+    padding: 3%;
+    margin: 2%;
+    width: 900;
+    max-width: 1200px;
+    word-break: break-all;
+    word-spacing: 110%;
+}
+
+.WalletInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.WalletInfoForm {
+    border: 3px solid #1c99bc;
+    border-radius: 25px;
+    padding: 3%;
+    margin: 2%;
+    width: 600px;
+    max-width: 1000px;
+    word-spacing: 110%;
+}
+.WalletInfoTable {
+    border: 1px solid #c2df07;
+    border-radius: 25px;
+    padding: 2%;
+    margin: 2%;
+    width: 900;
+    max-width: 1200px;
+    word-break: break-all;
+    word-spacing: 110%;
+}
+.WalletInfoBallotTable {
+    border: 1px solid #1c99bc;
+    border-radius: 25px;
+    padding: 2%;
+    margin: 2%;
+    width: 900;
+    max-width: 1200px;
+    word-break: break-all;
+    word-spacing: 110%;
+}
+
+.HomeTable {
+    padding: 2%;
+    margin: 2%;
+    width: 900;
+    max-width: 1200px;
+    word-break: break-all;
+    word-spacing: 110%;
+}
+
+.text{
+    font-weight:900;
+    font-size: 16px;
+}
+.formDate{
+    max-width: 300px;
+
+}
+/* 
+.amount{
+    max-width: 600px;
+
+} */
+
+.TransactionPool{
+    max-width:  800;
+
+
+}
+.ConductTransaction,
+.TransactionPool,.ConductBallot {
+    padding: 5%;
+    margin: 2%;
+
+}
+
+a,
+a:hover {
+    color: #5cb4fd;
+    text-decoration: underline;
+}
+
+button,
+:single-button,
+button:hover {
+    color: #5cb4fd;
+    text-decoration: underline;
+}
+
+.red {
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: .875em;
+    color: #d9534f;
+}
+
+.red-border{
+    border: 1px solid #dc3545;
+}
+
+.longTextTable{
+    font-size: 14px;
+}
+
+/*# sourceMappingURL=/scr.e31bb0bc.css.map */
