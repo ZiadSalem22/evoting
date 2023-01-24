@@ -31,7 +31,7 @@ const DEFAULT_PORT = 3000;
 //the address for where we connect to;
 const ROOT_NODE_ADDRESS =  isDevelopment?
 `http://localhost:${DEFAULT_PORT}`:
-'https://evotingbc.herokuapp.com';
+'http://evotingbc.herokuapp.com';
 
 //we create our application  using the express function
 const app = express();
