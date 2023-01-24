@@ -40,6 +40,7 @@ const transactionPool = new TransactionPool();
 const wallet = new Wallet();
 const authority = new Authority();
 const pubsub = new PubSub({ blockchain, transactionPool, authority, redisUrl: REDIS_URL });
+// const pubsub = new PubSub({ blockchain, transactionPool, authority });
 const transactionMiner = new TransactionMiner({
     blockchain,
     transactionPool,
@@ -56,7 +57,8 @@ if (process.env.GENERATE_PEER_PORT === "true") {
 }
 
 //if peer port is not defined it will take default port
-const PORT = process.env.PORT|| PEER_PORT || DEFAULT_PORT;
+// const PORT = process.env.PORT || PEER_PORT || DEFAULT_PORT;
+const PORT = process.env.PORT || PEER_PORT || DEFAULT_PORT;
 
 
 
